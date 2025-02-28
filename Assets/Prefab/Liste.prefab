@@ -1,0 +1,597 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2345265496785931820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2345265496785931822}
+  - component: {fileID: 2345265496785931821}
+  - component: {fileID: 2345265496785931823}
+  m_Layer: 0
+  m_Name: Liste
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2345265496785931822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2345265496785931820}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2345265496785931821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2345265496785931820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6cd0fc1b212412690c5943b8834375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Histoire:
+    missions:
+    - titre: Begining I
+      chapitre: Story
+      descritption: Go talk to Joe inside the x-tu9 station by following the blue
+        arrow
+      type: parler
+      attaqueType:
+        targetName: 
+        kill: 0
+      livraisonType:
+        DepartName: 
+        ArriveName: 
+        Item: 
+        avancement: 
+      minerType:
+        Item: 
+        avancement: []
+      parlerType:
+        PersoName: Joe Station x-tu9
+        parler: 0
+        PersoPhase: 1
+      recompenseClass:
+        xp: 0
+        Argent: 0
+        pieces: []
+        Deck: []
+        index: 0
+      Debut:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2345265496785931823}
+            m_MethodName: addfleche
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Station x-tu9
+              m_BoolArgument: 0
+            m_CallState: 2
+      Milieu:
+        m_PersistentCalls:
+          m_Calls: []
+      Fin:
+        m_PersistentCalls:
+          m_Calls: []
+    - titre: Begining II
+      chapitre: Story
+      descritption: Take the package from your inventory and bring it to Joe 2 in
+        station Marcel.
+      type: livraison
+      attaqueType:
+        targetName: 
+        kill: 0
+      livraisonType:
+        DepartName: Joe
+        ArriveName: Joe 2
+        Item: package
+        avancement: 0000
+      minerType:
+        Item: 
+        avancement: []
+      parlerType:
+        PersoName: 
+        parler: 0
+        PersoPhase: 0
+      recompenseClass:
+        xp: 0
+        Argent: 0
+        pieces: []
+        Deck:
+        - Deck-2
+        index: 0
+      Debut:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2345265496785931823}
+            m_MethodName: ChangePhase
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: "Le\xEFla Station Marcel"
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 2345265496785931823}
+            m_MethodName: addfleche
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Station Marcel
+              m_BoolArgument: 0
+            m_CallState: 2
+      Milieu:
+        m_PersistentCalls:
+          m_Calls: []
+      Fin:
+        m_PersistentCalls:
+          m_Calls: []
+    - titre: Begining III
+      chapitre: Story
+      descritption: Go back to talk to Joe on the Station x-tu9.
+      type: parler
+      attaqueType:
+        targetName: 
+        kill: 0
+      livraisonType:
+        DepartName: 
+        ArriveName: 
+        Item: 
+        avancement: 0000
+      minerType:
+        Item: 
+        avancement: []
+      parlerType:
+        PersoName: Joe Station x-tu9
+        parler: 0
+        PersoPhase: 3
+      recompenseClass:
+        xp: 0
+        Argent: 0
+        pieces: []
+        Deck:
+        - Deck-2
+        index: 0
+      Debut:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2345265496785931823}
+            m_MethodName: ChangePhase
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Joe Station x-tu9
+              m_BoolArgument: 0
+            m_CallState: 2
+      Milieu:
+        m_PersistentCalls:
+          m_Calls: []
+      Fin:
+        m_PersistentCalls:
+          m_Calls: []
+    - titre: Begining IV
+      chapitre: Story
+      descritption: Mine asteroids with deck 2 and recover 10 iron ore.
+      type: miner
+      attaqueType:
+        targetName: 
+        kill: 0
+      livraisonType:
+        DepartName: Joe
+        ArriveName: Joe 2
+        Item: Package
+        avancement: 0000
+      minerType:
+        Item: iron ore
+        avancement:
+        - 0
+        - 10
+      parlerType:
+        PersoName: 
+        parler: 0
+        PersoPhase: 2
+      recompenseClass:
+        xp: 0
+        Argent: 0
+        pieces: []
+        Deck:
+        - Deck-2
+        index: 0
+      Debut:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2345265496785931823}
+            m_MethodName: ChangePhase
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Joe Station x-tu9
+              m_BoolArgument: 0
+            m_CallState: 2
+      Milieu:
+        m_PersistentCalls:
+          m_Calls: []
+      Fin:
+        m_PersistentCalls:
+          m_Calls: []
+    - titre: Begining V
+      chapitre: Story
+      descritption: Kill Noobie
+      type: attaque
+      attaqueType:
+        targetName: Ennemie Noobie
+        kill: 0
+      livraisonType:
+        DepartName: Joe
+        ArriveName: Joe 2
+        Item: Package
+        avancement: 0000
+      minerType:
+        Item: iron ore
+        avancement:
+        - 0
+        - 10
+      parlerType:
+        PersoName: 
+        parler: 0
+        PersoPhase: 2
+      recompenseClass:
+        xp: 0
+        Argent: 0
+        pieces: []
+        Deck:
+        - Deck-2
+        index: 0
+      Debut:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2345265496785931823}
+            m_MethodName: SpawnEnnemie
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 0;100;100;90
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 2345265496785931823}
+            m_MethodName: addfleche
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Ennemie Noobie
+              m_BoolArgument: 0
+            m_CallState: 2
+      Milieu:
+        m_PersistentCalls:
+          m_Calls: []
+      Fin:
+        m_PersistentCalls:
+          m_Calls: []
+  ListePiece:
+    Liste:
+    - name: Deck-1-Socle
+      obj: {fileID: 3291786094495906831, guid: 745a469bc48454a08b4de24633c77f97, type: 3}
+    - name: Deck-1-Cockpit
+      obj: {fileID: 6986157919174531498, guid: db11fd3eb876d48ce965d0ce996b0a89, type: 3}
+    - name: Reacteur-1
+      obj: {fileID: 1815454780144861483, guid: ff199855d13a44cc2b1150edc138bd1a, type: 3}
+    - name: Aile-1-droite
+      obj: {fileID: 3371863514235657180, guid: d66a72dc2a710418a9372fe55238c5cf, type: 3}
+    - name: Aile-1-gauche
+      obj: {fileID: 4519308060092745264, guid: 899dbcfcd53994bc88192e614bb828d7, type: 3}
+    - name: Aile-2-droite
+      obj: {fileID: 3371863514235657180, guid: d66a72dc2a710418a9372fe55238c5cf, type: 3}
+    - name: Aile-2-gauche
+      obj: {fileID: 4519308060092745264, guid: 899dbcfcd53994bc88192e614bb828d7, type: 3}
+    - name: Canon-1
+      obj: {fileID: 7685973802628557322, guid: 553ed39567cf847e6ba88a126ff91e88, type: 3}
+    - name: Deck-3-Protection
+      obj: {fileID: 5936240784278332556, guid: f34eec50d2dd241668b961793f78f491, type: 3}
+    - name: Deck-3-Socle
+      obj: {fileID: 3803441348584898626, guid: 93b4c0d4f6b0b4b7e80d9cab979a76a9, type: 3}
+    - name: Canon-3
+      obj: {fileID: 2219560483989377068, guid: 1793740723f4f45baa24ddf0d87015b8, type: 3}
+    - name: Socle-Bar-1
+      obj: {fileID: 3692952312703387158, guid: d194e199970804edfb1ae97bbb4e13e1, type: 3}
+    - name: Vis-Dependante-1
+      obj: {fileID: 2150786132389879201, guid: 7506a011a7fac4ce08edefb590d7b1ee, type: 3}
+    - name: Deck-2-Cockpit-Vis
+      obj: {fileID: 1728359989469777769, guid: 17b178fe142694b5db484e90d7546d91, type: 3}
+    - name: Canon-2
+      obj: {fileID: 8851474358244579838, guid: 4381fa00b3c74473aa9ae9d0bad6359a, type: 3}
+  deckList:
+    Liste:
+    - assemblage:
+      - nom: Deck-1-Socle
+        position: {x: 0, y: 0, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 1
+        rotFrame: 90
+        attchableSide:
+          haut: 1
+          droite: 1
+          bas: 1
+          gauche: 1
+        velocity: {x: 0, y: 0}
+        vie: -1
+      - nom: Deck-1-Cockpit
+        position: {x: 0, y: 1, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 0
+        rotFrame: 90
+        attchableSide:
+          haut: 0
+          droite: 0
+          bas: 1
+          gauche: 0
+        velocity: {x: 0, y: 0}
+        vie: -1
+      - nom: Reacteur-1
+        position: {x: 0, y: -1, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 0
+        rotFrame: 90
+        attchableSide:
+          haut: 1
+          droite: 0
+          bas: 0
+          gauche: 0
+        velocity: {x: 0, y: 0}
+        vie: -1
+      nom: Deck-1
+      debloque: 1
+    - assemblage:
+      - nom: Deck-1-Socle
+        position: {x: 0, y: 0, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 1
+        rotFrame: 90
+        attchableSide:
+          haut: 1
+          droite: 1
+          bas: 1
+          gauche: 1
+        velocity: {x: 0, y: 0}
+        vie: -1
+      - nom: Deck-2-Cockpit-Vis
+        position: {x: 0, y: 1, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 0
+        rotFrame: 90
+        attchableSide:
+          haut: 1
+          droite: 0
+          bas: 1
+          gauche: 0
+        velocity: {x: 0, y: 0}
+        vie: -1
+      - nom: Reacteur-1
+        position: {x: 0, y: -1, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 0
+        rotFrame: 90
+        attchableSide:
+          haut: 0
+          droite: 0
+          bas: 1
+          gauche: 0
+        velocity: {x: 0, y: 0}
+        vie: -1
+      nom: Deck-2
+      debloque: 0
+    - assemblage:
+      - nom: Deck-3-Socle
+        position: {x: 0, y: 0, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 1
+        rotFrame: 90
+        attchableSide:
+          haut: 1
+          droite: 1
+          bas: 1
+          gauche: 1
+        velocity: {x: 0, y: 0}
+        vie: -1
+      - nom: Deck-3-Protection
+        position: {x: 0, y: 1, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 0
+        rotFrame: 90
+        attchableSide:
+          haut: 1
+          droite: 0
+          bas: 1
+          gauche: 0
+        velocity: {x: 0, y: 0}
+        vie: -1
+      - nom: Deck-1-Cockpit
+        position: {x: 0, y: 2, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 0
+        rotFrame: 90
+        attchableSide:
+          haut: 0
+          droite: 0
+          bas: 1
+          gauche: 0
+        velocity: {x: 0, y: 0}
+        vie: -1
+      - nom: Reacteur-1
+        position: {x: 0, y: -1, z: 0}
+        eulerAngle: {x: 0, y: 0, z: 0}
+        description: 
+        niveau: 1
+        dependant: 0
+        socle: 0
+        rotFrame: 90
+        attchableSide:
+          haut: 1
+          droite: 0
+          bas: 0
+          gauche: 0
+        velocity: {x: 0, y: 0}
+        vie: -1
+      nom: Deck-3
+      debloque: 0
+  ObjetList:
+    Objets:
+    - name: iron ore
+      obj: {fileID: 653166800408050505, guid: 93ab22303307c498eab16ab466672063, type: 3}
+      MaxStack: 20
+    - name: emerald ore
+      obj: {fileID: 8305089854995450122, guid: 9e8655d0ec1aa474e8bcd7241b283860, type: 3}
+      MaxStack: 3
+    - name: rock
+      obj: {fileID: 2830418114543959846, guid: 4ec04c9f22c7945648cb8234ffbbffdf, type: 3}
+      MaxStack: 20
+    - name: package
+      obj: {fileID: 6086386402136358952, guid: d915670200af7453791cbfb0c72e8bbd, type: 3}
+      MaxStack: 1
+  EnnemieList:
+    Ennemies:
+    - nom: Noobie
+      SpeedRotation: 20
+      zone:
+      - 5
+      - 10
+      - 15
+      speed: 0.05
+      vaisseau:
+        assemblage:
+        - nom: Deck-1-Socle
+          position: {x: 0, y: 0, z: 0}
+          eulerAngle: {x: 0, y: 0, z: 0}
+          description: 
+          niveau: 1
+          dependant: 0
+          socle: 1
+          rotFrame: 0
+          attchableSide:
+            haut: 0
+            droite: 0
+            bas: 0
+            gauche: 0
+          velocity: {x: 0, y: 0}
+          vie: -1
+        - nom: Deck-2-Cockpit-Vis
+          position: {x: 0, y: 1, z: 0}
+          eulerAngle: {x: 0, y: 0, z: 0}
+          description: 
+          niveau: 1
+          dependant: 0
+          socle: 0
+          rotFrame: 0
+          attchableSide:
+            haut: 0
+            droite: 0
+            bas: 0
+            gauche: 0
+          velocity: {x: 0, y: 0}
+          vie: -1
+        - nom: Reacteur-1
+          position: {x: 0, y: -1, z: 0}
+          eulerAngle: {x: 0, y: 0, z: 0}
+          description: 
+          niveau: 1
+          dependant: 0
+          socle: 0
+          rotFrame: 0
+          attchableSide:
+            haut: 0
+            droite: 0
+            bas: 0
+            gauche: 0
+          velocity: {x: 0, y: 0}
+          vie: -1
+        nom: 
+        debloque: 0
+      aggressif: 1
+      Rotz: 0
+      position: {x: 0, y: 0, z: 0}
+      velocity: 0
+  colorList:
+    colors:
+    - name: 
+      color: {r: 0.6981132, g: 0.042808846, b: 0.042808846, a: 1}
+      Debloque: 0
+    - name: 
+      color: {r: 0, g: 0.38835526, b: 1, a: 1}
+      Debloque: 0
+    - name: 
+      color: {r: 0.054638844, g: 0.6698113, b: 0, a: 1}
+      Debloque: 0
+--- !u!114 &2345265496785931823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2345265496785931820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697ccd8da883643828330a1dca0a091f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
