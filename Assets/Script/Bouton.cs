@@ -34,7 +34,6 @@ public class Bouton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 if (child.name.Contains("eacteur"))
                 {
                     child.transform.GetComponent<Reacteur>().feu = true;
-                    print(child.transform.GetComponent<Reacteur>().feu);
                     GameObject.Find("Main Camera").GetComponent<Principal>().Grandeur.fuel = GameObject.Find("Main Camera").GetComponent<Principal>().Grandeur.fuel - 2.5f * Time.deltaTime;
 
                 }

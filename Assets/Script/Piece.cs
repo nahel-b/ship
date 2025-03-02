@@ -36,7 +36,6 @@ using UnityEngine;
         {
             if (PlayerPrefs.HasKey("Vaisseau"))
             {
-                print(PlayerPrefs.GetString("Vaisseau"));
                 VaisseauClass jsonF = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau"));
                 if (GetComponent<Rigidbody2D>() != null) { GetComponent<Rigidbody2D>().velocity = jsonF.velocity; }
 

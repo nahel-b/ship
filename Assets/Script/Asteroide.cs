@@ -17,8 +17,10 @@ public class Asteroide : MonoBehaviour
         RaycastHit2D[] hit = Physics2D.CircleCastAll(transform.position, 10, Vector2.zero);
         foreach (RaycastHit2D obj in hit)
         {
-            if (obj.transform.GetComponent<Station>() != null || obj.transform.GetComponent<Piece>() != null) { Destroy(gameObject); }
-
+            if (obj.transform.GetComponent<Station>() != null || obj.transform.GetComponent<Piece>() != null || obj.transform.gameObject.layer == LayerMask.NameToLayer("vfx"))
+            {
+            Destroy(gameObject);
+            }
         }
     }
 

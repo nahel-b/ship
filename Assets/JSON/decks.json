@@ -1,0 +1,312 @@
+{
+    "decks": [
+      {
+        "assemblage": [
+          {
+            "nom": "Deck-1-Socle",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": true,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": true,
+              "droite": true,
+              "bas": true,
+              "gauche": true
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          },
+          {
+            "nom": "Deck-1-Cockpit",
+            "position": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": false,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": false,
+              "droite": false,
+              "bas": true,
+              "gauche": false
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          },
+          {
+            "nom": "Reacteur-1",
+            "position": {
+              "x": 0,
+              "y": -1,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": false,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": true,
+              "droite": false,
+              "bas": false,
+              "gauche": false
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          }
+        ],
+        "nom": "Deck-1",
+        "debloque": true
+      },
+      {
+        "assemblage": [
+          {
+            "nom": "Deck-1-Socle",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": true,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": true,
+              "droite": true,
+              "bas": true,
+              "gauche": true
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          },
+          {
+            "nom": "Deck-2-Cockpit-Vis",
+            "position": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": false,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": true,
+              "droite": false,
+              "bas": true,
+              "gauche": false
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          },
+          {
+            "nom": "Reacteur-1",
+            "position": {
+              "x": 0,
+              "y": -1,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": false,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": false,
+              "droite": false,
+              "bas": true,
+              "gauche": false
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          }
+        ],
+        "nom": "Deck-2",
+        "debloque": false
+      },
+      {
+        "assemblage": [
+          {
+            "nom": "Deck-3-Socle",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": true,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": true,
+              "droite": true,
+              "bas": true,
+              "gauche": true
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          },
+          {
+            "nom": "Deck-3-Protection",
+            "position": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": false,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": true,
+              "droite": false,
+              "bas": true,
+              "gauche": false
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          },
+          {
+            "nom": "Deck-1-Cockpit",
+            "position": {
+              "x": 0,
+              "y": 2,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": false,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": false,
+              "droite": false,
+              "bas": true,
+              "gauche": false
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          },
+          {
+            "nom": "Reacteur-1",
+            "position": {
+              "x": 0,
+              "y": -1,
+              "z": 0
+            },
+            "eulerAngle": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "description": "",
+            "niveau": 1,
+            "dependant": false,
+            "socle": false,
+            "rotFrame": 90,
+            "attchableSide": {
+              "haut": true,
+              "droite": false,
+              "bas": false,
+              "gauche": false
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "vie": -1
+          }
+        ],
+        "nom": "Deck-3",
+        "debloque": false
+      }
+    ]
+  }

@@ -74,16 +74,6 @@ public class Station : MonoBehaviour
 
     }
 
-    public void tap()
-    {
-        if (!GameObject.Find("ButtonFeu").GetComponent<Bouton>().isMouseDown)
-        {
-            GameObject.Find("Main Camera").GetComponent<Principal>().OpenConsole(station.name, gameObject);
-
-           // VerifyJob();
-
-        }
-    }
 
 #if UNITY_EDITOR
 

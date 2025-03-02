@@ -4,42 +4,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Principal : MonoBehaviour
 {
 
     public MissionListe missions;
-    public string of;
-    //public int coin = 100;
+
     public ItemClass Items;
     public Grandeur Grandeur = new Grandeur();
     public GameObject selectObj;
-    public GameObject etoile;
-    public GameObject[] MapObj;
-    private Vector3 lastPos = new Vector3(0,0,0);
-    public GameObject chunk;
-    public InputField input;
-    public Text ConsoleTexteObj;
-    public string ConsoleTexte;
-    private TouchScreenKeyboard k;
-    public GameObject Console;
+    public GameObject[] MapObj ;
+    
+    [HideInInspector]
     public GameObject Vaisseau;
+
     //public List<string> Items;
     public float speedRot = 1;
-    public List<GameObject> Asteroides;
-    public List<GameObject> Planete;
-    public List<GameObject> StationPrefab;
+   
     public List<GameObject> Stations = new List<GameObject>();
-    public List<string> StationName;
     //public int maxItems = 10;
-    public List<Sprite> EtoileSprite;
     private float[] shake = new float[] { 0, 0, 0, 0, 0 };
-    public Color[] EtoileCouleur;
     public GameObject flechePrefab;
-    private GameObject openConsoleStation;
+
+    public List<GameObject> StationPrefab;
+    public List<string> StationName;
+
     //public List<List<string>> Jobs = new List<List<string>>();
-    public List<metier> Jobs = new List<metier>();
-    public List<string> notifie = new List<string>() {"false"};
+    public List<metier> Jobs = new();
+    public List<string> notifie = new() {"false"};
     public bool animeEnCourt = false;
     private float touchtime;
     public VaisseauClass VaisseauDeBase;
@@ -57,12 +50,13 @@ public class Principal : MonoBehaviour
 
     private bool reset = false;
 
-    public bool DestroyAste;
 
 
     void Start()
     {
-        print(GameObject.Find("SceneTransition").GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name);
+
+        Vaisseau = GameObject.FindGameObjectWithTag("vaisseau");
+
         Grandeur = JsonUtility.FromJson<Grandeur>(PlayerPrefs.GetString("Grandeur",JsonUtility.ToJson(Grandeur)));
         ListePiece = GameObject.Find("Liste").GetComponent<Liste>().ListePiece;
         if (PlayerPrefs.HasKey("Deck"))
@@ -71,59 +65,12 @@ public class Principal : MonoBehaviour
         }
         deckList = GameObject.Find("Liste").GetComponent<Liste>().deckList;
         //PlayerPrefs.DeleteAll();
-        Load();
-        // StationName = new List<string>() { "x-tf8", "Hazan", "Tycho", "ct-21U", "x-tf8", "Hazan", "Tycho", "ct-21U", "x-tf8", "Hazan", "Tycho", "ct-21U", "x-tf8", "Hazan", "Tycho", "ct-21U", "Hazan", "Tycho", "ct-21U", "Hazan", "Tycho", "ct-21U" };
-
-
-        print(GameObject.Find("Liste").GetComponent<Liste>().ObjetList.Find("emerald ore").MaxStack);
+        print("e");  
+              Load();
 
 
 
-        Generation(-60,60,-60,60);
-        StartCoroutine(Generation(60));
-        StartCoroutine(GenerationBG());
-        //GameObject a = Instantiate(StationPrefab[Random.Range(0, StationPrefab.Count)], new Vector3(Random.Range(-500, 500), Random.Range(-500, 500), 0), Quaternion.identity);
-        //bool b = false;
-        //while (b == false)
-        //{
-        //    b = true;
-        //    RaycastHit2D[] hit = Physics2D.CircleCastAll(a.transform.position, 300, Vector2.zero);
-        //    foreach (RaycastHit2D obj in hit)
-        //    {
-        //        if (obj.transform.GetComponent<Piece>() != null) { b = false; a.transform.position = new Vector3(Random.Range(-500, 500), Random.Range(-500, 500), 0); }
 
-        //    }
-
-
-        //}
-        for (int i = 0; i < 1000; i++)
-        {
-            float Rayon = 1000;
-            GameObject planete = Instantiate(Planete[Random.Range(0, Planete.Count)], new Vector3(Random.Range(-Rayon, Rayon), Random.Range(-Rayon, Rayon), -1), Quaternion.Euler(0, 0, Random.Range(0, 360)));
-            planete.transform.parent = GameObject.Find("PlaneteBG1").transform;
-        }
-
-        //Fleche(a.transform);
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    float rayon = 4000;
-        //    int e = Random.Range(0, StationPrefab.Count);
-        //    a = Instantiate(StationPrefab[e], new Vector3(Random.Range(-rayon, rayon), Random.Range(-rayon, rayon), 0), Quaternion.identity);
-        //    b = false;
-        //    while (b == false)
-        //    {
-        //        b = true;
-        //        RaycastHit2D[] hit = Physics2D.CircleCastAll(a.transform.position, 300, Vector2.zero);
-        //        foreach (RaycastHit2D obj in hit)
-        //        {
-        //            if (obj.transform.name.Contains("Station")) { b = false; a.transform.position = new Vector3(Random.Range(-rayon, rayon), Random.Range(-rayon, rayon), 0); }
-
-        //        }
-
-
-        //    }
-        //    a.GetComponent<Station>().station.prefab = e;
-        //}
 
     }
    
@@ -131,68 +78,6 @@ public class Principal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
-
-
-        
-
-
-        //Collider2D[] objs = Physics2D.OverlapCircleAll(transform.position, 25);
-
-        //bool agrvt = false;
-        //foreach (Collider2D collObj in objs)
-        //{
-        //    if (collObj.GetComponent<Station>()!=null)
-        //    {
-        //        agrvt = true;
-        //        if (Vector3.Distance(collObj.transform.position, transform.position) > 25 ||  (GameObject.Find("ButtonFeu").GetComponent<Bouton>().isMouseDown && gravitationFieldBool) ) { gravitationFieldBool = false; gravitationFieldBtn.SetActive(false); }
-        //        else if (!gravitationFieldBool) { gravitationFieldBtn.SetActive(true); }
-        //        if (!gravitationFieldBool)
-        //        {
-        //            print(collObj.name);
-
-        //            foreach (Transform child in Vaisseau.transform)
-        //            {
-        //                if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().AddForce((collObj.transform.position - transform.position) * 0.05f * Time.deltaTime * Vector3.Distance(collObj.transform.position, transform.position)); }
-
-        //            }
-        //            if (Vaisseau.transform.GetChild(0).childCount > 0)
-        //            {
-        //                foreach (Transform child in Vaisseau.transform.GetChild(0))
-        //                {
-        //                    if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().AddForce((collObj.transform.position - transform.position) * 0.05f * Time.deltaTime * Vector3.Distance(collObj.transform.position, transform.position)); }
-
-        //                }
-        //            }
-        //        }
-        //        else 
-        //        {
-        //            print("champs gravitaionelle");
-        //            foreach (Transform child in Vaisseau.transform)
-        //            {
-        //                if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().velocity = Time.deltaTime *10* ((child.GetComponent<Rigidbody2D>().velocity)+ new Vector2(collObj.transform.position.x - transform.position.x, collObj.transform.position.y - transform.position.y)  ); }
-
-        //            }
-        //            if (Vaisseau.transform.GetChild(0).childCount > 0)//+ new Vector2(collObj.transform.position.x - transform.position.x, collObj.transform.position.y - transform.position.y)
-        //            {
-        //                foreach (Transform child in Vaisseau.transform.GetChild(0))
-        //                {
-        //                    if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().velocity = Time.deltaTime * 10 * ((child.GetComponent<Rigidbody2D>().velocity) + new Vector2(collObj.transform.position.x - transform.position.x, collObj.transform.position.y - transform.position.y)); }
-
-        //                }
-        //            }
-
-                    
-
-        //        }
-
-
-        //    }
-        //}
-        //if (!agrvt) { gravitationFieldBool = false; gravitationFieldBtn.SetActive(false); }
-
 
 
 
@@ -213,27 +98,15 @@ public class Principal : MonoBehaviour
         {
             GameObject.Find("FuelBarBorder").GetComponent<RectTransform>().sizeDelta = new Vector2(Grandeur.fuel * max / Grandeur.fuelMax, GameObject.Find("FuelBarBorder").GetComponent<RectTransform>().sizeDelta.y);
         }
-            float b = 0;
+            
+        float b = 0;
         float c = 0;
         foreach (Transform child in Vaisseau.transform.GetChild(0).transform)
         {
 
-            //Vector3 a = Vector3.Project(child.transform.GetComponent<Rigidbody2D>().velocity, child.transform.up);
             b = b + child.GetComponent<Rigidbody2D>().velocity.magnitude;
             c = c + 1;
-            //if (Mathf.Round(b) != b)
-            //{
-            //    GameObject.Find("Vitesse").GetComponent<Text>().text = (Mathf.Round(b * 10) / 10).ToString() + " km/s";
-            //    GameObject.Find("Vitesse-2").GetComponent<Text>().text = (Mathf.Round(b * 10) / 10).ToString() + " km/s";
-            //}
-            //else
-            //{
-            //    GameObject.Find("Vitesse").GetComponent<Text>().text = (Mathf.Round(b * 10) / 10).ToString() + ".0 km/s";
-            //    GameObject.Find("Vitesse-2").GetComponent<Text>().text = (Mathf.Round(b * 10) / 10).ToString() + ".0 km/s";
-
-            //}
-
-
+    
         }
         b = b / c;
         b = Mathf.Round(b * 100) / 100;
@@ -357,32 +230,16 @@ public class Principal : MonoBehaviour
 
         if (shake[0] == 1)
         {
-            transform.localPosition = new Vector3(shake[2], shake[3], shake[4]) + Random.insideUnitSphere * shake[1];
-            print("ooonon");
+            transform.localPosition = new Vector3(shake[2], shake[3], shake[4]) + UnityEngine.Random.insideUnitSphere * shake[1];
         }
 
 
 
 
         transform.parent.position = new Vector3(Vaisseau.transform.GetChild(0).GetChild(0).transform.position.x, Vaisseau.transform.GetChild(0).GetChild(0).transform.position.y, -10);
-        GameObject.Find("EtoileBG1").transform.position = new Vector3(transform.parent.position.x * 0.2f, transform.parent.position.y * 0.2f, 10);
-        GameObject.Find("EtoileBG2").transform.position = new Vector3(transform.parent.position.x * 0.4f, transform.parent.position.y * 0.4f, 10);
-        GameObject.Find("EtoileBG3").transform.position = new Vector3(transform.parent.position.x * 0.6f, transform.parent.position.y * 0.6f, 10);
-        GameObject.Find("PlaneteBG1").transform.position = new Vector3(transform.parent.position.x * 0.8f, transform.parent.position.y * 0.8f, 5);
+        
 
-        // if (input.isFocused) { ConsoleTexteObj.text = ConsoleTexte  + input.text; }
-
-
-        //input.onEndEdit.AddListener(delegate { ConsoleInputEnter(); });
-        //if (Console.activeSelf && GameObject.Find(Console.transform.GetChild(2).GetComponent<Text>().text) != null)
-        //{
-        //    if (Mathf.Abs(transform.parent.position.y - GameObject.Find(Console.transform.GetChild(2).GetComponent<Text>().text).transform.position.y) > 12 || Mathf.Abs(transform.parent.position.x - GameObject.Find(Console.transform.GetChild(2).GetComponent<Text>().text).transform.position.x) > 12)
-        //    {
-        //        QuitConsole();
-        //    }
-
-        //}
-
+    
 
         if ((Input.touchCount > 0)&& Input.GetTouch(0).phase == TouchPhase.Began && !MapObj[0].activeSelf)
         {
@@ -527,267 +384,7 @@ public class Principal : MonoBehaviour
         }
 
 
-
-
-
-
-
-#if UNITY_EDITOR
-
-        if (GameObject.Find("ConsoleStation") != null)
-        {
-            if (ConsoleTexte != ConsoleTexteObj.text && !animeEnCourt) { StartCoroutine(ConsoleTexteAnimation()); }
-
-            string txt = of;
-            if (!animeEnCourt) {
-            ConsoleTexteObj.text = ConsoleTexte + txt;
-                
-            }
-            //print(txt.text);
-
-
-            if (txt.Contains("*"))
-            {
-                txt = txt.Substring(0, txt.Length - 1);
-                if (!animeEnCourt)
-                {
-                    ConsoleTexteObj.text = ConsoleTexte + txt;
-
-                }
-                if (txt != "")
-                {
-
-                    string message = "";
-                    print(txt);
-
-                    if (txt == "help" || txt  == "Help") { message = "\n\nCommands :\n---------------- \njobs : for have a job and earn money\nsell : sell one of your object.\ninfo : get information and history of the station.\nexit : for undock\nrefuel and repair\n"; }
-                    else if (txt == "info" || txt == "Info" || txt == "Information" || txt == "information") { message = "\nThis is a little station..."; }
-                    else if (txt == "undock" || txt == "Undock" || txt == "Stop" || txt == "Exit") { message = "exit"; QuitConsole(); }
-                    else if (txt == "refuel" || txt == "Refuel" || txt == "fuel" || txt == "Fuel")
-                    {
-                        if (Grandeur.coin - 50 >= 0) { Grandeur.coin -= 50; message = "\nJ'ai remis du fuel fdp"; Grandeur.fuel = Grandeur.fuelMax; }
-                        else { message = "\nYou must have 50 coin to refuel"; }
-
-                    }
-                    else if (txt == "repair" || txt == "Repair" || txt == "health" || txt == "Health")
-                    {
-                        if (Grandeur.coin - 75 >= 0) { Grandeur.coin -= 75; message = "\nJ'ai réparé ton vaisseau fdp"; Grandeur.health = Grandeur.healthMax; }
-                        else { message = "\nYou must have 50 coin to repair your ship"; }
-
-                    }
-                    else if (txt == "Jobs" || txt == "jobs" || txt == "work" || txt == "Work")
-                    {
-                        message = "\n---Jobs available---\n(job [ID] to accepte a job)\n";
-                        int i = 0;
-                        foreach (metier job in openConsoleStation.GetComponent<Station>().station.jobs)
-                        {
-                            i++;
-        
-                        if(job.type == "livraison") { message = message +  "\n["+i.ToString()+"]transport \"" + job.obj + "\" from " + job.depart + " to " + job.arrive + " [" + job.recompense + "c]"; }
-
-
-                        }
-
-
-                        // message = "\nThis is a little station...";
-
-                    }
-                    else if(txt.Split(new char[] { ' ' })[0] == "job" || txt.Split(new char[] { ' ' })[0] == "Job")
-                        {
-                        try
-                        {
-                            int a = int.Parse(txt.Split(new char[] { ' ' })[1]);
-
-                            if(Jobs.Count >= 2)
-                            {
-                                message = "\nYou can't have more than 2 job at time";
-                            }
-                            else if (a <= openConsoleStation.GetComponent<Station>().station.jobs.Count)
-                            {
-                                message = "\n--job " + a.ToString() + " accepted--";
-                                Jobs.Add(openConsoleStation.GetComponent<Station>().station.jobs[a-1]);
-                                //Fleche(GameObject.Find(openConsoleStation.GetComponent<Station>().station.jobs[a - 1].depart).transform);
-                                openConsoleStation.GetComponent<Station>().station.jobs.RemoveAt(a-1);
-                                //openConsoleStation.GetComponent<Station>().VerifyJob();
-                                
-                            }
-
-                            else { message = "\n" + a.ToString() + " is not a valid number"; }
-
-                        }
-                        catch { message = "\n\"" + txt.Split(new char[] { ' ' })[1] + "\" is not a number"; }
-
-                        }
-
-
-                    else { message = "\nError : Command not found!"; }
-
-                    if (message != "exit")
-                    {
-                        
-                        of = "";
-                        while (ConsoleTexte.Split('\n').Length + txt.Split('\n').Length + message.Split('\n').Length > 12)
-                        {
-                            string[] txte = ConsoleTexte.Split('\n');
-                            ConsoleTexte = ConsoleTexte.Substring(txte[0].Length + 1);
-                            ConsoleTexteObj.text = ConsoleTexte;
-                        }
-                        ConsoleTexte = ConsoleTexte + txt + message + "\n>";
-                    }
-                }
-            }
-        }
-
-#else
-//#endif
-//#if UNITY_IPHONE
-        print("sssssspub");
-        if (k != null)
-        {
-            if (ConsoleTexte != ConsoleTexteObj.text && !animeEnCourt) { StartCoroutine(ConsoleTexteAnimation()); }
-
-            if (k.status == TouchScreenKeyboard.Status.Visible && !animeEnCourt)
-            {
-                ConsoleTexteObj.text = ConsoleTexte + k.text;
-            }
-            //print(k.text);
-
-            if (k.status == TouchScreenKeyboard.Status.Done)
-
-            {
-                if (!animeEnCourt)
-                {
-                    ConsoleTexteObj.text = ConsoleTexte + k.text;
-
-                }
-                print("prouttttt"); print(k.text);
-
-                if (k.text != "")
-                {
-
-                    string message = "";
-
-                    if (k.text == "help" || k.text == "Help") { message = "\n\nCommands :\n---------------- \njobs : for have a job and earn money\nsell : sell one of your object.\ninfo : get information and history of the station.\nexit : for undock\nrefuel and repair\n"; }
-                    else if (k.text == "info" || k.text == "Info" || k.text == "Information" || k.text == "information") { message = "\nThis is a little station..."; }
-                    else if (k.text == "undock" || k.text == "Undock" || k.text == "Stop" || k.text == "Exit") { message = "exit"; QuitConsole(); }
-                    else if (k.text == "refuel" || k.text == "Refuel" || k.text == "fuel" || k.text == "Fuel")
-                    {
-                        if (Grandeur.coin - 50 >= 0) { Grandeur.coin -= 50; message = "\nJ'ai remis du fuel fdp"; Grandeur.fuel = Grandeur.fuelMax; }
-                        else { message = "\nYou must have 50 coin to refuel"; }
-
-                    }
-                    else if (k.text == "repair" || k.text == "Repair" || k.text == "health" || k.text == "Health")
-                    {
-                        if (Grandeur.coin - 75 >= 0) { Grandeur.coin -= 75; message = "\nJ'ai réparé ton vaisseau fdp"; Grandeur.health = Grandeur.healthMax; }
-                        else { message = "\nYou must have 50 coin to repair your ship"; }
-
-                    }
-                    else if (k.text == "Jobs" || k.text == "jobs" || k.text == "work" || k.text == "Work")
-                    {
-                        message = "\n---Jobs available---\n(job [ID] to accepte a job)\n";
-                        int i = 0;
-                        foreach (metier job in openConsoleStation.GetComponent<Station>().station.jobs)
-                        {
-                            i++;
-
-                            if (job.type == "livraison") { message = message + "\n[" + i.ToString() + "]transport \"" + job.obj + "\" from " + job.depart + " to " + job.arrive + " [" + job.recompense + "c]"; }
-
-
-                        }
-
-
-                        // message = "\nThis is a little station...";
-
-                    }
-                    else if (k.text.Split(new char[] { ' ' })[0] == "job" || k.text.Split(new char[] { ' ' })[0] == "Job")
-                    {
-                        try
-                        {
-                            int a = int.Parse(k.text.Split(new char[] { ' ' })[1]);
-
-                            if (Jobs.Count >= 2)
-                            {
-                                message = "\nYou can't have more than 2 job at time";
-                            }
-                            else if (a <= openConsoleStation.GetComponent<Station>().station.jobs.Count)
-                            {
-                                message = "\n--job " + a.ToString() + " accepted--";
-                                Jobs.Add(openConsoleStation.GetComponent<Station>().station.jobs[a - 1]);
-                                //Fleche(GameObject.Find(openConsoleStation.GetComponent<Station>().station.jobs[a - 1].depart).transform);
-                                openConsoleStation.GetComponent<Station>().station.jobs.RemoveAt(a - 1);
-                                //openConsoleStation.GetComponent<Station>().VerifyJob();
-
-                            }
-
-                            else { message = "\n" + a.ToString() + " is not a valid number"; }
-
-                        }
-                        catch { message = "\n\"" + k.text.Split(new char[] { ' ' })[1] + "\" is not a number"; }
-
-                    }
-
-
-                    else { message = "\nError : Command not found!"; }
-
-                    if (message != "exit")
-                    {
-                        //ConsoleTexte = ConsoleTexte + k.text + message + "\n>"; k.text = ""; ConsoleTexteObj.text = ConsoleTexte; ConsoleInput();
-                        //while (ConsoleTexte.Split('\n').Length > 12)
-                        //{
-                        //    string[] txte = ConsoleTexte.Split('\n');
-                        //    ConsoleTexte = ConsoleTexte.Substring(txte[0].Length + 1);
-                        //    ConsoleTexteObj.text = ConsoleTexte;
-                        //}
-                        
-                        while (ConsoleTexte.Split('\n').Length + k.text.Split('\n').Length + message.Split('\n').Length > 12)
-                        {
-                            string[] txte = ConsoleTexte.Split('\n');
-                            ConsoleTexte = ConsoleTexte.Substring(txte[0].Length + 1);
-                            ConsoleTexteObj.text = ConsoleTexte;
-                        }
-                        ConsoleTexte = ConsoleTexte + k.text + message + "\n>";
-                        k.text = ""; ConsoleInput();
-                    }
-
-
-                }
-
-            }
-        }
-    
-#endif
-
-        //if (Input.GetKeyUp(KeyCode.Return)) { ConsoleTexte = ConsoleTexte + input.text + "\n>"; input.text = ""; ConsoleTexteObj.text = ConsoleTexte; ConsoleInput(); }
     }
-
-
-
-    //private void ConsoleInputEnter()
-    //{
-    //    if(input.text != "")
-    //    {
-
-    //        string message = "";
-
-    //        if(input.text == "help" || input.text == "Help") { message = "\n\nCommands :\n---------------- \njob : for have a job and earn money\nsell : sell one of your object.\ninfo : get information and history of the station.\n"; }
-    //        else if (input.text == "info" || input.text == "Info" || input.text == "Information" || input.text == "information") { message = "\nThis is a little station..."; }
-    //        else { message = "\nError : Command not found!"; }
-
-    //        ConsoleTexte = ConsoleTexte + input.text + message +"\n>"; input.text = ""; ConsoleTexteObj.text = ConsoleTexte; ConsoleInput();
-    //        while (ConsoleTexte.Split('\n').Length > 13)
-    //        {
-    //            string[] txt = ConsoleTexte.Split('\n');
-    //            ConsoleTexte = ConsoleTexte.Substring(txt[0].Length +1);
-    //            ConsoleTexteObj.text = ConsoleTexte;
-    //        }
-
-
-
-    //    }
-
-
-
-    //}
 
     public void OpenMap()
     {
@@ -808,7 +405,7 @@ public class Principal : MonoBehaviour
                 a = Instantiate(MapObj[1]);
                 a.transform.SetParent(MapObj[0].transform);
                 a.transform.localPosition = new Vector3(st.transform.position.x * 40 / 4000, st.transform.position.y * 10 / 4000, -1);
-                a.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+                a.transform.eulerAngles = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
 
 
             }
@@ -826,282 +423,6 @@ public class Principal : MonoBehaviour
 
 
 
-    public void OpenConsole(string nom, GameObject station)
-    {
-        if (!GameObject.Find("Main Camera").GetComponent<Principal>().Console.activeSelf)
-        {
-            openConsoleStation = station;
-            ConsoleInput();
-            print("open");
-            Console.SetActive(true);
-            Console.transform.GetChild(2).GetComponent<Text>().text = nom;
-            ConsoleTexte = "--Welcome to " + nom + "--\nType a commande or type \"help\"\n>";
-        }
-    }
-    public void QuitConsole() {
-        print("quit");
-        //k = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, true)
-        //k.active = false;
-        k = null;
-        ConsoleTexteObj.text = "";
-        Console.SetActive(false); }
-
-
-    public void ConsoleInput()
-    {
-        //TouchScreenKeyboard.hideInput = true;
-
-        //input.keyboardType = TouchScreenKeyboardType.Default;
-        k = null;
-        TouchScreenKeyboard.hideInput = true;
-        k = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default,false,false,false,true);
-
-
-        //input.text = "";
-        //input.ActivateInputField();
-        //input.Select();
-        //TouchScreenKeyboard.hideInput = true;
-        //TouchScreenKeyboard keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true);
-
-    }
-
-
-    //   d
-    //a     b
-    //   c
-    //void Generation(float x, float y, int bg)
-    //{
-
-    //    //print(Mathf.Abs(a-b));
-    //    //print(Mathf.Abs(c - d));
-
-
-    //    //40*40=150*10,6
-    //    int nb = Mathf.RoundToInt(100 * 100 / 10.66f);
-    //    print(nb);
-    //    for (int i = 0; i < (nb/3); i++)
-    //    {
-    //        GameObject etoileObj = Instantiate(etoile, new Vector3(Random.Range(x*100-50, x*100+50), Random.Range(y*100-50, y*100+50), 0), Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
-    //        float taille = Random.Range(0.01f, 0.3f);
-    //        etoileObj.transform.localScale = new Vector3(taille, taille, 1);
-    //        etoileObj.transform.parent = GameObject.Find("Chunk " + x + ";" + y + " BG" + bg).transform;
-
-    //    }
-
-
-
-    //}
-
-    // d
-    //a b
-    // c
-    void Generation(float a, float b, float c, float d)
-    {
-
-        //print(Mathf.Abs(a-b));
-        //print(Mathf.Abs(c - d));
-
-
-        //40*40=150*10,6
-        int nb = Mathf.RoundToInt((Mathf.Abs(a - b) * Mathf.Abs(c - d)) / 12);
-
-        for (int i = 0; i < nb; i++)
-        {
-            GameObject etoileObj = Instantiate(etoile, new Vector3(Random.Range(a, b), Random.Range(c, d), 0), Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
-            int spriteNb = Random.Range(0, EtoileSprite.Count);
-            float taille;
-            if (spriteNb <= 2)
-            {
-                taille = Random.Range(0.05f, 0.2f);
-            }
-            else
-            {
-                taille = 1f *Random.Range(0.05f, 0.2f);
-            }
-            etoileObj.transform.localScale = new Vector3(taille, taille, 1);
-            etoileObj.GetComponent<SpriteRenderer>().sprite = EtoileSprite[spriteNb];
-            etoileObj.GetComponent<SpriteRenderer>().color = EtoileCouleur[Random.Range(0, EtoileCouleur.Length)];
-
-            int e = Random.Range(0, 3);
-            switch (e)
-            {
-                case 0:
-                    etoileObj.transform.parent = GameObject.Find("EtoileBG1").transform;
-                    break;
-                case 1:
-                    etoileObj.transform.parent = GameObject.Find("EtoileBG2").transform;
-                    break;
-                case 2:
-                    etoileObj.transform.parent = GameObject.Find("EtoileBG3").transform;
-                    break;
-            }
-        }
-
-
-
-        //}
-
-        //void Generation(float rayon)
-        //{
-
-        //    //print(Mathf.Abs(a-b));
-        //    //print(Mathf.Abs(c - d));
-
-
-        //    //40*40=150*10,6
-        //    int nb = Mathf.RoundToInt((rayon*rayon) / 5);
-        //    print(nb);
-
-        //    for (int i = 0; i < nb; i++)
-        //    {
-        //        GameObject etoileObj = Instantiate(etoile, new Vector3(Random.Range(-rayon, rayon), Random.Range(-rayon, rayon), 0), Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
-        //        float taille = Random.Range(0.01f, 0.3f);
-        //        etoileObj.transform.localScale = new Vector3(taille, taille, 1);
-        //        int e = Random.Range(0, 3);
-        //        switch (e)
-        //        {
-        //            case 0:
-        //                etoileObj.transform.parent = GameObject.Find("EtoileBG1").transform;
-        //                break;
-        //            case 1:
-        //                etoileObj.transform.parent = GameObject.Find("EtoileBG2").transform;
-        //                break;
-        //            case 2:
-        //                etoileObj.transform.parent = GameObject.Find("EtoileBG3").transform;
-        //                break;
-        //        }
-        //    }
-
-
-
-        //}
-    }
-
-        IEnumerator Generation(float rayon)
-        {
-        Vector3 pos = GameObject.Find("Main Camera").transform.parent.position;
-
-        if (lastPos.y < pos.y){Generation(pos.x - rayon, pos.x + rayon, lastPos.y + rayon, pos.y + rayon);}
-        else { Generation(pos.x - rayon, pos.x + rayon, lastPos.y - rayon, pos.y - rayon); }
-        if (lastPos.x < pos.x) { Generation( lastPos.x + rayon, pos.x + rayon, pos.y - rayon, pos.y + rayon); }
-        else { Generation(lastPos.x - rayon, pos.x - rayon, pos.y - rayon, pos.y + rayon); }
-
-
-        for (int i = 1; i<=3; i++)
-        {
-            foreach(Transform child in GameObject.Find("EtoileBG" + i).transform)
-            {
-                if (child.transform.position.y + rayon < pos.y) { Destroy(child.gameObject); }
-                else if (child.transform.position.y - rayon > pos.y) { Destroy(child.gameObject); }
-                else if (child.transform.position.x + rayon < pos.x) { Destroy(child.gameObject); }
-                else if (child.transform.position.x - rayon > pos.x) { Destroy(child.gameObject); }
-            }
-        }
-
-
-
-
-
-        lastPos = GameObject.Find("Main Camera").transform.parent.position;
-        yield return new WaitForSeconds(0.1f);
-        StartCoroutine(Generation(rayon));
-        }
-
-
-
-
-
-    IEnumerator GenerationBG()
-    {
-        float chunkSize = 200;
-
-        Vector3 pos = new Vector3(Mathf.Round(GameObject.Find("Main Camera").transform.position.x / chunkSize), Mathf.Round(GameObject.Find("Main Camera").transform.position.y / chunkSize), 0.1f);
-        if (GameObject.Find("Chunk " + pos.x + ";" + pos.y) == null) { GameObject a = Instantiate(chunk, pos * chunkSize, Quaternion.identity); a.name = "Chunk " + pos.x + ";" + pos.y; a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + (pos.x + 1) + ";" + pos.y) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x + 1, pos.y, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + (pos.x + 1) + ";" + pos.y; a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + (pos.x - 1) + ";" + pos.y) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x - 1, pos.y, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + (pos.x - 1) + ";" + pos.y; a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + pos.x + ";" + (pos.y + 1)) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x, pos.y + 1, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + pos.x + ";" + (pos.y + 1); a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + pos.x + ";" + (pos.y - 1)) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x, pos.y - 1, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + pos.x + ";" + (pos.y - 1); a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + (pos.x + 1) + ";" + (pos.y + 1)) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x + 1, pos.y + 1, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + (pos.x + 1) + ";" + (pos.y + 1); a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + (pos.x - 1) + ";" + (pos.y + 1)) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x - 1, pos.y + 1, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + (pos.x - 1) + ";" + (pos.y + 1); a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + (pos.x + 1) + ";" + (pos.y - 1)) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x + 1, pos.y - 1, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + (pos.x + 1) + ";" + (pos.y - 1); a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        if (GameObject.Find("Chunk " + (pos.x - 1) + ";" + (pos.y - 1)) == null) { GameObject a = Instantiate(chunk, new Vector3(pos.x - 1, pos.y - 1, 0.1f) * chunkSize, Quaternion.identity); a.name = "Chunk " + (pos.x - 1) + ";" + (pos.y - 1); a.transform.parent = GameObject.Find("Chunk").transform; GenerationAsteroides(a); }
-        foreach (Transform child in GameObject.Find("Chunk").transform)
-        {
-            if (child.name != "Chunk " + pos.x + ";" + pos.y && child.name != "Chunk " + (pos.x + 1) + ";" + pos.y && child.name != "Chunk " + (pos.x - 1) + ";" + pos.y && child.name != "Chunk " + pos.x + ";" + (pos.y + 1) && child.name != "Chunk " + pos.x + ";" + (pos.y - 1) && child.name != "Chunk " + (pos.x + 1) + ";" + (pos.y + 1) && child.name != "Chunk " + (pos.x - 1) + ";" + (pos.y + 1) && child.name != "Chunk " + (pos.x + 1) + ";" + (pos.y - 1) && child.name != "Chunk " + (pos.x - 1) + ";" + (pos.y - 1)) { Destroy(child.gameObject); }
-        }
-        //KIll ASTEROIDE BEHIND
-        Vector2 vel = Vector2.zero;
-        int nb = 0;
-        foreach (Transform piece in GameObject.Find("Vaisseau").transform)
-        {
-            if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
-        }
-        foreach (Transform piece in GameObject.Find("Vaisseau").transform.GetChild(0))
-        {
-            if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
-        }
-        vel = (vel / nb).normalized;
-        Vector3 aV3 = new Vector3(vel.x,vel.y,0);
-        if (DestroyAste)
-        {
-            Collider2D[] hit = Physics2D.OverlapCircleAll(Vaisseau.transform.GetChild(0).GetChild(0).transform.position + (aV3 * 40), 4f);
-            foreach (Collider2D aster in hit) { if (aster.transform.GetComponent<Asteroide>() != null && Vector2.Distance(new Vector2(Vaisseau.transform.GetChild(0).GetChild(0).transform.position.x, Vaisseau.transform.GetChild(0).GetChild(0).transform.position.y), new Vector2(aster.transform.position.x, aster.transform.position.y)) > 20f) { Destroy(aster.gameObject); } }
-            //Gizmos.DrawSphere(Vaisseau.transform.GetChild(0).GetChild(0).transform.position + aV3, 4f);
-        }
-        yield return new WaitForSeconds(0.1f);
-        StartCoroutine(GenerationBG());
-    }
-
-
-    void GenerationAsteroides(GameObject Chunk)
-    {
-        float chunkSize = 200f;
-        for (int i = 0; i < 70; i++)
-        {
-            GameObject aste = Instantiate(Asteroides[Random.Range(0, Asteroides.Count)], new Vector3(Random.Range(Chunk.transform.position.x- (chunkSize/2f), Chunk.transform.position.x+ (chunkSize / 2f)), Random.Range(Chunk.transform.position.y- (chunkSize / 2f), Chunk.transform.position.y + (chunkSize / 2f)), 0), Quaternion.Euler(0, 0, Random.Range(0, 360)));
-            float taille = Random.Range(1f, 3f);
-            aste.transform.localScale = new Vector3(taille, taille, 1);
-            aste.transform.parent = Chunk.transform;
-
-        }
-
-
-    }
-    public void SUPASTE() { DestroyAste = !DestroyAste; }
-    void GenerationPlanete(GameObject Chunk)
-    {
-        for (int i = 0; i < 100; i++)
-        {
-            GameObject aste = Instantiate(Asteroides[Random.Range(0, Asteroides.Count)], new Vector3(Random.Range(Chunk.transform.position.x - 500, Chunk.transform.position.x + 500), Random.Range(Chunk.transform.position.y - 500, Chunk.transform.position.y + 500), 0), Quaternion.Euler(0, 0, Random.Range(0, 360)));
-            float taille = Random.Range(1f, 3f);
-            aste.transform.localScale = new Vector3(taille, taille, 1);
-            aste.transform.parent = Chunk.transform;
-
-        }
-        for (int i = 0; i < 50; i++)
-        {
-            float Rayon = 250 * 0.8f;
-            GameObject planete = Instantiate(Planete[Random.Range(0, Planete.Count)], new Vector3(Random.Range(Chunk.transform.position.x - Rayon, Rayon+ Chunk.transform.position.x), Random.Range(Chunk.transform.position.x - Rayon, Rayon+ Chunk.transform.position.x), -1), Quaternion.Euler(0, 0, Random.Range(0, 360)));
-            planete.transform.parent = GameObject.Find("PlaneteBG1").transform;
-        }
-    }
-
-
-
-    //public void Reacteur()
-    //{
-    //    foreach (Transform child in Vaisseau.transform.GetChild(0))
-    //    {
-    //        print(child.name);
-    //        if (child.name.Contains("eacteur"))
-    //        {
-
-    //            child.transform.GetComponent<Reacteur>().feu = !child.transform.GetComponent<Reacteur>().feu;
-    //        }
-
-    //    }
-    //}
-
 
     public IEnumerator Shake(float temps, float shakeMagnitude)
     {
@@ -1112,31 +433,11 @@ public class Principal : MonoBehaviour
         shake[3] = transform.localPosition.y;
         shake[4] = transform.localPosition.z;
 
-        print("aaaaaaaaa");
         yield return new WaitForSeconds(temps);
         shake[0] = 0;
         transform.localPosition = initialPosition;
-        print("kk");
     }
 
-    //public void Fleche(Transform target)
-    //{
-    //    GameObject a = Instantiate(flechePrefab, Camera.main.transform.position, Quaternion.identity);
-    //    a.GetComponent<Fleche>().target = target;
-    //    a.transform.parent = GameObject.Find("Fleches").transform;
-    //    a.GetComponent<Fleche>().showWayPoint = true;
-    //}
-    //public void Fleche(Transform target, bool showWayPoint,Color couleur)
-    //{
-
-
-    //    GameObject a = Instantiate(flechePrefab, Camera.main.transform.position, Quaternion.identity);
-    //    a.GetComponent<Fleche>().target = target;
-    //    a.transform.parent = GameObject.Find("Fleches").transform;
-    //    a.GetComponent<Image>().color = couleur;
-        
-    //    a.GetComponent<Fleche>().showWayPoint = showWayPoint;
-    //}
     public void Fleche(string targetName, bool showWayPoint, Color couleur)
     {
 
@@ -1174,24 +475,7 @@ public class Principal : MonoBehaviour
         notifie[0] = "false";
     }
 
-    public IEnumerator ConsoleTexteAnimation()
-    {
-        animeEnCourt = true;
-        
-        if (ConsoleTexte.Length > ConsoleTexteObj.text.Length)
-        {
-            for (int i = ConsoleTexteObj.text.Length ; i < ConsoleTexte.Length; i++)
-            {
-                print(i);
-                ConsoleTexteObj.text = ConsoleTexteObj.text + ConsoleTexte[i];
-                yield return new WaitForSeconds(0.0025f);
 
-            }
-
-        }
-        animeEnCourt = false;
-        yield return null;
-    }
 
 
     public void Load()
@@ -1566,7 +850,7 @@ public class Principal : MonoBehaviour
                     }
                 }
                 PlayerPrefs.SetString("saveObj", JsonUtility.ToJson(saveObj));
-                print(PlayerPrefs.GetString("saveObj"));
+
                 string b = JsonUtility.ToJson(VaisseauDeBase);
                 VaisseauClass vs = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", b));
                 Vector2 vel = Vector2.zero;
@@ -1580,14 +864,12 @@ public class Principal : MonoBehaviour
                     if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
                 }
                 vs.velocity = (vel / nb);
-                print(vs.velocity);
-                print(vel / nb);
+                
                 if (Vaisseau.transform.GetChild(0).childCount > 0)
                 {
                     vs.position = Vaisseau.transform.GetChild(0).GetChild(0).position;
                     vs.eulerAngle.z = (Vaisseau.transform.GetChild(0).GetChild(0).eulerAngles.z - deckList.Find(vs.Deck).assemblage[0].eulerAngle.z);
                     PlayerPrefs.SetString("Vaisseau", JsonUtility.ToJson(vs));
-                    print(JsonUtility.ToJson(vs));
                 DeckList d = GameObject.Find("Liste").GetComponent<Liste>().deckList;
                 int i = 0;
                 foreach(Transform child in Vaisseau.transform.GetChild(0))
@@ -1617,7 +899,6 @@ public class Principal : MonoBehaviour
 
 
 
-                print(PlayerPrefs.GetString("Vaisseau"));
 
                 ListEnnemie ennemieList = new ListEnnemie();
 
@@ -1663,14 +944,13 @@ public class Principal : MonoBehaviour
             if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
         }
         vs.velocity = (vel / nb);
-        print(vs.velocity);
-        print(vel / nb);
+        
+        
         if (Vaisseau.transform.GetChild(0).childCount > 0)
         {
             vs.position = Vaisseau.transform.GetChild(0).GetChild(0).position;
             vs.eulerAngle.z = (Vaisseau.transform.GetChild(0).GetChild(0).eulerAngles.z - deckList.Find(vs.Deck).assemblage[0].eulerAngle.z);
             PlayerPrefs.SetString("Vaisseau", JsonUtility.ToJson(vs));
-            print(JsonUtility.ToJson(vs));
 
 
         }
@@ -1692,7 +972,6 @@ public class Principal : MonoBehaviour
 
     public void Reset()
     {
-        print("reset");
         PlayerPrefs.DeleteAll();
         reset = true;
         SceneManager.LoadScene(0);
@@ -1727,7 +1006,6 @@ public class Principal : MonoBehaviour
             ImpactFeedback feedback;
             feedback = ImpactFeedback.Heavy;
             TapticManager.Impact(feedback);
-            print("brute");
 
             #elif UNITY_ANDROID && !UNITY_EDITOR
             AndroidManager.HapticFeedback();
