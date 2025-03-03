@@ -57,7 +57,7 @@ public class Generation : MonoBehaviour
         GameObject.Find("EtoileBG3").transform.position = new Vector3(GameObject.Find("Main Camera").transform.parent.position.x * 0.9f, GameObject.Find("Main Camera").transform.parent.position.y * 0.9f, 10);
         GameObject.Find("PlaneteBG1").transform.position = new Vector3(GameObject.Find("Main Camera").transform.parent.position.x * 0.8f, GameObject.Find("Main Camera").transform.parent.position.y * 0.8f, 5);
     
-        GameObject.Find("AsteroidesFG").transform.position = new Vector3(GameObject.Find("Main Camera").transform.parent.position.x * -1f, GameObject.Find("Main Camera").transform.parent.position.y * -1f, 8);
+        GameObject.Find("AsteroidesFG").transform.position = new Vector3(GameObject.Find("Main Camera").transform.parent.position.x * -1.5f, GameObject.Find("Main Camera").transform.parent.position.y * -1.5f, 8);
 
         GameObject.Find("galaxieBG").transform.position = new Vector3(GameObject.Find("Main Camera").transform.parent.position.x * 0.999f, GameObject.Find("Main Camera").transform.parent.position.y * 0.999f, 8);
     }

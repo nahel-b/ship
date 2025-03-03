@@ -24,5 +24,7 @@ public class Vfx : MonoBehaviour
         StartCoroutine(transform.parent.GetComponent<Piece>().Mort());
 
     }
-    public void AutoKill() { Destroy(gameObject); }
+    public void AutoKill() { 
+        Destroy(gameObject); 
+        }
 }

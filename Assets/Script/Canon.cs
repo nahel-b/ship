@@ -35,6 +35,12 @@ public class Canon : MonoBehaviour
         {
             tir = true;
         }
+        
+        if(GameObject.Find("Main Camera").GetComponent<Principal>().EnnemieTarget == null)
+        {
+            tir = false;
+
+        }
         transform.GetComponent<Animator>().SetBool("Tir", tir);
     }
 

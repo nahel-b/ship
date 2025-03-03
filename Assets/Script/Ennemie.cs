@@ -16,16 +16,25 @@ public class Ennemie : MonoBehaviour
     public float Rotz;
     public float velocity;
 
+    public float degatMort = 0;
+
+    private float healthMax = 0;
+
+    public bool destroyAllPieces = false;
+
     // Start is called before the first frame update
     void Start()
     {
         transform.name = "Ennemie " + nom;
         Load();
+
+        CalculHealthMax();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (HeathBar() <= 0)
         {
             foreach (MissionClass m in GameObject.Find("Main Camera").GetComponent<Principal>().missions.missions)
@@ -36,14 +45,22 @@ public class Ennemie : MonoBehaviour
                 }
 
             }
-            Destroy(gameObject);
+
+            if(!destroyAllPieces)
+            {
+                destroyAllPieces = true;
+                GameObject.Find("Main Camera").GetComponent<Principal>().EnnemieTarget = null;
+                StartCoroutine(destroyAllPiecesCoroutine());
+            }
+
+            //Destroy(gameObject);
         }
         bool a = false;
         GameObject deckPiece = null;
         RaycastHit2D[] hh = Physics2D.CircleCastAll(transform.GetChild(0).position, zone[2], Vector2.zero);
         foreach (RaycastHit2D obj in hh)
         {
-            if (obj.transform.GetComponent<Piece>() != null && obj.transform.GetComponent<Rigidbody2D>()!= null && obj.transform.parent.name == "Deck") { print(obj.transform.name +"s"+obj.transform.parent.name); deckPiece = obj.transform.parent.GetChild(0).gameObject; a = true; }
+            if (obj.transform.GetComponent<Piece>() != null && obj.transform.GetComponent<Rigidbody2D>()!= null && obj.transform.parent.name == "Deck") {  deckPiece = obj.transform.parent.GetChild(0).gameObject; a = true; }
         }
         if (a && GameObject.Find("Main Camera").GetComponent<Principal>().EnnemieTarget == transform)
         {
@@ -111,9 +128,26 @@ public class Ennemie : MonoBehaviour
     }
 
 
+    IEnumerator destroyAllPiecesCoroutine()
+    {
+        foreach (Transform child in transform)
+        {
+            yield return new WaitForSeconds(Random.Range(0f, 0.1f));
+            if (child.GetComponent<Piece>() != null)
+            {
+                child.GetComponent<Piece>().vie = 0;
+            }
+        }
+        
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+    }
+
+
 
     public void Load()
     {
+
         RaycastHit2D[] hh = Physics2D.CircleCastAll(transform.position, 5, Vector2.zero);
         foreach (RaycastHit2D obj in hh)
         {
@@ -152,7 +186,6 @@ public class Ennemie : MonoBehaviour
             {
                 pObj.transform.position = new Vector3(pObj.transform.position.x, pObj.transform.position.y, -1);
 
-                print(pObj.name);
                 RaycastHit2D[] hit = Physics2D.RaycastAll(pObj.transform.position, Vector3.zero, 0.3f);
                 foreach (RaycastHit2D obj in hit)
                 {
@@ -201,10 +234,9 @@ public class Ennemie : MonoBehaviour
 
     }
 
-    public float HeathBar()
+    public void CalculHealthMax()
     {
-        float max = 490.5f;
-        float healthMax = 0;
+        healthMax = 0;
         foreach (Transform child in transform)
         {
             if (child.GetComponent<Piece>() != null && !child.name.Contains("ockpit"))
@@ -212,17 +244,24 @@ public class Ennemie : MonoBehaviour
                 healthMax += child.GetComponent<Piece>().vieListe[child.GetComponent<Piece>().niveau];
             }
         }
-        
         healthMax = healthMax * 0.75f;
+    }
+
+    public float HeathBar()
+    {
+                
+        float max = 490.5f;
+
         float DegatPiece = 0;
         foreach (Transform child in transform)
         {
-            if (child.GetComponent<Piece>() != null && !child.name.Contains("ockpit"))
+            if (child.GetComponent<Piece>() != null && !child.name.Contains("ockpit") && !child.GetComponent<Piece>().mort )
             {
                 DegatPiece += child.GetComponent<Piece>().vieListe[child.GetComponent<Piece>().niveau] - child.GetComponent<Piece>().vie;
             }
         }
         
+        // si on detruit le cockpit on perd 100% de la vie
         float CockpitDegat = 0;
         foreach (Transform child in transform)
         {
@@ -231,7 +270,8 @@ public class Ennemie : MonoBehaviour
                 CockpitDegat = (child.GetComponent<Piece>().vieListe[child.GetComponent<Piece>().niveau] - child.GetComponent<Piece>().vie) * (healthMax / child.GetComponent<Piece>().vieListe[child.GetComponent<Piece>().niveau]);
             }
         }
-        float health = healthMax - DegatPiece - CockpitDegat;
+        float health = healthMax - DegatPiece - CockpitDegat - degatMort;
+        if(health < 0) { health = 0; }
         if (health > healthMax) { health = healthMax; }
         GameObject.Find("EnnemieBar").transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(health * max / healthMax, GameObject.Find("EnnemieBar").transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta.y);
         return health;

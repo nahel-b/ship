@@ -19,7 +19,11 @@ using UnityEngine;
         public float vie = 0;
         public int index;
         public bool cotee = false;
-        public bool mort = false;
+
+                
+        public bool mort = false; // premiere phase
+
+   
 
 
     // Start is called before the first frame update
@@ -50,15 +54,28 @@ using UnityEngine;
     {
         // Debug.DrawRay(transform.position, Vector3.up * 0.1f, Color.green, 1f);
         //if(attachedObject!= null && dependant) { transform.position = attachedObject.transform.position; }
-        if (vie <= 0 && !mort && !dependant)
+       
+        if (vie <= 0 && !mort && (!dependant || vieListe[niveau] >0))
         {
             mort = true;
             Vector3 pos = Vector3.zero;
             if (cotee && !GetComponent<SpriteRenderer>().flipX) { pos.x = -0.4f; }
             else if(cotee) { pos.x = 0.4f; }
             Instantiate(GameObject.Find("Main Camera").GetComponent<Principal>().explosion, transform.position + pos, Quaternion.Euler(0, 0, Random.Range(0f, 360f)), transform);
-
+            if(transform.parent.GetComponent<Ennemie>()!=null)
+            {
+                transform.parent.GetComponent<Ennemie>().degatMort += vieListe[niveau]; 
+            }
         }
+        // else if(vieListe[niveau] == -1 && dependant && (attachedObject == null || (attachedObject && attachedObject.GetComponent<Piece>().vie <= 0)))
+        // {
+        //             mort = true;
+        //             Vector3 pos = Vector3.zero;
+        //             if (cotee && !GetComponent<SpriteRenderer>().flipX) { pos.x = -0.4f; }
+        //             else if(cotee) { pos.x = 0.4f; }
+        //             Instantiate(GameObject.Find("Main Camera").GetComponent<Principal>().explosion, transform.position + pos, Quaternion.Euler(0, 0, Random.Range(0f, 360f)), transform);
+            
+        // }
 
 
     }
@@ -72,7 +89,8 @@ using UnityEngine;
         {
             GetComponent<BoxCollider2D>().enabled = false;
         }
-        GetComponent<SpriteRenderer>().enabled = false; StartCoroutine(GameObject.Find("Main Camera").GetComponent<Principal>().Shake(0.2f, 0.5f));
+        GetComponent<SpriteRenderer>().enabled = false; 
+        StartCoroutine(GameObject.Find("Main Camera").GetComponent<Principal>().Shake(0.2f, 0.5f));
 
         StartCoroutine(GameObject.Find("Main Camera").GetComponent<Principal>().Feedback(1, 0.5f));
 

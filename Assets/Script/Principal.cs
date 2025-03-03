@@ -65,7 +65,6 @@ public class Principal : MonoBehaviour
         }
         deckList = GameObject.Find("Liste").GetComponent<Liste>().deckList;
         //PlayerPrefs.DeleteAll();
-        print("e");  
               Load();
 
 
@@ -132,7 +131,7 @@ public class Principal : MonoBehaviour
         {
             if (collObj.GetComponent<Piece>() != null)
             {
-                if (collObj.transform.parent.GetComponent<Ennemie>() != null && collObj.transform.parent.GetComponent<Ennemie>().agressif && !EnnemieTarget && collObj.transform.parent.GetComponent<Ennemie>().zone[2] >= Vector3.Distance(Vaisseau.transform.GetChild(0).GetChild(0).transform.position,collObj.transform.position))
+                if ( collObj.transform.parent.GetComponent<Ennemie>() != null && !collObj.transform.parent.GetComponent<Ennemie>().destroyAllPieces && collObj.transform.parent.GetComponent<Ennemie>().agressif && !EnnemieTarget && collObj.transform.parent.GetComponent<Ennemie>().zone[2] >= Vector3.Distance(Vaisseau.transform.GetChild(0).GetChild(0).transform.position,collObj.transform.position))
                 {
                     EnnemieTarget = collObj.transform.parent;
                     foreach(Transform child in GameObject.Find("EnnemieBar").transform)

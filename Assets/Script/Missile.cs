@@ -27,7 +27,6 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print(collision.transform.name);
         if (collision.GetComponent<Piece>() && collision.GetComponent<Rigidbody2D>() !=null && collision.transform.parent.GetComponent<Ennemie>()!=null && !Ennemie) { collision.GetComponent<Piece>().Hit(degat); Destroy(gameObject); }
         else if(collision.GetComponent<Piece>() && collision.GetComponent<Rigidbody2D>() != null && collision.transform.parent.GetComponent<Ennemie>() == null && Ennemie) { collision.GetComponent<Piece>().Hit(degat); Destroy(gameObject); }
     }
