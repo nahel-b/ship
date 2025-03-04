@@ -11,6 +11,9 @@
 UserSettings/
 Assets/AssetStoreTools*
 
+.plastic/
+ignore.conf
+
 .vscode/
 .vs/
 ProjectSettings/

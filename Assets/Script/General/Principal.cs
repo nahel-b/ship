@@ -63,9 +63,12 @@ public class Principal : MonoBehaviour
         {
             GameObject.Find("Liste").GetComponent<Liste>().deckList = JsonUtility.FromJson<DeckList>(PlayerPrefs.GetString("Deck"));
         }
+        
         deckList = GameObject.Find("Liste").GetComponent<Liste>().deckList;
         //PlayerPrefs.DeleteAll();
-              Load();
+              
+              
+        Load();
 
 
 
@@ -483,6 +486,7 @@ public class Principal : MonoBehaviour
         if (PlayerPrefs.HasKey("Missions"))
         {
             missions = JsonUtility.FromJson<MissionListe>(PlayerPrefs.GetString("Missions"));
+            print(PlayerPrefs.GetString("Missions"));
         }
         else { missions.Add(GameObject.Find("Liste").GetComponent<Liste>().Histoire.missions[0]); }
         if (PlayerPrefs.HasKey("Color"))
