@@ -4,6 +4,7 @@ Shader "Custom/Final Shader"
     {
         _SceneTex ("Scene Texture", 2D) = "white" {}
         _UITex ("UI Texture", 2D) = "black" {}
+        _MainTex ("Texture", 2D) = "white" {}
     }
 
     SubShader
