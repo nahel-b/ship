@@ -21,7 +21,7 @@ public class CRTPostProcess : MonoBehaviour
         rt.Release();
 
             // Créer un RenderTexture HDR
-            rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGBHalf);
+            rt = Camera.main.targetTexture; //new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGBHalf);
             rt.enableRandomWrite = false; // Garde désactivé sauf si tu en as besoin
             rt.useMipMap = false;         // Active si nécessaire
             rt.filterMode = FilterMode.Point; // Pour un rendu pixelisé plus net
