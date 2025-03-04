@@ -42,16 +42,16 @@ public class BlitWithShaders : MonoBehaviour
         // appliquer les shaders aux caméras
 
         sceneShaderMaterial.SetTexture("_MainTex", sceneRT);
-        //uiShaderMaterial.SetTexture("_MainTex", uiRT);
+        uiShaderMaterial.SetTexture("_MainTex", uiRT);
         //sceneShaderMaterial.SetFloat("_Distortion", 2);
         Graphics.Blit(null, sceneRtShader, sceneShaderMaterial);
-        //Graphics.Blit(null, uiRtShader, uiShaderMaterial);
+        Graphics.Blit(null, uiRtShader, uiShaderMaterial);
 
 
 
         // Combiner les deux textures avec le shader de fusion
         blendMaterial.SetTexture("_SceneTex", sceneRtShader);
-        blendMaterial.SetTexture("_UITex", uiRT);
+        blendMaterial.SetTexture("_UITex", uiRtShader);
         Graphics.Blit(null, finalRT, blendMaterial);
 
        display.texture = finalRT;

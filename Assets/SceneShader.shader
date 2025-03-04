@@ -1,9 +1,10 @@
-Shader "UI/CRT_PostProcess"
+Shader "UI/SceneShader"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _ScanlineIntensity ("Scanline Intensity", Range(0,1)) = 0.5
+        _ScanlineFrequency ("Scanline Frequency", Range(0,1)) = 0.1
         _Distortion ("Distortion", Range(0,2)) = 0.1
         _VerticalDistortion ("Vertical Distortion", Range(0,2)) = 0.1
         _distortionCompensation ("distortionCompensation", Range(0.1,1)) = 1
@@ -38,6 +39,7 @@ Shader "UI/CRT_PostProcess"
             float4 _MainTex_ST;
 
             float _ScanlineIntensity;
+            float _ScanlineFrequency;
             float _Distortion;
             float _VerticalDistortion;
             float _distortionCompensation;
@@ -80,7 +82,8 @@ Shader "UI/CRT_PostProcess"
                 }
                 
                 // Scanlines (effet lignes horizontales)
-                float scanline = sin(distortedUV.y * _ScreenParams.y * 3.1415) * _ScanlineIntensity;
+                float scanlineUV = uv.y; // Utiliser les UV non déformés pour les scanlines
+                float scanline = sin(scanlineUV * _ScreenParams.y * 3.1415 * _ScanlineFrequency) * _ScanlineIntensity;
                 
                 // Effet vignette (basé sur les UV centrés originaux)
                 float vignette = 1.0 - smoothstep(0.5, 1.0, dot(uv - 0.5, uv - 0.5));

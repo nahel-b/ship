@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CRTMaterial
-  m_Shader: {fileID: 4800000, guid: 28f26fafad7ff44daab8093102e8c254, type: 3}
+  m_Name: UIMaterial
+  m_Shader: {fileID: 4800000, guid: b54b914b2991646b0a186e1e1a3ea5a1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,16 +29,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Distortion: 0.98
-    - _DistortionCompensation: 1
-    - _HorizontalCompensation: 0.771
-    - _HorizontalDistortion: 0.75
-    - _HorizontalDistortionFactor: 0.1
-    - _ScanlineIntensity: 0
-    - _VerticalCompensation: 0.748
-    - _VerticalDistortion: 0.98
-    - _VerticalDistortionFactor: 1.5
+    - _Distortion: 0.71
+    - _ScanlineFrequency: 0.24
+    - _ScanlineIntensity: 0.083
+    - _VerticalDistortion: 0.27
     - _VignetteStrength: 0
-    - _distortionCompensation: 0.761
+    - _distortionCompensation: 0.836
     m_Colors: []
   m_BuildTextureStacks: []
