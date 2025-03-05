@@ -691,6 +691,54 @@ Transform:
   - {fileID: 486101413}
   m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &82241763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 82241764}
+  - component: {fileID: 82241765}
+  m_Layer: 0
+  m_Name: MissionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &82241764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82241763}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 975255463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &82241765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82241763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16483a8e70aeb4cd29942ba640bb286e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  repository:
+    missions: []
+    activeMissions: []
+    completedMissions: []
 --- !u!1 &89365544
 GameObject:
   m_ObjectHideFlags: 0
@@ -4545,8 +4593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35018719d27c4328bb5a2c40a0e5b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missions:
-    missions: []
   Items:
     Objets: []
     stacks: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -4637,14 +4683,6 @@ MonoBehaviour:
       nom: 
       debloque: 0
     velocity: {x: 0, y: 0}
-  ListePiece:
-    Liste:
-    - name: Deck-1-Canon
-      obj: {fileID: 3291786094495906831, guid: 745a469bc48454a08b4de24633c77f97, type: 3}
-    - name: Deck-1-Reacteur
-      obj: {fileID: 1815454780144861483, guid: ff199855d13a44cc2b1150edc138bd1a, type: 3}
-    - name: Deck-1-Cockpit
-      obj: {fileID: 6986157919174531498, guid: db11fd3eb876d48ce965d0ce996b0a89, type: 3}
   deckList:
     Liste: []
   EnnemieTarget: {fileID: 0}
@@ -8140,6 +8178,7 @@ Transform:
   - {fileID: 349440907}
   - {fileID: 1003110869}
   - {fileID: 1078960533}
+  - {fileID: 82241764}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &996511568

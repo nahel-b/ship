@@ -15,7 +15,22 @@ public class MissionManager : MonoBehaviour
     
     // Singleton pattern (optional)
     public static MissionManager Instance { get; private set; }
-    
+
+
+    void Load()
+    {
+        
+        
+        repository = MissionSaveSystem.LoadRepository("default");
+        BuildMissionLookup();
+    }
+
+
+    void Save()
+    {
+        MissionSaveSystem.SaveRepository(repository, "default");
+    }
+
     void Awake()
     {
         if (Instance == null)

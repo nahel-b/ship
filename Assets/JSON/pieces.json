@@ -1,19 +1,20 @@
 {
     "pieces": [
-        { "id": 1, "name": "Deck-1-Socle", "prefab": "Deck-1-Socle", "description": "Base of the first deck" },
-        { "id": 2, "name": "Deck-1-Cockpit", "prefab": "Deck-1-Cockpit", "description": "Cockpit of the first deck" },
+        { "id": 1, "name": "Deck-1-Socle", "prefab": "deck-1/Deck-1-Socle", "description": "Base of the first deck" },
+        { "id": 2, "name": "Deck-1-Cockpit", "prefab": "deck-1/Deck-1-Cockpit", "description": "Cockpit of the first deck" },
         { "id": 3, "name": "Reacteur-1", "prefab": "Reacteur-1", "description": "First reactor" },
         { "id": 4, "name": "Aile-1-droite", "prefab": "Aile-1-droite", "description": "Right wing of the first set" },
         { "id": 5, "name": "Aile-1-gauche", "prefab": "Aile-1-gauche", "description": "Left wing of the first set" },
         { "id": 6, "name": "Aile-2-droite", "prefab": "Aile-2-droite", "description": "Right wing of the second set" },
         { "id": 7, "name": "Aile-2-gauche", "prefab": "Aile-2-gauche", "description": "Left wing of the second set" },
         { "id": 8, "name": "Canon-1", "prefab": "Canon-1", "description": "First cannon" },
-        { "id": 9, "name": "Deck-3-Protection", "prefab": "Deck-3-Protection", "description": "Protection for the third deck" },
-        { "id": 10, "name": "Deck-3-Socle", "prefab": "Deck-3-Socle", "description": "Base of the third deck" },
+        { "id": 9, "name": "Deck-3-Protection", "prefab": "deck-3/Deck-3-Protection", "description": "Protection for the third deck" },
+        { "id": 10, "name": "Deck-3-Socle", "prefab": "deck-3/Deck-3-Socle", "description": "Base of the third deck" },
         { "id": 11, "name": "Canon-3", "prefab": "Canon-3", "description": "Third cannon" },
         { "id": 12, "name": "Socle-Bar-1", "prefab": "Socle-Bar-1", "description": "Base of the first bar" },
         { "id": 13, "name": "Vis-Dependante-1", "prefab": "Vis-Dependante-1", "description": "Dependent screw 1" },
-        { "id": 14, "name": "Deck-2-Cockpit-Vis", "prefab": "Deck-2-Cockpit-Vis", "description": "Screw for the second deck cockpit" },
+        { "id": 14, "name": "Deck-2-Cockpit-Vis", "prefab": "deck-2/Deck-2-Cockpit-Vis", "description": "Screw for the second deck cockpit" },
         { "id": 15, "name": "Canon-2", "prefab": "Canon-2", "description": "Second cannon" }
     ]
 }
+ 

@@ -1,1 +1,7 @@
-{"fuel":100.0,"fuelMax":100.0,"health":100.0,"healthMax":100.0,"coin":100000}
+{
+    "fuel": 100.0,
+    "fuelMax": 100.0,
+    "health": 100.0,
+    "healthMax": 100.0,
+    "coin": 100000
+  }

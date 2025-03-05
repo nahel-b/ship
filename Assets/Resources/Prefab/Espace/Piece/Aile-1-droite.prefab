@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4896067049729506386}
   - component: {fileID: 1893898380777098683}
   m_Layer: 0
-  m_Name: Aile-2-droite
+  m_Name: Aile-1-droite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -155,12 +155,11 @@ public class Ennemie : MonoBehaviour
         }
 
 
-    PieceObjList ListePiece = GameObject.Find("Liste").GetComponent<Liste>().ListePiece;
         int i = 0;
         foreach (PieceClass p in vaisseau.assemblage)
         {
 
-            GameObject pObj = Instantiate(ListePiece.Find(p.nom), p.position + transform.position, Quaternion.Euler(p.eulerAngle));
+            GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), p.position + transform.position, Quaternion.Euler(p.eulerAngle));
 
             pObj.name = p.nom;
             foreach (FixedJoint2D component in pObj.GetComponents<FixedJoint2D>()) { Destroy(component); }
@@ -170,7 +169,7 @@ public class Ennemie : MonoBehaviour
             pObj.GetComponent<Piece>().dependant = p.dependant;
             pObj.GetComponent<Piece>().rotFrame = p.rotFrame;
             pObj.GetComponent<Piece>().socle = p.socle;
-            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = ListePiece.Find(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
+            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if (!p.dependant) { pObj.GetComponent<Piece>().vie = p.vie; }
 
 

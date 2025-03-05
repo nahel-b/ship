@@ -117,7 +117,7 @@ public class Bouton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData data)
     {
-        // isMouseDown = true;
+         isMouseDown = true;
         // if (name == "Mission-Bouton" && isMouseDown && GetComponent<Image>().sprite == BoutonMissionImg[0])
         // {
         //     MissionListe missionListe;

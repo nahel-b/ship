@@ -67,10 +67,9 @@ public class BuildBouton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void spawnPiece()
     {
         PieceClass p = Camera.main.GetComponent<BuildPrincipal>().Items.Pieces[transform.GetSiblingIndex()];
-        PieceObjList ListePiece = GameObject.Find("Liste").GetComponent<Liste>().ListePiece;
         print(p.nom);
         Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        GameObject pObj = Instantiate(ListePiece.Find(p.nom), new Vector3(Mathf.Round(MousePos.x), Mathf.Round(MousePos.y), transform.position.z), Quaternion.Euler(p.eulerAngle));
+        GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), new Vector3(Mathf.Round(MousePos.x), Mathf.Round(MousePos.y), transform.position.z), Quaternion.Euler(p.eulerAngle));
         pObj.name = p.nom;
         pObj.AddComponent<BuildPiece>();
 
@@ -80,13 +79,13 @@ public class BuildBouton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (pObj.GetComponent<BoxCollider2D>() != null) { pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
         if (pObj.GetComponent<PolygonCollider2D>() != null) { Destroy(pObj.GetComponent<PolygonCollider2D>()); pObj.AddComponent<BoxCollider2D>(); pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
         pObj.transform.parent = GameObject.Find("Vaisseau").transform;
-        pObj.GetComponent<BuildPiece>().objPrefab = ListePiece.Find(p.nom);
+        pObj.GetComponent<BuildPiece>().objPrefab = PieceLoader.GetPiecePrefab(p.nom);
         pObj.GetComponent<BuildPiece>().niveau = p.niveau;
         pObj.GetComponent<BuildPiece>().attchableSide = p.attchableSide;
         pObj.GetComponent<BuildPiece>().dependant = p.dependant;
         pObj.GetComponent<BuildPiece>().socle = p.socle;
         pObj.GetComponent<BuildPiece>().rotFrame = p.rotFrame;
-        if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = ListePiece.Find(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
+        if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
         else if (!p.dependant) { pObj.GetComponent<BuildPiece>().vie = p.vie; }
 
         if (p.dependant)

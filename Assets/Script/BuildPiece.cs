@@ -125,10 +125,10 @@ public class BuildPiece : MonoBehaviour
                 PieceClass p = new PieceClass(Vector3.zero, Vector3.zero, name, description, niveau,dependant,socle,rotFrame,attchableSide,vie);
                 Camera.main.GetComponent<BuildPrincipal>().Items.Add(p);
                 GameObject a = Instantiate(Camera.main.GetComponent<BuildPrincipal>().ItemObjPrefab, GameObject.Find("ContentScrollItem").transform);
-                a.GetComponent<Image>().sprite = Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite;
+                a.GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite;
                 a.transform.GetChild(1).GetComponent<Text>().text = p.nom;
 
-                if (Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); a.transform.GetChild(1).localScale = new Vector3(-1, 1, 1); a.transform.GetChild(0).localScale = new Vector3(-1.14f, 1.14f, 1); }
+                if (PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); a.transform.GetChild(1).localScale = new Vector3(-1, 1, 1); a.transform.GetChild(0).localScale = new Vector3(-1.14f, 1.14f, 1); }
 
                 Destroy(gameObject);
             }

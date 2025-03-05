@@ -69,37 +69,37 @@ public class Assemblage
     //}
 
 }
-[System.Serializable]
-public class PieceObj //pour PIeceObjList
-{
-    public string name;
-    public GameObject obj;
+// [System.Serializable]
+// public class PieceObj //pour PIeceObjList
+// {
+//     public string name;
+//     public GameObject obj;
 
-    public  PieceObj() { }
-}
-[System.Serializable]
-public class PieceObjList //pour Liste de toutes les pieces
-{
-    public List<PieceObj> Liste;
+//     public  PieceObj() { }
+// }
+// [System.Serializable]
+// public class PieceObjList //pour Liste de toutes les pieces
+// {
+//     public List<PieceObj> Liste;
 
-    public PieceObjList() { Liste = new List<PieceObj>(); }
+//     public PieceObjList() { Liste = new List<PieceObj>(); }
 
-    public GameObject Find(string name)
-    {
-        GameObject obj = null;
+//     public GameObject Find(string name)
+//     {
+//         GameObject obj = null;
 
-        foreach (PieceObj p in Liste)
-        {
-            if(p.name == name)
-            {
-               obj = p.obj;
-            }
-        }
+//         foreach (PieceObj p in Liste)
+//         {
+//             if(p.name == name)
+//             {
+//                obj = p.obj;
+//             }
+//         }
 
-        return obj;
-    }
+//         return obj;
+//     }
 
-}
+// }
 [System.Serializable]
 public class VaisseauClass
 {

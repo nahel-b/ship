@@ -11,7 +11,6 @@ public class BuildPrincipal : MonoBehaviour
     public Assemblage Vaisseaui;
     public VaisseauClass Vaisseau;
     string path ;
-    public PieceObjList ListePiece;
     public DeckList deckList;
     public string currentDeck;
     public int DeckIndex;
@@ -26,7 +25,6 @@ public class BuildPrincipal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ListePiece = GameObject.Find("Liste").GetComponent<Liste>().ListePiece;
         GameObject.Find("Liste").GetComponent<Liste>().deckList = JsonUtility.FromJson<DeckList>(PlayerPrefs.GetString("Deck"));
         deckList = GameObject.Find("Liste").GetComponent<Liste>().deckList;
 
@@ -43,9 +41,9 @@ public class BuildPrincipal : MonoBehaviour
             print(p.nom);
 
             GameObject a = Instantiate(ItemObjPrefab, GameObject.Find("ContentScrollItem").transform);
-            a.GetComponent<Image>().sprite = ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite;
+            a.GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite;
             a.transform.GetChild(1).GetComponent<Text>().text = p.nom;
-            if(ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); a.transform.GetChild(1).localScale = new Vector3(-1, 1, 1); a.transform.GetChild(0).localScale = new Vector3(-1.14f, 1.14f, 1); }
+            if(PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); a.transform.GetChild(1).localScale = new Vector3(-1, 1, 1); a.transform.GetChild(0).localScale = new Vector3(-1.14f, 1.14f, 1); }
         }
 
 
@@ -59,7 +57,7 @@ public class BuildPrincipal : MonoBehaviour
         currentDeck = jsonF.Deck;
         foreach (PieceClass p in deckList.Find(currentDeck).assemblage)
         {
-            GameObject pObj = Instantiate(ListePiece.Find(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
+            GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
             pObj.name = p.nom;
             pObj.AddComponent<BuildPiece>();
             foreach (FixedJoint2D component in pObj.GetComponents<FixedJoint2D>()) { Destroy(component); }
@@ -68,13 +66,13 @@ public class BuildPrincipal : MonoBehaviour
             if (pObj.GetComponent<BoxCollider2D>() != null) { pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
             if (pObj.GetComponent<PolygonCollider2D>() != null) { Destroy(pObj.GetComponent<PolygonCollider2D>()); pObj.AddComponent<BoxCollider2D>(); pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
             pObj.transform.parent = GameObject.Find("Deck").transform;
-            pObj.GetComponent<BuildPiece>().objPrefab = ListePiece.Find(p.nom);
+            pObj.GetComponent<BuildPiece>().objPrefab = PieceLoader.GetPiecePrefab(p.nom);
             pObj.GetComponent<BuildPiece>().niveau = p.niveau;
             pObj.GetComponent<BuildPiece>().attchableSide = p.attchableSide;
             pObj.GetComponent<BuildPiece>().dependant = p.dependant;
             pObj.GetComponent<BuildPiece>().socle = p.socle;
             pObj.GetComponent<BuildPiece>().rotFrame = p.rotFrame;
-            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = ListePiece.Find(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
+            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if (!p.dependant) { pObj.GetComponent<BuildPiece>().vie = p.vie; }
 
 
@@ -97,7 +95,7 @@ public class BuildPrincipal : MonoBehaviour
         foreach (PieceClass p in jsonF.pieces.assemblage)
         {
             print(p.nom);
-            GameObject pObj = Instantiate(ListePiece.Find(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
+            GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
             pObj.name = p.nom;
             pObj.AddComponent<BuildPiece>();
             foreach (FixedJoint2D component in pObj.GetComponents<FixedJoint2D>()) { Destroy(component); }
@@ -106,13 +104,13 @@ public class BuildPrincipal : MonoBehaviour
             if (pObj.GetComponent<BoxCollider2D>() != null) { pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
             if (pObj.GetComponent<PolygonCollider2D>() != null) { Destroy(pObj.GetComponent<PolygonCollider2D>()); pObj.AddComponent<BoxCollider2D>(); pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
             pObj.transform.parent = GameObject.Find("Vaisseau").transform; 
-            pObj.GetComponent<BuildPiece>().objPrefab = ListePiece.Find(p.nom);
+            pObj.GetComponent<BuildPiece>().objPrefab = PieceLoader.GetPiecePrefab(p.nom);
             pObj.GetComponent<BuildPiece>().niveau = p.niveau;
             pObj.GetComponent<BuildPiece>().attchableSide = p.attchableSide;
             pObj.GetComponent<BuildPiece>().dependant = p.dependant;
             pObj.GetComponent<BuildPiece>().socle = p.socle;
             pObj.GetComponent<BuildPiece>().rotFrame = p.rotFrame;
-            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = ListePiece.Find(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
+            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if (!p.dependant) { pObj.GetComponent<BuildPiece>().vie = p.vie; }
 
             if (p.dependant)
@@ -320,8 +318,8 @@ public class BuildPrincipal : MonoBehaviour
                 PieceClass p = new PieceClass(piece.transform.eulerAngles, Bp.transform.position, Bp.name, Bp.description, Bp.niveau, Bp.dependant, Bp.socle, Bp.rotFrame, Bp.attchableSide, Bp.vie);
                 Camera.main.GetComponent<BuildPrincipal>().Items.Add(p);
                 GameObject a = Instantiate(Camera.main.GetComponent<BuildPrincipal>().ItemObjPrefab, GameObject.Find("ContentScrollItem").transform);
-                a.GetComponent<Image>().sprite = Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite;
-                if (Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); }
+                a.GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite;
+                if (PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); }
 
                 Destroy(piece.gameObject);
             }
@@ -334,8 +332,8 @@ public class BuildPrincipal : MonoBehaviour
                 PieceClass p = new PieceClass(piece.GetChild(0).transform.eulerAngles, Bp.transform.position, Bp.name, Bp.description, Bp.niveau, Bp.dependant, Bp.socle, Bp.rotFrame, Bp.attchableSide, Bp.vie);
                 Camera.main.GetComponent<BuildPrincipal>().Items.Add(p);
                 GameObject a = Instantiate(Camera.main.GetComponent<BuildPrincipal>().ItemObjPrefab, GameObject.Find("ContentScrollItem").transform);
-                a.GetComponent<Image>().sprite = Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite;
-                if (Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); }
+                a.GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite;
+                if (PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); }
 
                 Destroy(piece.GetChild(0).gameObject);
             }
@@ -348,8 +346,8 @@ public class BuildPrincipal : MonoBehaviour
                 PieceClass p = new PieceClass(piece.GetChild(0).transform.eulerAngles, Bp.transform.position, Bp.name, Bp.description, Bp.niveau, Bp.dependant, Bp.socle, Bp.rotFrame, Bp.attchableSide, Bp.vie);
                 Camera.main.GetComponent<BuildPrincipal>().Items.Add(p);
                 GameObject a = Instantiate(Camera.main.GetComponent<BuildPrincipal>().ItemObjPrefab, GameObject.Find("ContentScrollItem").transform);
-                a.GetComponent<Image>().sprite = Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite;
-                if (Camera.main.GetComponent<BuildPrincipal>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); }
+                a.GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite;
+                if (PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().flipX) { a.transform.localScale = new Vector3(-1, 1, 1); }
 
                 Destroy(piece.GetChild(0).gameObject);
             }
@@ -358,7 +356,7 @@ public class BuildPrincipal : MonoBehaviour
         foreach (PieceClass p in debloqueDeck.Liste[DeckIndex].assemblage)
         {
             print(p.nom);
-            GameObject pObj = Instantiate(ListePiece.Find(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
+            GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
             pObj.name = p.nom;
             pObj.AddComponent<BuildPiece>();
             foreach (FixedJoint2D component in pObj.GetComponents<FixedJoint2D>()) { Destroy(component); }
@@ -367,13 +365,13 @@ public class BuildPrincipal : MonoBehaviour
             if (pObj.GetComponent<BoxCollider2D>() != null) { pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
             if (pObj.GetComponent<PolygonCollider2D>() != null) { Destroy(pObj.GetComponent<PolygonCollider2D>()); pObj.AddComponent<BoxCollider2D>(); pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
             pObj.transform.parent = GameObject.Find("Deck").transform;
-            pObj.GetComponent<BuildPiece>().objPrefab = ListePiece.Find(p.nom);
+            pObj.GetComponent<BuildPiece>().objPrefab = PieceLoader.GetPiecePrefab(p.nom);
             pObj.GetComponent<BuildPiece>().niveau = p.niveau;
             pObj.GetComponent<BuildPiece>().attchableSide = p.attchableSide;
             pObj.GetComponent<BuildPiece>().dependant = p.dependant;
             pObj.GetComponent<BuildPiece>().socle = p.socle;
             pObj.GetComponent<BuildPiece>().rotFrame = p.rotFrame;
-            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = ListePiece.Find(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
+            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if (!p.dependant) { pObj.GetComponent<BuildPiece>().vie = p.vie; }
             if (p.dependant)
             {

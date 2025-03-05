@@ -184,7 +184,7 @@ public class Reward : MonoBehaviour
         //     transform.GetChild(2).gameObject.SetActive(true);
         //     transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
         //     transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
-        //     transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(piece.nom).GetComponent<SpriteRenderer>().sprite;
+        //     transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(piece.nom).GetComponent<SpriteRenderer>().sprite;
         //     transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
         //     for (float i = 0; i < 1; i += 0.01f)
         //     {
@@ -214,7 +214,7 @@ public class Reward : MonoBehaviour
         //         transform.GetChild(2).GetChild(1).GetComponent<Text>().text = transform.GetChild(2).GetChild(1).GetComponent<Text>().text + nom[i];
         //         yield return new WaitForSeconds(0.06f);
         //     }
-        //     GameObject obj = Instantiate(GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(piece.nom), transform);
+        //     GameObject obj = Instantiate(PieceLoader.GetPiecePrefab(piece.nom), transform);
         //     if (obj.GetComponent<Piece>() != null) { Destroy(obj.GetComponent<Piece>()); }
         //     if (obj.GetComponent<Canon>() != null) { Destroy(obj.GetComponent<Canon>()); }
         //     if (obj.GetComponent<Vis>() != null) { Destroy(obj.GetComponent<Vis>()); }
@@ -289,13 +289,13 @@ public class Reward : MonoBehaviour
             List<float> taille = new List<float>() { 4.99f, 1.666f, 0.999f, 0.713f, 0.555f, 0.454f, 0.385f, 0.333f, 0.293f };
             foreach (PieceClass p in deckObj.assemblage)
             {
-                if (h < (p.position.x + GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite.rect.width / 32))
+                if (h < (p.position.x + PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite.rect.width / 32))
                 {
-                    h = (p.position.x + GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite.rect.width / 32);
+                    h = (p.position.x + PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite.rect.width / 32);
                 }
-                if (h < (p.position.y + GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite.rect.height / 32))
+                if (h < (p.position.y + PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite.rect.height / 32))
                 {
-                    h = (p.position.y + GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite.rect.height / 32);
+                    h = (p.position.y + PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite.rect.height / 32);
                 }
 
             }
@@ -307,10 +307,10 @@ public class Reward : MonoBehaviour
                 GameObject pieceObj = Instantiate(PieceObjDeck,transform.GetChild(5));
                 pieceObj.GetComponent<RectTransform>().localPosition = p.position * 100;
                 pieceObj.GetComponent<RectTransform>().eulerAngles = p.eulerAngle;
-                if (GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().flipX) { pieceObj.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1); }
+                if (PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().flipX) { pieceObj.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1); }
 
 
-                pieceObj.GetComponent<Image>().sprite = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom).GetComponent<SpriteRenderer>().sprite;
+                pieceObj.GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(p.nom).GetComponent<SpriteRenderer>().sprite;
                 for (float i = 0; i < 1; i = i + 0.02f)
                 {
                     Color pieceColor = transform.GetChild(5).GetChild(indexPiece).GetComponent<Image>().color;
@@ -318,7 +318,7 @@ public class Reward : MonoBehaviour
                     transform.GetChild(5).GetChild(indexPiece).GetComponent<Image>().color = pieceColor;
                     yield return new WaitForSeconds(0.01f);
                 }
-                GameObject obj = Instantiate(GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom), transform.GetChild(5));
+                GameObject obj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), transform.GetChild(5));
                 if (obj.GetComponent<Piece>() != null) { Destroy(obj.GetComponent<Piece>()); }
                 if (obj.GetComponent<Canon>() != null) { Destroy(obj.GetComponent<Canon>()); }
                 if (obj.GetComponent<Vis>() != null) { Destroy(obj.GetComponent<Vis>()); }
@@ -386,7 +386,7 @@ public class Reward : MonoBehaviour
         //obj.GetComponent<Animator>().SetBool("presentation",true);
 
         //transform.GetChild(1).gameObject.SetActive(true);
-        //transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(recompense.pieces[0].nom).GetComponent<SpriteRenderer>().sprite;
+        //transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(recompense.pieces[0].nom).GetComponent<SpriteRenderer>().sprite;
         //transform.GetChild(1).GetChild(1).GetComponent<Text>().text = recompense.pieces[0].nom;
         //wait = true;
         //yield return new WaitUntil(() => wait == false);
@@ -404,7 +404,7 @@ public class Reward : MonoBehaviour
         //{
 
         //    transform.GetChild(1).gameObject.SetActive(true);
-        //    transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(recompense.pieces[0].nom).GetComponent<SpriteRenderer>().sprite;
+        //    transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = PieceLoader.GetPiecePrefab(recompense.pieces[0].nom).GetComponent<SpriteRenderer>().sprite;
         //    transform.GetChild(1).GetChild(1).GetComponent<Text>().text = recompense.pieces[0].nom;
         //}
     }
@@ -430,8 +430,8 @@ public class Reward : MonoBehaviour
 
     public string descritption(PieceClass p)
     {
-        Piece scriptObj = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom).GetComponent<Piece>();
-        GameObject PieceObj = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(p.nom);
+        Piece scriptObj = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>();
+        GameObject PieceObj = PieceLoader.GetPiecePrefab(p.nom);
         string desc = "Level  : " + p.niveau.ToString();if (!p.dependant) { desc = desc + "\nProtection : " + scriptObj.vieListe[p.niveau]; }
         if (scriptObj.stockageListe[p.niveau] > 0) { desc = desc + "\nStockage : ";  desc = desc + scriptObj.stockageListe[p.niveau].ToString();  }
         if(PieceObj.GetComponent<Canon>()!= null) { desc = desc + "\nAutomatique : " + PieceObj.GetComponent<Canon>().automatique.ToString() + "\nShot per second : " + PieceObj.GetComponent<Canon>().TirParSeconde[p.niveau].ToString() + "\nMissile damage : " + PieceObj.GetComponent<Canon>().DegatMissile[p.niveau].ToString(); }

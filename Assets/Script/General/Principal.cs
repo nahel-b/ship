@@ -37,7 +37,6 @@ public class Principal : MonoBehaviour
     public bool animeEnCourt = false;
     private float touchtime;
     public VaisseauClass VaisseauDeBase;
-    public PieceObjList ListePiece;
     public DeckList deckList;
     private Vector3 Touchstart;
     private Vector3 a;
@@ -59,7 +58,6 @@ public class Principal : MonoBehaviour
         Vaisseau = GameObject.FindGameObjectWithTag("vaisseau");
 
         Grandeur = JsonUtility.FromJson<Grandeur>(PlayerPrefs.GetString("Grandeur",JsonUtility.ToJson(Grandeur)));
-        ListePiece = GameObject.Find("Liste").GetComponent<Liste>().ListePiece;
         if (PlayerPrefs.HasKey("Deck"))
         {
             GameObject.Find("Liste").GetComponent<Liste>().deckList = JsonUtility.FromJson<DeckList>(PlayerPrefs.GetString("Deck"));
@@ -69,14 +67,12 @@ public class Principal : MonoBehaviour
         //PlayerPrefs.DeleteAll();
               
               
-        Load();
+        //Load();
         //Save();
-        
-        SaveSystem.LoadVaisseau();
-        SaveSystem.LoadEnemies();
-        SaveSystem.LoadColors();
-        SaveSystem.LoadDeck();
-        SaveSystem.LoadGrandeur();
+
+        PieceLoader.Initialize();
+
+        SaveSystem.LoadAllScene();
 
     }
    
@@ -607,7 +603,7 @@ public class Principal : MonoBehaviour
         foreach (PieceClass p in deckList.Find(jsonF.Deck).assemblage)
         {
 //            print(p.nom);
-            GameObject pObj = Instantiate(ListePiece.Find(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
+            GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
             pObj.name = p.nom;
             foreach (FixedJoint2D component in pObj.GetComponents<FixedJoint2D>()) { Destroy(component); }
             pObj.transform.parent = Vaisseau.transform.GetChild(0).transform;
@@ -617,7 +613,7 @@ public class Principal : MonoBehaviour
             pObj.GetComponent<Piece>().rotFrame = p.rotFrame;
             pObj.GetComponent<Piece>().socle = p.socle;
             
-            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = ListePiece.Find(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
+            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if (!p.dependant) { pObj.GetComponent<Piece>().vie = p.vie; }
 
             if (p.dependant)
@@ -646,7 +642,7 @@ public class Principal : MonoBehaviour
         foreach (PieceClass p in jsonF.pieces.assemblage)
         {
 
-            GameObject pObj = Instantiate(ListePiece.Find(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
+            GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), p.position, Quaternion.Euler(p.eulerAngle));
 
             pObj.name = p.nom;
             foreach (FixedJoint2D component in pObj.GetComponents<FixedJoint2D>()) { Destroy(component); }
@@ -657,7 +653,7 @@ public class Principal : MonoBehaviour
             pObj.GetComponent<Piece>().rotFrame = p.rotFrame;
             pObj.GetComponent<Piece>().socle = p.socle;
 
-            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = ListePiece.Find(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
+            if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if(!p.dependant) { pObj.GetComponent<Piece>().vie = p.vie; }
 
             if (p.dependant)

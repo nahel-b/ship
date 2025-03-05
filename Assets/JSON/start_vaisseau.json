@@ -1,1 +1,66 @@
-{"Deck":"Deck-1","position":{"x":0.0,"y":0.0,"z":0.0},"eulerAngle":{"x":0.0,"y":0.0,"z":0.0},"pieces":{"assemblage":[{"nom":"Aile-1-droite","position":{"x":1.0,"y":0.0,"z":0.0},"eulerAngle":{"x":0.0,"y":0.0,"z":0.0},"description":"","niveau":1,"dependant":false,"socle":false,"rotFrame":90.0,"attchableSide":{"haut":false,"droite":false,"bas":false,"gauche":true},"velocity":{"x":0.0,"y":0.0},"vie":10.0},{"nom":"Aile-1-gauche","position":{"x":-1.0,"y":0.0,"z":0.0},"eulerAngle":{"x":0.0,"y":0.0,"z":0.0},"description":"","niveau":1,"dependant":false,"socle":false,"rotFrame":90.0,"attchableSide":{"haut":false,"droite":true,"bas":false,"gauche":false},"velocity":{"x":0.0,"y":0.0},"vie":10.0},{"nom":"Canon-1","position":{"x":0.0,"y":0.0,"z":-1.0},"eulerAngle":{"x":0.0,"y":0.0,"z":0.0},"description":"","niveau":1,"dependant":true,"socle":false,"rotFrame":45.0,"attchableSide":{"haut":false,"droite":false,"bas":false,"gauche":false},"velocity":{"x":0.0,"y":0.0},"vie":-1.0}],"nom":"","debloque":false},"velocity":{"x":0.0,"y":0.0}}
+{
+    "Deck": "Deck-1",
+    "position": {"x": 0.0, "y": 0.0, "z": 0.0},
+    "eulerAngle": {"x": 0.0, "y": 0.0, "z": 0.0},
+    "pieces": {
+      "assemblage": [
+        {
+          "nom": "Aile-1-droite",
+          "position": {"x": 1.0, "y": 0.0, "z": 0.0},
+          "eulerAngle": {"x": 0.0, "y": 0.0, "z": 0.0},
+          "description": "",
+          "niveau": 1,
+          "dependant": false,
+          "socle": false,
+          "rotFrame": 90.0,
+          "attchableSide": {
+            "haut"  : false,
+            "droite": false,
+            "bas"   : false,
+            "gauche": true
+          },
+          "velocity": {"x": 0.0, "y": 0.0},
+          "vie": 10.0
+        },
+        {
+          "nom": "Aile-1-gauche",
+          "position": {"x": -1.0, "y": 0.0, "z": 0.0},
+          "eulerAngle": {"x": 0.0, "y": 0.0, "z": 0.0},
+          "description": "",
+          "niveau": 1,
+          "dependant": false,
+          "socle": false,
+          "rotFrame": 90.0,
+          "attchableSide": {
+            "haut"  : false,
+            "droite": true ,
+            "bas"   : false,
+            "gauche": false
+          },
+          "velocity": {"x": 0.0, "y": 0.0},
+          "vie": 10.0
+        },
+        {
+          "nom": "Canon-1",
+          "position": {"x": 0.0, "y": 0.0, "z": -1.0},
+          "eulerAngle": {"x": 0.0, "y": 0.0, "z": 0.0},
+          "description": "",
+          "niveau": 1,
+          "dependant": true,
+          "socle": false,
+          "rotFrame": 45.0,
+          "attchableSide": {
+            "haut"  : false,
+            "droite": false,
+            "bas"   : false,
+            "gauche": false
+          },
+          "velocity": {"x": 0.0, "y": 0.0},
+          "vie": -1.0
+        }
+      ],
+      "nom": "",
+      "debloque": false
+    },
+    "velocity": {"x": 0.0, "y": 0.0}
+  }

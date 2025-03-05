@@ -1,84 +1,94 @@
-// using System.Collections.Generic;
-// using UnityEngine;
-// using System.IO;
+using System.Collections.Generic;
+using UnityEngine;
+using System.IO;
 
+[System.Serializable]
+public class PieceObj
+{
+    public int id;
+    public string name;
+    public string description;
+    public string prefab; // Chemin relatif du prefab dans "Assets/Prefabs/"
+}
 
-// public String piecePrefabPath = "Assets/JSON/pieces.json";
+[System.Serializable]
+public class PieceListObj
+{
+    public List<PieceObj> pieces;
+}
 
-// [System.Serializable]
-// public class PieceObj
-// {
-//     public int id;
-//     public string name;
-//     public string description;
-//     public string prefab; // Chemin relatif du prefab dans "Assets/Prefabs/"
-// }
+// Classe statique - ne peut plus hériter de MonoBehaviour
+public static class PieceLoader
+{
+    private static string piecePrefabPath = "Assets/JSON/pieces.json";
+    private static PieceListObj pieceList;
+    private static Dictionary<string, GameObject> loadedPrefabs = new Dictionary<string, GameObject>();
+    private static bool isInitialized = false;
 
-// [System.Serializable]
-// public class PieceListObj
-// {
-//     public List<PiecObje> pieces;
-// }
+    // Méthode d'initialisation à appeler manuellement
+    public static void Initialize()
+    {
+        if (!isInitialized)
+        {
+            LoadPieces();
+            isInitialized = true;
+        }
+    }
 
-// public class PieceLoader : MonoBehaviour
-// {
-//     public PieceListObj pieceList;
-//     private Dictionary<int, GameObject> loadedPrefabs = new Dictionary<int, GameObject>();
+    static void LoadPieces()
+    {
+        string path = Application.dataPath +  "/JSON/pieces.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            pieceList = JsonUtility.FromJson<PieceListObj>(json);
+            Debug.Log("Pièces chargées avec succès !");
+        }
+        else
+        {
+            Debug.LogError("Fichier JSON non trouvé : " + path);
+        }
+    }
 
-//     void Start()
-//     {
-//         LoadPieces();
-//     }
+    public static GameObject GetPiecePrefab(string nom)
+    {
+        // S'assurer que l'initialisation a été faite
+        if (!isInitialized)
+            Initialize();
 
-//     void LoadPieces()
-//     {
-//         string path = Path.Combine(Application.streamingAssetsPath, "/JSON/pieces.json");
-//         if (File.Exists(path))
-//         {
-//             string json = File.ReadAllText(path);
-//             pieceList = JsonUtility.FromJson<PieceList>(json);
-//             Debug.Log("Pièces chargées avec succès !");
-//         }
-//         else
-//         {
-//             Debug.LogError("Fichier JSON non trouvé !");
-//         }
-//     }
+        if (loadedPrefabs.ContainsKey(nom))
+            return loadedPrefabs[nom];
 
-//     public GameObject GetPiecePrefab(int id)
-//     {
-//         if (loadedPrefabs.ContainsKey(id))
-//             return loadedPrefabs[id];
+        PieceObj piece = pieceList.pieces.Find(p => p.name == nom);
+        if (piece != null)
+        {
+            string prefabPath = $"Prefab/Espace/Piece/{piece.prefab}"; // Chemin relatif depuis Resources
+            GameObject prefab = Resources.Load<GameObject>(prefabPath);
 
-//         Piece piece = pieceList.pieces.Find(p => p.id == id);
-//         if (piece != null)
-//         {
-//             string prefabPath = $"Prefabs/{piece.prefab}"; // Chemin relatif depuis Resources
-//             GameObject prefab = Resources.Load<GameObject>(prefabPath);
+            if (prefab != null)
+            {
+                loadedPrefabs[nom] = prefab;
+                return prefab;
+            }
+            else
+            {
+                Debug.LogError($"Prefab non trouvé : {prefabPath}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Aucune pièce trouvée avec le nom {nom}");
+        }
+        return null;
+    }
 
-//             if (prefab != null)
-//             {
-//                 loadedPrefabs[id] = prefab;
-//                 return prefab;
-//             }
-//             else
-//             {
-//                 Debug.LogError($"Prefab non trouvé : {prefabPath}");
-//             }
-//         }
-//         else
-//         {
-//             Debug.LogWarning($"Aucune pièce trouvée avec l'ID {id}");
-//         }
-//         return null;
-//     }
-
-//     public void InstantiatePiece(int id, Vector3 position, Quaternion rotation)
-//     {
-//         GameObject prefab = GetPiecePrefab(id);
-//         if (prefab != null)
-//         {
-//             Instantiate(prefab, position, rotation);
-//         }
-//     }
-// }
+    public static GameObject InstantiatePiece(string nom, Vector3 position, Quaternion rotation)
+    {
+        GameObject prefab = GetPiecePrefab(nom);
+        if (prefab != null)
+        {
+            return Object.Instantiate(prefab, position, rotation);
+        }
+        return null;
+    }
+}

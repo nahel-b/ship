@@ -6,8 +6,6 @@ public class Liste : MonoBehaviour
 {
     //public MissionListe Histoire;
 
-    public PieceObjList ListePiece;
-
     public DeckList deckList;
 
     public ObjetList ObjetList;
