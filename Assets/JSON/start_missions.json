@@ -1,0 +1,10 @@
+{
+    "missions": [
+        {
+            "type": 0,
+            "serializedMission": "{\"id\":\"test\",\"title\":\"test\",\"chapter\":\"\",\"description\":\"\",\"type\":0,\"reward\":{\"xp\":0.0,\"Argent\":0,\"pieces\":[],\"Deck\":[],\"index\":0},\"onStartEvent\":\"\",\"onProgressEvent\":\"\",\"onCompleteEvent\":\"\",\"nextMissionId\":\"\",\"targetName\":\"\",\"targetCount\":1,\"currentKills\":0}"
+        }
+    ],
+    "activeMissions": [],
+    "completedMissions": []
+}

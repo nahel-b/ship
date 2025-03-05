@@ -22,14 +22,14 @@ public class Item : MonoBehaviour
     {
         if (GameObject.Find("Main Camera").GetComponent<Principal>().Items.PutInventory(name))
         {
-            foreach (MissionClass m in GameObject.Find("Main Camera").GetComponent<Principal>().missions.missions)
-            {
-                if (m.minerType.Item == name)
-                {
-                    m.minerType.avancement[0]++;                    
-                }
+            // foreach (MissionClass m in GameObject.Find("Main Camera").GetComponent<Principal>().missions.missions)
+            // {
+            //     if (m.minerType.Item == name)
+            //     {
+            //         m.minerType.avancement[0]++;                    
+            //     }
 
-            }
+            // }
             Destroy(gameObject);
         }
         

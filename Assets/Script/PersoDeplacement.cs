@@ -164,13 +164,13 @@ public class PersoDeplacement : MonoBehaviour
             //Button.SetActive(false);
             if (MissionParler)
             {
-                foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
-                {
-                    print(m.type);
-                    if (m.type == "parler" && m.parlerType.PersoName == transform.name && m.parlerType.PersoPhase == phase) { m.parlerType.parler = true; }
-                }
-                phase++;
-                GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().persoSave.Find(name).Phase++;
+                // foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
+                // {
+                //     print(m.type);
+                //     if (m.type == "parler" && m.parlerType.PersoName == transform.name && m.parlerType.PersoPhase == phase) { m.parlerType.parler = true; }
+                // }
+                // phase++;
+                // GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().persoSave.Find(name).Phase++;
 
             }
             //phase++;
@@ -212,11 +212,11 @@ public class PersoDeplacement : MonoBehaviour
         });
         if (MissionParler)
         {
-            foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
-            {
-                print(m.type);
-                if (m.type == "parler" && m.parlerType.PersoName == transform.name && m.parlerType.PersoPhase == phase) { m.parlerType.parler = true; }
-            }
+            // foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
+            // {
+            //     print(m.type);
+            //     if (m.type == "parler" && m.parlerType.PersoName == transform.name && m.parlerType.PersoPhase == phase) { m.parlerType.parler = true; }
+            // }
             GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().persoSave.Find(name).Phase++;
             phase++;
         }
@@ -231,19 +231,19 @@ public class PersoDeplacement : MonoBehaviour
         foreach (Transform child in GameObject.Find("Dialogue-Parent").transform) { child.gameObject.SetActive(true); }
         if (GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.Contains(item))
         {
-            foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
-            {
-                if (m.livraisonType.Item == item)
-                {
-                    m.livraisonType.avancement[1] = true;
-                    GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.Remove(item);
-                    foreach (Transform child in GameObject.Find("Dialogue-Parent").transform) { child.gameObject.SetActive(true); }
-                    StartCoroutine(Dialogue(success));
-                    GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().persoSave.Find(name).Phase = 2;
-                    phase++;
-                }
+            // foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
+            // {
+            //     if (m.livraisonType.Item == item)
+            //     {
+            //         m.livraisonType.avancement[1] = true;
+            //         GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.Remove(item);
+            //         foreach (Transform child in GameObject.Find("Dialogue-Parent").transform) { child.gameObject.SetActive(true); }
+            //         StartCoroutine(Dialogue(success));
+            //         GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().persoSave.Find(name).Phase = 2;
+            //         phase++;
+            //     }
 
-            }
+            // }
         }
         else 
         {
@@ -272,19 +272,19 @@ public class PersoDeplacement : MonoBehaviour
 
         while (GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.Contains(item))
         {
-            foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
-            {
-                if (m.livraisonType.Item == item)
-                {
-                    m.livraisonType.avancement[1] = true;
-                    GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.Remove(item);
-                    foreach (Transform child in GameObject.Find("Dialogue-Parent").transform) { child.gameObject.SetActive(true); }
-                    StartCoroutine(Dialogue(success));
-                    GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().persoSave.Find(name).Phase = 2;
-                    phase++;
-                }
+            // foreach (MissionClass m in GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().missions.missions)
+            // {
+            //     if (m.livraisonType.Item == item)
+            //     {
+            //         m.livraisonType.avancement[1] = true;
+            //         GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.Remove(item);
+            //         foreach (Transform child in GameObject.Find("Dialogue-Parent").transform) { child.gameObject.SetActive(true); }
+            //         StartCoroutine(Dialogue(success));
+            //         GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().persoSave.Find(name).Phase = 2;
+            //         phase++;
+            //     }
 
-            }
+            // }
         }
         //else
         //{

@@ -37,24 +37,26 @@ public class Reward : MonoBehaviour
             GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Grandeur.coin += recompense.Argent;
 
         }
-        foreach (PieceClass p in Recompense.pieces)
-        {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
-            {
-                if (!GameObject.Find("Main Camera").GetComponent<Principal>().Items.PutInventory(p))
-                {
-                    print("Pas mis dedans");
-                }
-            }
-            else
-            {
-                if (!GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.PutInventory(p))
-                {
-                    print("Pas mis dedans");
-                }
-            }
 
-        }
+        //TODO: Ajouter les pieces dans l'inventaire
+        // foreach (PieceClass p in Recompense.pieces)
+        // {
+        //     if (SceneManager.GetActiveScene().buildIndex == 0)
+        //     {
+        //         if (!GameObject.Find("Main Camera").GetComponent<Principal>().Items.PutInventory(p))
+        //         {
+        //             print("Pas mis dedans");
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (!GameObject.Find("worldCam").GetComponent<DeplacementPrincipal>().Items.PutInventory(p))
+        //         {
+        //             print("Pas mis dedans");
+        //         }
+        //     }
+
+        // }
         foreach (string deck in Recompense.Deck)
         {
 
@@ -175,99 +177,99 @@ public class Reward : MonoBehaviour
                 yield return new WaitForSeconds(0.06f);
             }
         }
-        foreach (PieceClass piece in Recompense.pieces)
-        {
+        // foreach (PieceClass piece in Recompense.pieces)
+        // {
             
 
-            transform.GetChild(2).gameObject.SetActive(true);
-            transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
-            transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
-            transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(piece.nom).GetComponent<SpriteRenderer>().sprite;
-            transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
-            for (float i = 0; i < 1; i += 0.01f)
-            {
-                Color a = transform.GetChild(2).GetChild(0).GetComponent<Image>().color;
-                a.a = i;
-                transform.GetChild(2).GetChild(0).GetComponent<Image>().color = a;
-                yield return new WaitForSeconds(0.01f);
-            }
+        //     transform.GetChild(2).gameObject.SetActive(true);
+        //     transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+        //     transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
+        //     transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(piece.nom).GetComponent<SpriteRenderer>().sprite;
+        //     transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        //     for (float i = 0; i < 1; i += 0.01f)
+        //     {
+        //         Color a = transform.GetChild(2).GetChild(0).GetComponent<Image>().color;
+        //         a.a = i;
+        //         transform.GetChild(2).GetChild(0).GetComponent<Image>().color = a;
+        //         yield return new WaitForSeconds(0.01f);
+        //     }
 
-            transform.GetChild(1).gameObject.SetActive(true);
-            transform.GetChild(1).GetComponent<Animator>().SetTrigger("explosion");
+        //     transform.GetChild(1).gameObject.SetActive(true);
+        //     transform.GetChild(1).GetComponent<Animator>().SetTrigger("explosion");
 
-            yield return new WaitForSeconds(0.4f);
-            for (float i = 0; i < 1; i += 0.1f)
-            {
-                Color a = transform.GetChild(2).GetChild(0).GetComponent<Image>().color;
-                a.r = i; a.g = i; a.b = i;
-                transform.GetChild(2).GetChild(0).GetComponent<Image>().color = a;
-                yield return new WaitForSeconds(0.01f);
-            }
-            transform.GetChild(2).GetChild(1).GetComponent<Text>().text = "";
-            transform.GetChild(2).GetChild(1).gameObject.SetActive(true);
-            string nom = piece.nom;
+        //     yield return new WaitForSeconds(0.4f);
+        //     for (float i = 0; i < 1; i += 0.1f)
+        //     {
+        //         Color a = transform.GetChild(2).GetChild(0).GetComponent<Image>().color;
+        //         a.r = i; a.g = i; a.b = i;
+        //         transform.GetChild(2).GetChild(0).GetComponent<Image>().color = a;
+        //         yield return new WaitForSeconds(0.01f);
+        //     }
+        //     transform.GetChild(2).GetChild(1).GetComponent<Text>().text = "";
+        //     transform.GetChild(2).GetChild(1).gameObject.SetActive(true);
+        //     string nom = piece.nom;
 
-            for (int i = 0; i < nom.Length; i++)
-            {
-                transform.GetChild(2).GetChild(1).GetComponent<Text>().text = transform.GetChild(2).GetChild(1).GetComponent<Text>().text + nom[i];
-                yield return new WaitForSeconds(0.06f);
-            }
-            GameObject obj = Instantiate(GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(piece.nom), transform);
-            if (obj.GetComponent<Piece>() != null) { Destroy(obj.GetComponent<Piece>()); }
-            if (obj.GetComponent<Canon>() != null) { Destroy(obj.GetComponent<Canon>()); }
-            if (obj.GetComponent<Vis>() != null) { Destroy(obj.GetComponent<Vis>()); }
-            if (obj.GetComponent<Collider2D>() != null) { Destroy(obj.GetComponent<Collider2D>()); }
-            if (obj.GetComponent<BoxCollider2D>() != null) { Destroy(obj.GetComponent<BoxCollider2D>()); }
-            if (obj.GetComponent<PolygonCollider2D>() != null) { Destroy(obj.GetComponent<PolygonCollider2D>()); }
+        //     for (int i = 0; i < nom.Length; i++)
+        //     {
+        //         transform.GetChild(2).GetChild(1).GetComponent<Text>().text = transform.GetChild(2).GetChild(1).GetComponent<Text>().text + nom[i];
+        //         yield return new WaitForSeconds(0.06f);
+        //     }
+        //     GameObject obj = Instantiate(GameObject.Find("Liste").GetComponent<Liste>().ListePiece.Find(piece.nom), transform);
+        //     if (obj.GetComponent<Piece>() != null) { Destroy(obj.GetComponent<Piece>()); }
+        //     if (obj.GetComponent<Canon>() != null) { Destroy(obj.GetComponent<Canon>()); }
+        //     if (obj.GetComponent<Vis>() != null) { Destroy(obj.GetComponent<Vis>()); }
+        //     if (obj.GetComponent<Collider2D>() != null) { Destroy(obj.GetComponent<Collider2D>()); }
+        //     if (obj.GetComponent<BoxCollider2D>() != null) { Destroy(obj.GetComponent<BoxCollider2D>()); }
+        //     if (obj.GetComponent<PolygonCollider2D>() != null) { Destroy(obj.GetComponent<PolygonCollider2D>()); }
 
-            obj.gameObject.SetActive(true);
-            if (obj.GetComponent<Animator>() != null)
-            {
-                obj.GetComponent<Animator>().SetBool("presentation", true);
-            }
-            //transform.GetChild(2).GetChild(0).GetComponent<Image>().material = obj.GetComponent<SpriteRenderer>().material;
-            wait = true;
+        //     obj.gameObject.SetActive(true);
+        //     if (obj.GetComponent<Animator>() != null)
+        //     {
+        //         obj.GetComponent<Animator>().SetBool("presentation", true);
+        //     }
+        //     //transform.GetChild(2).GetChild(0).GetComponent<Image>().material = obj.GetComponent<SpriteRenderer>().material;
+        //     wait = true;
 
 
 
-            while (wait)
-            {
-                transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = obj.GetComponent<SpriteRenderer>().sprite;
-                yield return new WaitForSeconds(0.01f);
-            }
-            wait = true;
-            transform.GetChild(2).GetComponent<Animator>().SetTrigger("slide");
-            yield return new WaitForSeconds(0.3f);
-            transform.GetChild(7).gameObject.SetActive(true);
-            string desc = descritption(piece);
-            transform.GetChild(7).GetComponent<Text>().text = "";
-            for (int i = 0; i < desc.Length; i++)
-            {
-                transform.GetChild(7).GetComponent<Text>().text = transform.GetChild(7).GetComponent<Text>().text + desc[i];
-                transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = obj.GetComponent<SpriteRenderer>().sprite;
-                yield return new WaitForSeconds(0.01f);
-            }
-            wait = true;
-            while (wait)
-            {
-                transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = obj.GetComponent<SpriteRenderer>().sprite;
-                yield return new WaitForSeconds(0.01f);
-            }
-            Destroy(obj.gameObject);
-            transform.GetChild(7).gameObject.SetActive(false);
-            transform.GetChild(2).GetComponent<Animator>().SetTrigger("inventory");
-            yield return new WaitForSeconds(0.4f);
-            if(recompense.Deck.Count == 0)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(8).gameObject.SetActive(false);
-                transform.GetChild(9).gameObject.SetActive(false);
-                GameObject.Find("Canvas").transform.GetChild(0).gameObject.SetActive(true);
+        //     while (wait)
+        //     {
+        //         transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = obj.GetComponent<SpriteRenderer>().sprite;
+        //         yield return new WaitForSeconds(0.01f);
+        //     }
+        //     wait = true;
+        //     transform.GetChild(2).GetComponent<Animator>().SetTrigger("slide");
+        //     yield return new WaitForSeconds(0.3f);
+        //     transform.GetChild(7).gameObject.SetActive(true);
+        //     string desc = descritption(piece);
+        //     transform.GetChild(7).GetComponent<Text>().text = "";
+        //     for (int i = 0; i < desc.Length; i++)
+        //     {
+        //         transform.GetChild(7).GetComponent<Text>().text = transform.GetChild(7).GetComponent<Text>().text + desc[i];
+        //         transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = obj.GetComponent<SpriteRenderer>().sprite;
+        //         yield return new WaitForSeconds(0.01f);
+        //     }
+        //     wait = true;
+        //     while (wait)
+        //     {
+        //         transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = obj.GetComponent<SpriteRenderer>().sprite;
+        //         yield return new WaitForSeconds(0.01f);
+        //     }
+        //     Destroy(obj.gameObject);
+        //     transform.GetChild(7).gameObject.SetActive(false);
+        //     transform.GetChild(2).GetComponent<Animator>().SetTrigger("inventory");
+        //     yield return new WaitForSeconds(0.4f);
+        //     if(recompense.Deck.Count == 0)
+        //     {
+        //         transform.GetChild(0).gameObject.SetActive(false);
+        //         transform.GetChild(8).gameObject.SetActive(false);
+        //         transform.GetChild(9).gameObject.SetActive(false);
+        //         GameObject.Find("Canvas").transform.GetChild(0).gameObject.SetActive(true);
 
-            }
-            yield return new WaitForSeconds(0.5f);
+        //     }
+        //     yield return new WaitForSeconds(0.5f);
 
-        }
+        // }
         transform.GetChild(2).gameObject.SetActive(false);
 
         //h-1=4.99

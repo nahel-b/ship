@@ -10,7 +10,7 @@ public class DeplacementPrincipal : MonoBehaviour
     public DeplacementClass DeplacementClass;
     public GameObject activePerso;
     public Grandeur Grandeur = new Grandeur();
-    public MissionListe missions;
+    //public MissionListe missions;
     public ItemClass Items;
     public float offset;
     public PersoSave persoSave;
@@ -30,7 +30,7 @@ public class DeplacementPrincipal : MonoBehaviour
         persoSave = JsonUtility.FromJson<PersoSave>(PlayerPrefs.GetString("PersoSave",JsonUtility.ToJson( persoSave)));
         foreach (PersoClass perso in persoSave.Perso) { GameObject.Find(perso.name).GetComponent<PersoDeplacement>().phase = perso.Phase; }
         ListsaveObj svObj = JsonUtility.FromJson<ListsaveObj>(PlayerPrefs.GetString("saveObj"));
-        missions = JsonUtility.FromJson<MissionListe>(PlayerPrefs.GetString("Missions"));
+        //missions = JsonUtility.FromJson<MissionListe>(PlayerPrefs.GetString("Missions"));
         GameObject.Find("perso").transform.position = DeplacementClass.Find(svObj.currentSpot).apparitionPos;
         print(svObj.currentSpot);
         Items = svObj.Items;
@@ -71,7 +71,7 @@ public class DeplacementPrincipal : MonoBehaviour
         PlayerPrefs.SetString("Deck", JsonUtility.ToJson(d));
         PlayerPrefs.SetString("saveObj", JsonUtility.ToJson(i));
         PlayerPrefs.SetString("Grandeur", JsonUtility.ToJson(Grandeur));
-        PlayerPrefs.SetString("Missions", JsonUtility.ToJson(missions));
+        //PlayerPrefs.SetString("Missions", JsonUtility.ToJson(missions));
         PlayerPrefs.SetString("PersoSave", JsonUtility.ToJson(persoSave));
         PlayerPrefs.SetString("Color", JsonUtility.ToJson(GameObject.Find("Liste").GetComponent<Liste>().colorList));
     }

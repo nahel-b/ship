@@ -37,14 +37,14 @@ public class Ennemie : MonoBehaviour
 
         if (HeathBar() <= 0)
         {
-            foreach (MissionClass m in GameObject.Find("Main Camera").GetComponent<Principal>().missions.missions)
-            {
-                if (m.attaqueType.targetName == transform.name)
-                {
-                    m.attaqueType.kill = true;
-                }
+            // foreach (MissionClass m in GameObject.Find("Main Camera").GetComponent<Principal>().missions.missions)
+            // {
+            //     if (m.attaqueType.targetName == transform.name)
+            //     {
+            //         m.attaqueType.kill = true;
+            //     }
 
-            }
+            // }
 
             if(!destroyAllPieces)
             {

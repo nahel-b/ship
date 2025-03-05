@@ -6,10 +6,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
+
 public class Principal : MonoBehaviour
 {
 
-    public MissionListe missions;
+    //public MissionListe missions;
 
     public ItemClass Items;
     public Grandeur Grandeur = new Grandeur();
@@ -69,10 +70,13 @@ public class Principal : MonoBehaviour
               
               
         Load();
-
-
-
-
+        //Save();
+        
+        SaveSystem.LoadVaisseau();
+        SaveSystem.LoadEnemies();
+        SaveSystem.LoadColors();
+        SaveSystem.LoadDeck();
+        SaveSystem.LoadGrandeur();
 
     }
    
@@ -483,12 +487,12 @@ public class Principal : MonoBehaviour
     public void Load()
     {
         //PlayerPrefs.DeleteAll();
-        if (PlayerPrefs.HasKey("Missions"))
-        {
-            missions = JsonUtility.FromJson<MissionListe>(PlayerPrefs.GetString("Missions"));
-            print(PlayerPrefs.GetString("Missions"));
-        }
-        else { missions.Add(GameObject.Find("Liste").GetComponent<Liste>().Histoire.missions[0]); }
+        // if (PlayerPrefs.HasKey("Missions"))
+        // {
+        //     missions = JsonUtility.FromJson<MissionListe>(PlayerPrefs.GetString("Missions"));
+        //     print(PlayerPrefs.GetString("Missions"));
+        // }
+        // else { missions.Add(GameObject.Find("Liste").GetComponent<Liste>().Histoire.missions[0]); }
         if (PlayerPrefs.HasKey("Color"))
         {
             GameObject.Find("Liste").GetComponent<Liste>().colorList = JsonUtility.FromJson<ColorList>(PlayerPrefs.GetString("Color"));
@@ -822,11 +826,12 @@ public class Principal : MonoBehaviour
     public void Save()
     {
         print("save");
-        if (Time.time > 0.1f && !reset && GameObject.Find("Canvas").transform.GetChild(0).gameObject.activeInHierarchy) {
+        // Time.time > 0.3f && GameObject.Find("Canvas").transform.GetChild(0).gameObject.activeInHierarchy && 
+        if ( !reset) {
 
             //try
             //{
-                PlayerPrefs.SetString("Missions", JsonUtility.ToJson(missions));
+               // PlayerPrefs.SetString("Missions", JsonUtility.ToJson(missions));
 
                 PlayerPrefs.SetInt("MaxItem", Items.maxItem());
                 //print("MAAAAAAAAAX" + Items.maxItem());
@@ -1082,7 +1087,7 @@ public class Principal : MonoBehaviour
         GameObject.Find("Mission-Parent").transform.GetChild(1).gameObject.SetActive(false);
         foreach (Transform child in GameObject.Find("Mission-Parent").transform.GetChild(1)) { Destroy(child.gameObject); }
         GameObject.Find("Mission-Parent").transform.GetChild(0).gameObject.SetActive(false);
-        missions.missions[0].Finish();
+       // missions.missions[0].Finish();
 
     }
 
