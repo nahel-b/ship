@@ -13,6 +13,9 @@ public class Principal : MonoBehaviour
     //public MissionListe missions;
 
     public ItemClass Items;
+
+    [HideInInspector]
+    public string currentSpot;
     public Grandeur Grandeur = new Grandeur();
     public GameObject selectObj;
     public GameObject[] MapObj ;
@@ -822,114 +825,119 @@ public class Principal : MonoBehaviour
     public void Save()
     {
         print("save");
-        // Time.time > 0.3f && GameObject.Find("Canvas").transform.GetChild(0).gameObject.activeInHierarchy && 
-        if ( !reset) {
-
-            //try
-            //{
-               // PlayerPrefs.SetString("Missions", JsonUtility.ToJson(missions));
-
-                PlayerPrefs.SetInt("MaxItem", Items.maxItem());
-                //print("MAAAAAAAAAX" + Items.maxItem());
-
-                PlayerPrefs.SetString("Grandeur", JsonUtility.ToJson(Grandeur));
-
-
-                ListsaveObj saveObj = new ListsaveObj();
-                saveObj.Items = Items;
-                ListsaveObj abbv = new ListsaveObj(); abbv.currentSpot = "";
-                saveObj.currentSpot = JsonUtility.FromJson<ListsaveObj>(PlayerPrefs.GetString("saveObj",JsonUtility.ToJson(abbv))).currentSpot;
-                //foreach (GameObject station in Stations)
-                //{
-                //    print(station.name);
-                //    StationClass sta = station.GetComponent<Station>().station;
-                //    saveObj.stations.Add(new StationClass(sta.name, station.transform.position, sta.prefab, sta.jobs, sta.index));
-                //}
-                foreach (GameObject fleche in GameObject.FindGameObjectsWithTag("fleche"))
-                {
-                    if (fleche.GetComponent<Fleche>().target != null)
-                    {
-                        saveObj.fleches.Add(new FlecheClass(fleche.GetComponent<Image>().color, fleche.GetComponent<Fleche>().targetName, fleche.GetComponent<Fleche>().showWayPoint));
-
-                    }
-                }
-                PlayerPrefs.SetString("saveObj", JsonUtility.ToJson(saveObj));
-
-                string b = JsonUtility.ToJson(VaisseauDeBase);
-                VaisseauClass vs = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", b));
-                Vector2 vel = Vector2.zero;
-                int nb = 0;
-                foreach (Transform piece in GameObject.Find("Vaisseau").transform)
-                {
-                    if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
-                }
-                foreach (Transform piece in GameObject.Find("Vaisseau").transform.GetChild(0))
-                {
-                    if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
-                }
-                vs.velocity = (vel / nb);
-                
-                if (Vaisseau.transform.GetChild(0).childCount > 0)
-                {
-                    vs.position = Vaisseau.transform.GetChild(0).GetChild(0).position;
-                    vs.eulerAngle.z = (Vaisseau.transform.GetChild(0).GetChild(0).eulerAngles.z - deckList.Find(vs.Deck).assemblage[0].eulerAngle.z);
-                    PlayerPrefs.SetString("Vaisseau", JsonUtility.ToJson(vs));
-                DeckList d = GameObject.Find("Liste").GetComponent<Liste>().deckList;
-                int i = 0;
-                foreach(Transform child in Vaisseau.transform.GetChild(0))
-                {
-
-                    d.Find(JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", b)).Deck).assemblage[i].vie = child.GetComponent<Piece>().vie;
-                    d.Find(JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", b)).Deck).assemblage[i].niveau = child.GetComponent<Piece>().niveau;
-
-                    i++;
-                }
-                PlayerPrefs.SetString("Deck", JsonUtility.ToJson(d));
-                PlayerPrefs.SetString("Color", JsonUtility.ToJson(GameObject.Find("Liste").GetComponent<Liste>().colorList));
-                i = 0;
-                VaisseauClass vaisseauJson = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", JsonUtility.ToJson(VaisseauDeBase)));
-
-                foreach (Transform child in Vaisseau.transform)
-                {
-                    if (child.GetComponent<Piece>()!=null)
-                    {
-                        vaisseauJson.pieces.assemblage[i].vie = child.GetComponent<Piece>().vie;
-                        vaisseauJson.pieces.assemblage[i].niveau = child.GetComponent<Piece>().niveau;
-                        i++;
-
-                    }
-                }
-                PlayerPrefs.SetString("Vaisseau", JsonUtility.ToJson(vaisseauJson));
-
-
-
-
-                ListEnnemie ennemieList = new ListEnnemie();
-
-                foreach (GameObject ennemie in GameObject.FindGameObjectsWithTag("ennemie"))
-                {
-                    Ennemie sc = ennemie.GetComponent<Ennemie>();
-                    int index = 0;
-                    Assemblage vaisseauTheorique = sc.vaisseau;
-                    Assemblage vaisseauEnnemie = new Assemblage();
-                    foreach (Transform child in ennemie.transform)
-                    {
-                        PieceClass piecetheo = vaisseauTheorique.assemblage[child.GetComponent<Piece>().index];
-                        vaisseauEnnemie.assemblage.Add(piecetheo);
-                        vaisseauEnnemie.assemblage[index].vie = child.GetComponent<Piece>().vie;
-                        index++;
-                    }
-                    ennemieList.Ennemies.Add(new EnnemieClass(sc.nom,sc.SpeedRotation,sc.zone,sc.speed, vaisseauEnnemie, sc.agressif,ennemie.transform.eulerAngles.z,ennemie.transform.position,0));
-                }
-                PlayerPrefs.SetString("Ennemie",JsonUtility.ToJson(ennemieList));
-
-
-
-
-            }
-            //}
-            //catch { }
+        PlayerPrefs.SetInt("MaxItem", Items.maxItem());
+        if(!reset)
+        {
+            SaveSystem.SaveAllScene(this);
         }
+        // Time.time > 0.3f && GameObject.Find("Canvas").transform.GetChild(0).gameObject.activeInHierarchy && 
+        // if ( !reset) {
+
+        //     //try
+        //     //{
+        //        // PlayerPrefs.SetString("Missions", JsonUtility.ToJson(missions));
+
+                
+        //         //print("MAAAAAAAAAX" + Items.maxItem());
+
+        //         PlayerPrefs.SetString("Grandeur", JsonUtility.ToJson(Grandeur));
+
+
+        //         ListsaveObj saveObj = new ListsaveObj();
+        //         saveObj.Items = Items;
+        //         ListsaveObj abbv = new ListsaveObj(); abbv.currentSpot = "";
+        //         saveObj.currentSpot = JsonUtility.FromJson<ListsaveObj>(PlayerPrefs.GetString("saveObj",JsonUtility.ToJson(abbv))).currentSpot;
+        //         //foreach (GameObject station in Stations)
+        //         //{
+        //         //    print(station.name);
+        //         //    StationClass sta = station.GetComponent<Station>().station;
+        //         //    saveObj.stations.Add(new StationClass(sta.name, station.transform.position, sta.prefab, sta.jobs, sta.index));
+        //         //}
+        //         foreach (GameObject fleche in GameObject.FindGameObjectsWithTag("fleche"))
+        //         {
+        //             if (fleche.GetComponent<Fleche>().target != null)
+        //             {
+        //                 saveObj.fleches.Add(new FlecheClass(fleche.GetComponent<Image>().color, fleche.GetComponent<Fleche>().targetName, fleche.GetComponent<Fleche>().showWayPoint));
+
+        //             }
+        //         }
+        //         PlayerPrefs.SetString("saveObj", JsonUtility.ToJson(saveObj));
+
+        //         string b = JsonUtility.ToJson(VaisseauDeBase);
+        //         VaisseauClass vs = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", b));
+        //         Vector2 vel = Vector2.zero;
+        //         int nb = 0;
+        //         foreach (Transform piece in GameObject.Find("Vaisseau").transform)
+        //         {
+        //             if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
+        //         }
+        //         foreach (Transform piece in GameObject.Find("Vaisseau").transform.GetChild(0))
+        //         {
+        //             if (piece.GetComponent<Rigidbody2D>() != null) { vel = vel + piece.GetComponent<Rigidbody2D>().velocity; nb++; }
+        //         }
+        //         vs.velocity = (vel / nb);
+                
+        //         if (Vaisseau.transform.GetChild(0).childCount > 0)
+        //         {
+        //             vs.position = Vaisseau.transform.GetChild(0).GetChild(0).position;
+        //             vs.eulerAngle.z = (Vaisseau.transform.GetChild(0).GetChild(0).eulerAngles.z - deckList.Find(vs.Deck).assemblage[0].eulerAngle.z);
+        //             PlayerPrefs.SetString("Vaisseau", JsonUtility.ToJson(vs));
+        //         DeckList d = GameObject.Find("Liste").GetComponent<Liste>().deckList;
+        //         int i = 0;
+        //         foreach(Transform child in Vaisseau.transform.GetChild(0))
+        //         {
+
+        //             d.Find(JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", b)).Deck).assemblage[i].vie = child.GetComponent<Piece>().vie;
+        //             d.Find(JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", b)).Deck).assemblage[i].niveau = child.GetComponent<Piece>().niveau;
+
+        //             i++;
+        //         }
+        //         PlayerPrefs.SetString("Deck", JsonUtility.ToJson(d));
+        //         PlayerPrefs.SetString("Color", JsonUtility.ToJson(GameObject.Find("Liste").GetComponent<Liste>().colorList));
+        //         i = 0;
+        //         VaisseauClass vaisseauJson = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau", JsonUtility.ToJson(VaisseauDeBase)));
+
+        //         foreach (Transform child in Vaisseau.transform)
+        //         {
+        //             if (child.GetComponent<Piece>()!=null)
+        //             {
+        //                 vaisseauJson.pieces.assemblage[i].vie = child.GetComponent<Piece>().vie;
+        //                 vaisseauJson.pieces.assemblage[i].niveau = child.GetComponent<Piece>().niveau;
+        //                 i++;
+
+        //             }
+        //         }
+        //         PlayerPrefs.SetString("Vaisseau", JsonUtility.ToJson(vaisseauJson));
+
+
+
+
+        //         ListEnnemie ennemieList = new ListEnnemie();
+
+        //         foreach (GameObject ennemie in GameObject.FindGameObjectsWithTag("ennemie"))
+        //         {
+        //             Ennemie sc = ennemie.GetComponent<Ennemie>();
+        //             int index = 0;
+        //             Assemblage vaisseauTheorique = sc.vaisseau;
+        //             Assemblage vaisseauEnnemie = new Assemblage();
+        //             foreach (Transform child in ennemie.transform)
+        //             {
+        //                 PieceClass piecetheo = vaisseauTheorique.assemblage[child.GetComponent<Piece>().index];
+        //                 vaisseauEnnemie.assemblage.Add(piecetheo);
+        //                 vaisseauEnnemie.assemblage[index].vie = child.GetComponent<Piece>().vie;
+        //                 index++;
+        //             }
+        //             ennemieList.Ennemies.Add(new EnnemieClass(sc.nom,sc.SpeedRotation,sc.zone,sc.speed, vaisseauEnnemie, sc.agressif,ennemie.transform.eulerAngles.z,ennemie.transform.position,0));
+        //         }
+        //         PlayerPrefs.SetString("Ennemie",JsonUtility.ToJson(ennemieList));
+
+
+
+
+        //     }
+        //     //}
+        //     //catch { }
+        // }
 
     }
 
@@ -976,7 +984,7 @@ public class Principal : MonoBehaviour
 
     public void Reset()
     {
-        PlayerPrefs.DeleteAll();
+        SaveSystem.resetSave();
         reset = true;
         SceneManager.LoadScene(0);
     }

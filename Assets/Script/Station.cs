@@ -122,13 +122,13 @@ public class Station : MonoBehaviour
 
             GameObject.Find("SceneTransition").GetComponent<Image>().enabled = (true);
             GameObject.Find("Main Camera").GetComponent<Principal>().Save();
-            ListsaveObj startListe = new ListsaveObj();
-            ListsaveObj svObj = JsonUtility.FromJson<ListsaveObj>(PlayerPrefs.GetString("saveObj",JsonUtility.ToJson(startListe)));
-            svObj.currentSpot = transform.name;
+            // ListsaveObj startListe = new ListsaveObj();
+            // ListsaveObj svObj = JsonUtility.FromJson<ListsaveObj>(PlayerPrefs.GetString("saveObj",JsonUtility.ToJson(startListe)));
+            // svObj.currentSpot = transform.name;
 
-            print(name);
-            PlayerPrefs.SetString("saveObj", JsonUtility.ToJson(svObj));
-            Camera.main.GetComponent<Principal>().Save();
+            // print(name);
+            // PlayerPrefs.SetString("saveObj", JsonUtility.ToJson(svObj));
+            // Camera.main.GetComponent<Principal>().Save();
 
             GameObject.Find("SceneTransition").GetComponent<Animator>().SetTrigger("ferme");
             GameObject.Find("CanvasTransition").GetComponent<CanvasGroup>().blocksRaycasts = true;

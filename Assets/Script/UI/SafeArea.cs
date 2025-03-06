@@ -24,7 +24,7 @@ public class SafeArea : MonoBehaviour
         rectTransform.anchorMin = anchorMin;
         rectTransform.anchorMax = anchorMax;
 
-        print("Safe Area: " + safeArea);
+        //print("Safe Area: " + safeArea);
     }
 }
 

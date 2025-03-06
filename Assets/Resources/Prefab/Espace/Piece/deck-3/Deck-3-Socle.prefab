@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 165187696917132624}
   - component: {fileID: 6014521572595467624}
   m_Layer: 0
-  m_Name: Deck-2-Socle
+  m_Name: Deck-3-Socle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

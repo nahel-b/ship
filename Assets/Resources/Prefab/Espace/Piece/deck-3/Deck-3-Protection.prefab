@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3085134213983032382}
   - component: {fileID: 7068614163668391482}
   m_Layer: 0
-  m_Name: Deck-2-Protection
+  m_Name: Deck-3-Protection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

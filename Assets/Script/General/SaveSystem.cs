@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -209,57 +210,118 @@ public class SaveSystem : MonoBehaviour
     }
     #endregion
     
-    // #region Items
-    // public static void SaveItems(ItemClass items, string saveSlot = "default")
-    // {
-    //     ListsaveObj saveObj = new ListsaveObj();
-    //     saveObj.Items = items;
+    #region SaveObj
+    public static void SaveObj(ItemClass items, string saveSlot = "default")
+    {
+        ListsaveObj saveObj = new ListsaveObj();
+        saveObj.Items = items;
+        saveObj.currentSpot = LoadSaveObj(saveSlot).currentSpot;
+        // Get current location/spot
+        GameObject player = GameObject.Find("Vaisseau");
+        if (player != null)
+        {
+            // Determine current spot - check if player is near a station
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(player.transform.position, 10f);
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.GetComponent<Station>() != null)
+                {
+                    saveObj.currentSpot = hitCollider.transform.name;
+                    break;
+                }
+            }
+        }
         
-    //     // Préserver currentSpot d'une sauvegarde précédente si elle existe
-    //     if (PlayerPrefs.HasKey("saveObj"))
-    //     {
-    //         ListsaveObj previousSave = JsonUtility.FromJson<ListsaveObj>(PlayerPrefs.GetString("saveObj"));
-    //         saveObj.currentSpot = previousSave.currentSpot;
-    //     }
+        // Save arrows
+        saveObj.fleches = new List<FlecheClass>();
+        foreach (GameObject fleche in GameObject.FindGameObjectsWithTag("fleche"))
+        {
+            if (fleche.GetComponent<Fleche>() != null && fleche.GetComponent<Fleche>().targetName != null)
+            {
+                saveObj.fleches.Add(new FlecheClass(
+                    fleche.GetComponent<Image>().color,
+                    fleche.GetComponent<Fleche>().targetName,
+                    fleche.GetComponent<Fleche>().showWayPoint
+                ));
+            }
+        }
         
-    //     // Sauvegarder les flèches
-    //     foreach (GameObject fleche in GameObject.FindGameObjectsWithTag("fleche"))
-    //     {
-    //         if (fleche.GetComponent<Fleche>().target != null)
-    //         {
-    //             saveObj.fleches.Add(new FlecheClass(
-    //                 fleche.GetComponent<Image>().color,
-    //                 fleche.GetComponent<Fleche>().targetName,
-    //                 fleche.GetComponent<Fleche>().showWayPoint
-    //             ));
-    //         }
-    //     }
-        
-    //     string json = JsonUtility.ToJson(saveObj);
-    //     File.WriteAllText(SAVE_FOLDER + saveSlot + "_items.json", json);
-    //     PlayerPrefs.SetString("saveObj", json); // Pour compatibilité
-    // }
+        string json = JsonUtility.ToJson(saveObj);
+        File.WriteAllText(SAVE_FOLDER + saveSlot + "_items.json", json);
+        PlayerPrefs.SetString("saveObj", json); // For compatibility
+    }
+
+    public static ListsaveObj LoadSaveObj(string saveSlot = "default")
+{
+    string path = SAVE_FOLDER + saveSlot + "_items.json";
     
-    // public static ListsaveObj LoadItems(string saveSlot = "default")
-    // {
-    //     string path = SAVE_FOLDER + saveSlot + "_items.json";
+    if (File.Exists(path))
+    {
+        string json = File.ReadAllText(path);
+        return JsonUtility.FromJson<ListsaveObj>(json);
+    }
+    else //if (File.Exists(SOURCE_DATA_FOLDER + "start_items.json"))
+    {
+        Debug.LogWarning("Save file not found in " + path);
+        path = SOURCE_DATA_FOLDER + "start_items.json";
         
-    //     if (File.Exists(path))
-    //     {
-    //         string json = File.ReadAllText(path);
-    //         return JsonUtility.FromJson<ListsaveObj>(json);
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("Save file not found in " + path);
-    //         path = SAVE_FOLDER + "start_items.json";
-    //         return JsonUtility.FromJson<ListsaveObj>(File.ReadAllText(path));
-    //     }
-        
-    //     Debug.LogWarning("Aucun item trouvé!");
-    //     return new ListsaveObj();
-    // }
-    // #endregion
+        if (File.Exists(path))
+        {
+            return JsonUtility.FromJson<ListsaveObj>(File.ReadAllText(path));
+        }
+        else
+        {
+            Debug.LogWarning("No items save files found. Checking PlayerPrefs...");
+            
+            string saveObjJson = JsonUtility.ToJson(new ListsaveObj());
+            File.WriteAllText(SOURCE_DATA_FOLDER + "start_items.json", saveObjJson);
+            
+            return new ListsaveObj();
+            
+
+        }
+    }
+}
+
+    public static void RecreateArrows(ListsaveObj saveObj)
+    {
+        // First clear any existing arrows
+        GameObject arrowsContainer = GameObject.Find("Fleches");
+        if (arrowsContainer != null)
+        {
+            foreach (Transform child in arrowsContainer.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Fleches container not found!");
+            return;
+        }
+
+        // Create new arrows from save data
+        if (saveObj != null && saveObj.fleches != null)
+        {
+            foreach (FlecheClass fleche in saveObj.fleches)
+            {
+                Principal principal = GameObject.Find("Main Camera").GetComponent<Principal>();
+                if (principal != null)
+                {
+                    principal.Fleche(fleche.targetName, fleche.showWayPoint, fleche.color);
+                }
+                else
+                {
+                    Debug.LogError("Principal component not found on Main Camera!");
+                }
+            }
+        }
+    }
+
+
+
+
+    #endregion
     
     #region Colors
     public static void SaveColors(ColorList colorList, string saveSlot = "default")
@@ -284,22 +346,6 @@ public class SaveSystem : MonoBehaviour
             path = SOURCE_DATA_FOLDER + "start_colors.json";
             return JsonUtility.FromJson<ColorList>(File.ReadAllText(path));
         }
-        // else
-        // {
-        //     Debug.LogWarning("No color save files found. Checking PlayerPrefs...");
-        //     if (PlayerPrefs.HasKey("Color"))
-        //     {
-        //         Debug.Log("Loading colors from PlayerPrefs");
-        //         string colorJson = PlayerPrefs.GetString("Color");
-        //         File.WriteAllText(SAVE_FOLDER + "start_colors.json", colorJson);
-        //         return JsonUtility.FromJson<ColorList>(colorJson);
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("No color data found anywhere! Creating empty ColorList.");
-        //         return new ColorList();
-        //     }
-        // }
     }
     #endregion
     
@@ -378,18 +424,32 @@ public class SaveSystem : MonoBehaviour
     #endregion
 
 
+    public static void resetSave(string saveSlot = "default")
+    {
+        File.Delete(SAVE_FOLDER + saveSlot + "_decks.json");
+        File.Delete(SAVE_FOLDER + saveSlot + "_vaisseau.json");
+        File.Delete(SAVE_FOLDER + saveSlot + "_grandeur.json");
+        File.Delete(SAVE_FOLDER + saveSlot + "_items.json");
+        File.Delete(SAVE_FOLDER + saveSlot + "_colors.json");
+        File.Delete(SAVE_FOLDER + saveSlot + "_enemies.json");
+    }
+
     public static void SaveAllScene(Principal principal, string saveSlot = "default")
     {
         Initialize();
         
         
         // Sauvegarder les items
-        //SaveItems(principal.Items, saveSlot);
+        //SaveObj(principal.Items, saveSlot);
 
-        GameObject.Find("MissionManager").GetComponent<MissionManager>().SaveMissions();
+
+        GameObject.Find("MissionManager").GetComponent<MissionManager>().Save();
+
         
         // Sauvegarder les propriétés du jeu
         SaveGrandeur(principal.Grandeur, saveSlot);
+
+        SaveObj(principal.Items, saveSlot);
         
         // Sauvegarder les couleurs
         ColorList colorList = GameObject.Find("Liste").GetComponent<Liste>().colorList;
@@ -410,12 +470,17 @@ public class SaveSystem : MonoBehaviour
     {
         Initialize();
         
-        // Charger les items
-        //ListsaveObj saveObj = LoadItems();
-        //GameObject.Find("Liste").GetComponent<Liste>().Items = saveObj.Items;
+       ListsaveObj saveObj = LoadSaveObj();
+        if (saveObj != null)
+        {
+            GameObject.Find("Main Camera").GetComponent<Principal>().Items = saveObj.Items;
+            RecreateArrows(saveObj);
+        }
+         GameObject.Find("Main Camera").GetComponent<Principal>().Items = saveObj.Items;
+
         
         // Charger les missions
-        GameObject.Find("MissionManager").GetComponent<MissionManager>().LoadMissions();
+        GameObject.Find("MissionManager").GetComponent<MissionManager>().Load();
         
         // Charger les propriétés du jeu
         GameObject.Find("Main Camera").GetComponent<Principal>().Grandeur = LoadGrandeur();
@@ -432,8 +497,8 @@ public class SaveSystem : MonoBehaviour
        instancierVaisseau(vaisseau,deckList);
         
         // Charger les ennemis
-        // ListEnnemie ennemieList = LoadEnemies();
-        // GameObject.Find("Liste").GetComponent<Liste>().ennemieList = ennemieList;
+        ListEnnemie ennemieList = LoadEnemies();
+        GameObject.Find("Liste").GetComponent<Liste>().EnnemieList = ennemieList;
         
         Debug.Log("Chargement complet effectué avec succès");
     } 
@@ -509,11 +574,11 @@ public class SaveSystem : MonoBehaviour
             {
                 pObj.transform.position = new Vector3(pObj.transform.position.x, pObj.transform.position.y, -1);
 
-                print(pObj.name);
+                //print(pObj.name);
                 RaycastHit2D[] hit = Physics2D.RaycastAll(pObj.transform.position, Vector3.zero, 0.3f);
                 foreach (RaycastHit2D obj in hit)
                 {
-                    print(pObj.name + "->" + obj.transform.name);
+                    //print(pObj.name + "->" + obj.transform.name);
                     if ((obj.transform.parent == VaisseauGameObject.transform || obj.transform.parent == VaisseauGameObject.transform.GetChild(0)) && obj.transform.GetComponent<Piece>().socle)
                     {
                         pObj.transform.parent = obj.transform;
@@ -614,6 +679,158 @@ public class SaveSystem : MonoBehaviour
         VaisseauGameObject.transform.localEulerAngles = vaisseau.eulerAngle;
     }
 
+    #region BuildSystem
+    public static void SaveBuildScene(string saveSlot = "default")
+    {
+        // Get BuildPrincipal references
+        BuildPrincipal buildPrincipal = Camera.main.GetComponent<BuildPrincipal>();
+        
+        // Save items
+        SaveObj(buildPrincipal.Items, saveSlot);
+        
+        // Save ship configuration
+        VaisseauClass vs = new VaisseauClass();
+        
+        // Get previous Vaisseau data to preserve some properties
+        VaisseauClass previousData = LoadVaisseau(saveSlot);
+        vs.position = previousData.position;
+        vs.eulerAngle = previousData.eulerAngle;
+        vs.velocity = previousData.velocity;
+        
+        // Set selected deck
+        vs.Deck = buildPrincipal.debloqueDeck.Liste[buildPrincipal.DeckIndex].nom;
+        
+        // Save all pieces on the ship
+        if (GameObject.Find("Vaisseau").transform.childCount > 1)
+        {
+            foreach (Transform p in GameObject.Find("Vaisseau").transform)
+            {
+                if (p.GetComponent<BuildPiece>() != null)
+                {
+                    BuildPiece bp = p.GetComponent<BuildPiece>();
+                    vs.pieces.Add(new PieceClass(p.position, p.eulerAngles, p.name, 
+                        bp.description, bp.niveau, bp.dependant, bp.socle, 
+                        bp.rotFrame, bp.attchableSide, bp.vie));
+                }
+            }
+            
+            // Handle nested pieces in Vaisseau
+            foreach (Transform p in GameObject.Find("Vaisseau").transform.GetChild(0))
+            {
+                if (p.childCount > 0 && p.GetChild(0).GetComponent<BuildPiece>() != null)
+                {
+                    BuildPiece bp = p.GetChild(0).GetComponent<BuildPiece>();
+                    vs.pieces.Add(new PieceClass(p.GetChild(0).position, p.GetChild(0).eulerAngles, 
+                        p.GetChild(0).name, bp.description, bp.niveau, bp.dependant, 
+                        bp.socle, bp.rotFrame, bp.attchableSide, bp.vie));
+                }
+            }
+            
+            // Handle other nested pieces
+            foreach (Transform p in GameObject.Find("Vaisseau").transform)
+            {
+                if (p.childCount > 0 && p.GetChild(0).GetComponent<BuildPiece>() != null 
+                    && p.GetComponent<BuildPiece>() != null)
+                {
+                    BuildPiece bp = p.GetChild(0).GetComponent<BuildPiece>();
+                    vs.pieces.Add(new PieceClass(p.GetChild(0).position, p.GetChild(0).eulerAngles, 
+                        p.GetChild(0).name, bp.description, bp.niveau, bp.dependant, 
+                        bp.socle, bp.rotFrame, bp.attchableSide, bp.vie));
+                }
+            }
+        }
+        
+        // Save Vaisseau to file
+        string json = JsonUtility.ToJson(vs);
+        File.WriteAllText(SAVE_FOLDER + saveSlot + "_vaisseau.json", json);
+        PlayerPrefs.SetString("Vaisseau", json); // For compatibility
+        
+        // Update deck information
+        DeckList d = GameObject.Find("Liste").GetComponent<Liste>().deckList;
+        int index = 0;
+        foreach (Transform child in GameObject.Find("Vaisseau").transform.GetChild(0))
+        {
+            if (child.GetComponent<BuildPiece>() != null && index < d.Find(vs.Deck).assemblage.Count)
+            {
+                d.Find(vs.Deck).assemblage[index].vie = child.GetComponent<BuildPiece>().vie;
+                d.Find(vs.Deck).assemblage[index].niveau = child.GetComponent<BuildPiece>().niveau;
+                index++;
+            }
+        }
+        
+        // Save deck list to file
+        string deckJson = JsonUtility.ToJson(d);
+        File.WriteAllText(SAVE_FOLDER + saveSlot + "_decks.json", deckJson);
+        PlayerPrefs.SetString("Deck", deckJson); // For compatibility
+    }
     
+    public static void LoadBuildScene(string saveSlot = "default")
+    {
+        BuildPrincipal buildPrincipal = Camera.main.GetComponent<BuildPrincipal>();
+        
+        // Load Deck List
+        DeckList deckList = LoadDeck(saveSlot);
+        GameObject.Find("Liste").GetComponent<Liste>().deckList = deckList;
+        buildPrincipal.deckList = deckList;
+        
+        // Load Items
+        ListsaveObj saveObj = LoadSaveObj(saveSlot);
+        if (saveObj != null)
+        {
+            buildPrincipal.Items = saveObj.Items;
+        }
+        
+        // Load Vaisseau
+        VaisseauClass vaisseau = LoadVaisseau(saveSlot);
+        buildPrincipal.currentDeck = vaisseau.Deck;
+        buildPrincipal.Vaisseau = vaisseau;
+
+        // Populate deck options
+        buildPrincipal.debloqueDeck = new DeckList();
+        foreach (Assemblage deck in deckList.Liste)
+        {
+            if (deck.debloque)
+            {
+                buildPrincipal.debloqueDeck.Liste.Add(deck);
+            }
+        }
+        
+        // Set current deck index
+        for (int i = 0; i < buildPrincipal.debloqueDeck.Liste.Count; i++)
+        {
+            if (buildPrincipal.debloqueDeck.Liste[i].nom == buildPrincipal.currentDeck)
+            {
+                buildPrincipal.DeckIndex = i;
+                break;
+            }
+        }
+        
+        // Update UI
+        if (GameObject.Find("Deck-title-Text") != null)
+        {
+            GameObject.Find("Deck-title-Text").GetComponent<Text>().text = 
+                buildPrincipal.debloqueDeck.Liste[buildPrincipal.DeckIndex].nom;
+        }
+        
+        return;
+    }
+    
+    public static bool VerifyShipBuild()
+    {
+        bool hasProblems = false;
+        foreach(Transform p in GameObject.Find("Vaisseau").transform)
+        {
+            if(p.GetComponent<BuildPiece>() != null)
+            {
+                if(!string.IsNullOrEmpty(p.GetComponent<BuildPiece>().Verify()))
+                {
+                    hasProblems = true;
+                    break;
+                }
+            }
+        }
+        return !hasProblems;
+    }
+    #endregion
 
 }

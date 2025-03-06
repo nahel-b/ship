@@ -66,49 +66,26 @@ public class BuildBouton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
     public void spawnPiece()
     {
-        PieceClass p = Camera.main.GetComponent<BuildPrincipal>().Items.Pieces[transform.GetSiblingIndex()];
+        BuildPrincipal buildPrincipal = Camera.main.GetComponent<BuildPrincipal>();
+        
+        // Get piece from inventory
+        PieceClass p = buildPrincipal.Items.Pieces[transform.GetSiblingIndex()];
         print(p.nom);
-        Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        GameObject pObj = Instantiate(PieceLoader.GetPiecePrefab(p.nom), new Vector3(Mathf.Round(MousePos.x), Mathf.Round(MousePos.y), transform.position.z), Quaternion.Euler(p.eulerAngle));
-        pObj.name = p.nom;
-        pObj.AddComponent<BuildPiece>();
-
-        foreach (FixedJoint2D component in pObj.GetComponents<FixedJoint2D>()) { Destroy(component); }
-        foreach (Piece component in pObj.GetComponents<Piece>()) { pObj.GetComponent<BuildPiece>().vie = component.vie; Destroy(component); }
-        foreach (Reacteur component in pObj.GetComponents<Reacteur>()) { Destroy(component); }
-        if (pObj.GetComponent<BoxCollider2D>() != null) { pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
-        if (pObj.GetComponent<PolygonCollider2D>() != null) { Destroy(pObj.GetComponent<PolygonCollider2D>()); pObj.AddComponent<BoxCollider2D>(); pObj.GetComponent<BoxCollider2D>().isTrigger = true; }
-        pObj.transform.parent = GameObject.Find("Vaisseau").transform;
-        pObj.GetComponent<BuildPiece>().objPrefab = PieceLoader.GetPiecePrefab(p.nom);
-        pObj.GetComponent<BuildPiece>().niveau = p.niveau;
-        pObj.GetComponent<BuildPiece>().attchableSide = p.attchableSide;
-        pObj.GetComponent<BuildPiece>().dependant = p.dependant;
-        pObj.GetComponent<BuildPiece>().socle = p.socle;
-        pObj.GetComponent<BuildPiece>().rotFrame = p.rotFrame;
-        if (p.vie == -1 && !p.dependant) { pObj.GetComponent<BuildPiece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
-        else if (!p.dependant) { pObj.GetComponent<BuildPiece>().vie = p.vie; }
-
-        if (p.dependant)
-        {
-            print(transform.name);
-
-            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector3.up, 0.3f);
-            foreach (RaycastHit2D obj in hit)
-            {
-                print(obj.transform.name);
-                if (obj.transform.parent == GameObject.Find("Vaisseau").transform || obj.transform.parent == pObj.transform.parent) { pObj.transform.parent = obj.transform; }
-            }
-        }
-
-        //pObj.GetComponent<BuildPiece>().spawnpress = true;
-
-        pObj.GetComponent<BuildPiece>().sp = true;
-        pObj.GetComponent<BuildPiece>().Start();
-        pObj.GetComponent<BuildPiece>().OnMouseDown();
-        pObj.GetComponent<BuildPiece>().OnMouseDrag();
-
-        Camera.main.GetComponent<BuildPrincipal>().Items.Pieces.RemoveAt(transform.GetSiblingIndex());
-
+        
+        // Calculate position based on mouse
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), transform.position.z);
+        
+        // Place the piece using BuildPrincipal's method
+        GameObject pObj = buildPrincipal.PlacePiece(
+            p, 
+            GameObject.Find("Vaisseau").transform,
+            true,  // Make interactive
+            position  // Use mouse position
+        );
+        
+        // Remove the piece from inventory
+        buildPrincipal.Items.Pieces.RemoveAt(transform.GetSiblingIndex());
     }
     public void OnPointerDown(PointerEventData data)
     {

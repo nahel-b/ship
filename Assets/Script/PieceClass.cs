@@ -190,7 +190,7 @@ public class ItemClass
     public List<int> stacks; 
     public List<PieceClass> Pieces;
 
-    public ItemClass() { Pieces = new List<PieceClass>();  Objets = new List<string>(); }
+    public ItemClass() { Pieces = new List<PieceClass>();  Objets = new List<string>(); stacks = new List<int>(); }
 
     public bool PutInventory(string nameObj)
     {
@@ -370,7 +370,10 @@ public class ListsaveObj
     public ItemClass Items;
     public ListsaveObj() {
         //stations = new List<StationClass>();
-        fleches = new List<FlecheClass>(); }
+        fleches = new List<FlecheClass>(); 
+        Items = new ItemClass();
+        
+        }
 
 
 }

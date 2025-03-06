@@ -17,7 +17,7 @@ public class MissionManager : MonoBehaviour
     public static MissionManager Instance { get; private set; }
 
 
-    void Load()
+    public void Load()
     {
         
         
@@ -26,7 +26,7 @@ public class MissionManager : MonoBehaviour
     }
 
 
-    void Save()
+    public void Save()
     {
         MissionSaveSystem.SaveRepository(repository, "default");
     }
