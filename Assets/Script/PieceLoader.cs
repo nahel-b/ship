@@ -37,17 +37,12 @@ public static class PieceLoader
 
     static void LoadPieces()
     {
-        string path = Application.dataPath +  "/JSON/pieces.json";
-        if (File.Exists(path))
-        {
-            string json = File.ReadAllText(path);
-            pieceList = JsonUtility.FromJson<PieceListObj>(json);
+       pieceList = JsonLoader.LoadJson<PieceListObj>("JSON/pieces.json");
+
+        if (pieceList != null)
             Debug.Log("Pièces chargées avec succès !");
-        }
         else
-        {
-            Debug.LogError("Fichier JSON non trouvé : " + path);
-        }
+            Debug.LogError("Échec du chargement de pieces.json");
     }
 
     public static GameObject GetPiecePrefab(string nom)

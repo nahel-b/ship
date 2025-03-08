@@ -173,7 +173,7 @@ MonoBehaviour:
   - -1
   - -1
   - -1
-  dependant: 0
+  dependant: 1
   socle: 0
   rotFrame: 45
   attchableSide:

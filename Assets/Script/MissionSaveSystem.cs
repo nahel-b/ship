@@ -5,7 +5,8 @@ using UnityEngine;
 
 public static class MissionSaveSystem
 {
-    private static readonly string START_FOLDER = Application.dataPath + "/JSON/";
+    // Change to streamingAssetsPath to align with JsonLoader
+    private static readonly string START_FOLDER = Application.streamingAssetsPath + "/JSON/";
     private static readonly string MISSIONS_FOLDER = Application.persistentDataPath + "/Saves/";
     
     public static void Initialize()
@@ -29,7 +30,7 @@ public static class MissionSaveSystem
         }
 
         File.WriteAllText(path, json);
-        Debug.Log($"Mission repository saved to {MISSIONS_FOLDER + saveSlot + "_missions.json"}");
+        Debug.Log($"Mission repository saved to {path}");
     }
     
     // Load repository from JSON file
@@ -38,7 +39,6 @@ public static class MissionSaveSystem
         Initialize();
         string path = MISSIONS_FOLDER + saveSlot + "_missions.json";
         
-
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -49,9 +49,25 @@ public static class MissionSaveSystem
         else
         {
             //Debug.Log($"No mission repository found at {path}, creating a new one");
+            // Use JsonLoader for the start missions file
+            MissionRepository startRepository = JsonLoader.LoadJson<MissionRepository>("JSON/start_missions.json");
+            if (startRepository != null)
+            {
+                Debug.Log($"Mission repository loaded from streamingAssets using JsonLoader");
+                return startRepository;
+            }
+            
+            // Fallback to direct file access if JsonLoader fails
             path = START_FOLDER + "start_missions.json";
-            string json = File.ReadAllText(path);
-            return JsonUtility.FromJson<MissionRepository>(json);          
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                return JsonUtility.FromJson<MissionRepository>(json);
+            }
+            
+            // If all fails, return an empty repository
+            Debug.LogError("Failed to load start missions - creating empty repository");
+            return new MissionRepository();
         }
     }
     

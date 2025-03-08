@@ -38,19 +38,24 @@ public class MissionRepositoryViewer : EditorWindow
     {
         repository = MissionSaveSystem.LoadRepository(saveSlot);
 
-        string path = Application.persistentDataPath + "/Saves/" + saveSlot + "_missions.json";
-
+        string jsonFileName;
         if(saveSlot == "start")
         {
-            path = Application.dataPath + "/JSON/start_missions.json";
-        }
-        if (File.Exists(path))
-        {
-            jsonText = File.ReadAllText(path);
+            jsonFileName = "JSON/start_missions.json";
+            // Try to load JSON directly using JsonLoader which handles platform differences
+            jsonText = JsonLoader.LoadJson<TextAsset>(jsonFileName)?.text ?? "No repository file found";
         }
         else
         {
-            jsonText = "No repository file found";
+            string path = Application.persistentDataPath + "/Saves/" + saveSlot + "_missions.json";
+            if (File.Exists(path))
+            {
+                jsonText = File.ReadAllText(path);
+            }
+            else
+            {
+                jsonText = "No repository file found";
+            }
         }
     }
 

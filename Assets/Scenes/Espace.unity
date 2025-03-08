@@ -660,6 +660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 65383068}
+  - component: {fileID: 65383069}
   m_Layer: 0
   m_Name: galaxieBG
   m_TagString: Untagged
@@ -691,6 +692,18 @@ Transform:
   - {fileID: 486101413}
   m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65383069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65383067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46eedefaa75043ad82681c4d865948e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &82241763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2485,6 +2498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 355180775}
+  - component: {fileID: 355180776}
   m_Layer: 0
   m_Name: EtoileBG2
   m_TagString: Untagged
@@ -2507,6 +2521,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &355180776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355180774}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46eedefaa75043ad82681c4d865948e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &356461079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4593,10 +4619,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35018719d27c4328bb5a2c40a0e5b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoomLevel: 15
   Items:
     Objets: []
     stacks: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     Pieces: []
+  currentSpot: 
   Grandeur:
     fuel: 100
     fuelMax: 100
@@ -6289,6 +6317,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 716962458}
+  - component: {fileID: 716962459}
   m_Layer: 0
   m_Name: EtoileBG3
   m_TagString: Untagged
@@ -6311,6 +6340,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &716962459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716962457}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46eedefaa75043ad82681c4d865948e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &748382528
 GameObject:
   m_ObjectHideFlags: 0
@@ -18318,6 +18359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2146752948}
+  - component: {fileID: 2146752949}
   m_Layer: 0
   m_Name: EtoileBG1
   m_TagString: Untagged
@@ -18340,6 +18382,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2146752949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146752947}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46eedefaa75043ad82681c4d865948e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2345265496252686760
 PrefabInstance:
   m_ObjectHideFlags: 0

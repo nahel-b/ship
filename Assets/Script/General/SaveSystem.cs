@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 public class SaveSystem : MonoBehaviour
 {
     private static readonly string SAVE_FOLDER = Application.persistentDataPath + "/Saves/";
-    private static readonly string SOURCE_DATA_FOLDER = Application.dataPath + "/JSON/";
+    private static readonly string SOURCE_DATA_FOLDER = Application.streamingAssetsPath + "/JSON/";
     
     public static void Initialize()
     {
@@ -15,11 +15,6 @@ public class SaveSystem : MonoBehaviour
         {
             Directory.CreateDirectory(SAVE_FOLDER);
         }
-        // string defaultSavePath = SAVE_FOLDER + "default/";
-        // if (!Directory.Exists(defaultSavePath))
-        // {
-        //     Directory.CreateDirectory(defaultSavePath);
-        // }
     }
 
     #region Deck
@@ -59,28 +54,20 @@ public class SaveSystem : MonoBehaviour
             string json = File.ReadAllText(path);
             return JsonUtility.FromJson<DeckList>(json);
         }
-        else //if (File.Exists(SOURCE_DATA_FOLDER + "start_decks.json"))
+        else
         {
             Debug.LogWarning("Save file not found in " + path);
+            DeckList startDeckList = JsonLoader.LoadJson<DeckList>("JSON/start_decks.json");
+            if (startDeckList != null)
+            {
+                Debug.Log("Deck list loaded from streamingAssets using JsonLoader");
+                return startDeckList;
+            }
+            
+            Debug.LogError("Failed to load start decks with JsonLoader - falling back to direct access");
             path = SOURCE_DATA_FOLDER + "start_decks.json";
             return JsonUtility.FromJson<DeckList>(File.ReadAllText(path));
         }
-        // else
-        // {
-        //     Debug.LogWarning("No deck save files found. Checking PlayerPrefs...");
-        //     if (PlayerPrefs.HasKey("Deck"))
-        //     {
-        //         Debug.Log("Loading deck from PlayerPrefs");
-        //         string deckJson = PlayerPrefs.GetString("Deck");
-        //         File.WriteAllText(SAVE_FOLDER + "start_decks.json", deckJson);
-        //         return JsonUtility.FromJson<DeckList>(deckJson);
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("No deck data found anywhere! Creating empty DeckList.");
-        //         return null;
-        //     }
-        // }
     }
     #endregion
     
@@ -140,28 +127,20 @@ public class SaveSystem : MonoBehaviour
             string json = File.ReadAllText(path);
             return JsonUtility.FromJson<VaisseauClass>(json);
         }
-        else// if (File.Exists(SAVE_FOLDER + "start_vaisseau.json"))
+        else
         {
             Debug.LogWarning("Save file not found in " + path);
+            VaisseauClass startVaisseau = JsonLoader.LoadJson<VaisseauClass>("JSON/start_vaisseau.json");
+            if (startVaisseau != null)
+            {
+                Debug.Log("Vaisseau loaded from streamingAssets using JsonLoader");
+                return startVaisseau;
+            }
+            
+            Debug.LogError("Failed to load start vaisseau with JsonLoader - falling back to direct access");
             path = SOURCE_DATA_FOLDER + "start_vaisseau.json";
             return JsonUtility.FromJson<VaisseauClass>(File.ReadAllText(path));
         }
-        // else
-        // {
-        //     Debug.LogWarning("No vaisseau save files found. Checking PlayerPrefs...");
-        //     if (PlayerPrefs.HasKey("Vaisseau"))
-        //     {
-        //         Debug.Log("Loading vaisseau from PlayerPrefs");
-        //         string vaisseauJson = PlayerPrefs.GetString("Vaisseau");
-        //         File.WriteAllText(SAVE_FOLDER + "start_vaisseau.json", vaisseauJson);
-        //         return JsonUtility.FromJson<VaisseauClass>(vaisseauJson);
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("No vaisseau data found anywhere! Creating empty VaisseauClass.");
-        //         return null;
-        //     }
-        // }
     }
     #endregion
 
@@ -182,28 +161,20 @@ public class SaveSystem : MonoBehaviour
             string json = File.ReadAllText(path);
             return JsonUtility.FromJson<Grandeur>(json);
         }
-        else //if (File.Exists(SAVE_FOLDER + "start_grandeur.json"))
+        else
         {
             Debug.LogWarning("Save file not found in " + path);
+            Grandeur startGrandeur = JsonLoader.LoadJson<Grandeur>("JSON/start_grandeur.json");
+            if (startGrandeur != null)
+            {
+                Debug.Log("Grandeur loaded from streamingAssets using JsonLoader");
+                return startGrandeur;
+            }
+            
+            Debug.LogError("Failed to load start grandeur with JsonLoader - falling back to direct access");
             path = SOURCE_DATA_FOLDER + "start_grandeur.json";
             return JsonUtility.FromJson<Grandeur>(File.ReadAllText(path));
         }
-        // else
-        // {
-        //     Debug.LogWarning("No grandeur save files found. Checking PlayerPrefs...");
-        //     if (PlayerPrefs.HasKey("Grandeur"))
-        //     {
-        //     Debug.Log("Loading grandeur from PlayerPrefs");
-        //     string grandeurJson = PlayerPrefs.GetString("Grandeur");
-        //     File.WriteAllText(SAVE_FOLDER + "start_grandeur.json", grandeurJson);
-        //     return JsonUtility.FromJson<Grandeur>(grandeurJson);
-        //     }
-        //     else
-        //     {
-        //     Debug.LogError("No grandeur data found anywhere! Creating empty Grandeur.");
-        //     return new Grandeur();
-        //     }
-        // }
         
         Debug.LogError("Aucune grandeur trouvée!");
         return new Grandeur();
@@ -252,36 +223,36 @@ public class SaveSystem : MonoBehaviour
     }
 
     public static ListsaveObj LoadSaveObj(string saveSlot = "default")
-{
-    string path = SAVE_FOLDER + saveSlot + "_items.json";
-    
-    if (File.Exists(path))
     {
-        string json = File.ReadAllText(path);
-        return JsonUtility.FromJson<ListsaveObj>(json);
-    }
-    else //if (File.Exists(SOURCE_DATA_FOLDER + "start_items.json"))
-    {
-        Debug.LogWarning("Save file not found in " + path);
-        path = SOURCE_DATA_FOLDER + "start_items.json";
+        string path = SAVE_FOLDER + saveSlot + "_items.json";
         
         if (File.Exists(path))
         {
-            return JsonUtility.FromJson<ListsaveObj>(File.ReadAllText(path));
+            string json = File.ReadAllText(path);
+            return JsonUtility.FromJson<ListsaveObj>(json);
         }
         else
         {
-            Debug.LogWarning("No items save files found. Checking PlayerPrefs...");
+            Debug.LogWarning("Save file not found in " + path);
+            ListsaveObj startSaveObj = JsonLoader.LoadJson<ListsaveObj>("JSON/start_items.json");
+            if (startSaveObj != null)
+            {
+                Debug.Log("Items loaded from streamingAssets using JsonLoader");
+                return startSaveObj;
+            }
             
+            Debug.LogWarning("No items save files found. Creating new ListsaveObj.");
             string saveObjJson = JsonUtility.ToJson(new ListsaveObj());
-            File.WriteAllText(SOURCE_DATA_FOLDER + "start_items.json", saveObjJson);
+            
+            try {
+                File.WriteAllText(SOURCE_DATA_FOLDER + "start_items.json", saveObjJson);
+            } catch (System.Exception e) {
+                Debug.LogWarning("Could not create start_items.json: " + e.Message);
+            }
             
             return new ListsaveObj();
-            
-
         }
     }
-}
 
     public static void RecreateArrows(ListsaveObj saveObj)
     {
@@ -340,9 +311,17 @@ public class SaveSystem : MonoBehaviour
             string json = File.ReadAllText(path);
             return JsonUtility.FromJson<ColorList>(json);
         }
-        else //if (File.Exists(SAVE_FOLDER + "start_colors.json"))
+        else
         {
             Debug.LogWarning("Save file not found in " + path);
+            ColorList startColors = JsonLoader.LoadJson<ColorList>("JSON/start_colors.json");
+            if (startColors != null)
+            {
+                Debug.Log("Colors loaded from streamingAssets using JsonLoader");
+                return startColors;
+            }
+            
+            Debug.LogError("Failed to load start colors with JsonLoader - falling back to direct access");
             path = SOURCE_DATA_FOLDER + "start_colors.json";
             return JsonUtility.FromJson<ColorList>(File.ReadAllText(path));
         }
@@ -406,19 +385,16 @@ public class SaveSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No enemies save files found. Checking PlayerPrefs...");
-            if (PlayerPrefs.HasKey("Enemies"))
+            Debug.LogWarning("No enemies save files found. Using JsonLoader...");
+            ListEnnemie startEnemies = JsonLoader.LoadJson<ListEnnemie>("JSON/start_enemies.json");
+            if (startEnemies != null)
             {
-                Debug.Log("Loading enemies from PlayerPrefs");
-                string enemiesJson = PlayerPrefs.GetString("Enemies");
-                File.WriteAllText(SAVE_FOLDER + "start_enemies.json", enemiesJson);
-                return JsonUtility.FromJson<ListEnnemie>(enemiesJson);
+                Debug.Log("Enemies loaded from streamingAssets using JsonLoader");
+                return startEnemies;
             }
-            else
-            {
-                Debug.LogError("No enemies data found anywhere! Creating empty ListEnnemie.");
-                return new ListEnnemie();
-            }
+            
+            Debug.LogError("No enemies data found anywhere! Creating empty ListEnnemie.");
+            return new ListEnnemie();
         }
     }
     #endregion
@@ -526,6 +502,9 @@ public class SaveSystem : MonoBehaviour
             pObj.GetComponent<Piece>().dependant = p.dependant;
             pObj.GetComponent<Piece>().rotFrame = p.rotFrame;
             pObj.GetComponent<Piece>().socle = p.socle;
+            if(pObj.GetComponent<Rigidbody2D>()){
+            pObj.GetComponent<Rigidbody2D>().angularDrag = 1;
+            pObj.GetComponent<Rigidbody2D>().velocity = vaisseau.velocity;}
             
             if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if (!p.dependant) { pObj.GetComponent<Piece>().vie = p.vie; }
@@ -566,6 +545,9 @@ public class SaveSystem : MonoBehaviour
             pObj.GetComponent<Piece>().dependant = p.dependant;
             pObj.GetComponent<Piece>().rotFrame = p.rotFrame;
             pObj.GetComponent<Piece>().socle = p.socle;
+            if(pObj.GetComponent<Rigidbody2D>()){
+            pObj.GetComponent<Rigidbody2D>().angularDrag = 1;
+            pObj.GetComponent<Rigidbody2D>().velocity = vaisseau.velocity;}
 
             if (p.vie == -1 && !p.dependant) { pObj.GetComponent<Piece>().vie = PieceLoader.GetPiecePrefab(p.nom).GetComponent<Piece>().vieListe[p.niveau]; }
             else if(!p.dependant) { pObj.GetComponent<Piece>().vie = p.vie; }

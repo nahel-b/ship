@@ -118,7 +118,7 @@
           }
         ],
         "nom": "Deck-2",
-        "debloque": false
+        "debloque": true
       },
       {
         "assemblage": [

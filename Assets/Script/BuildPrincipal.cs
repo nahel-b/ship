@@ -233,13 +233,16 @@ public class BuildPrincipal : MonoBehaviour
         pObj.transform.parent = parent;
         
         // Configure BuildPiece properties
+        GameObject prefab = PieceLoader.GetPiecePrefab(pieceData.nom);
+        Piece piece = prefab.GetComponent<Piece>();
+
         BuildPiece buildPiece = pObj.GetComponent<BuildPiece>();
-        buildPiece.objPrefab = PieceLoader.GetPiecePrefab(pieceData.nom);
+        buildPiece.objPrefab = prefab;
         buildPiece.niveau = pieceData.niveau;
-        buildPiece.attchableSide = pieceData.attchableSide;
-        buildPiece.dependant = pieceData.dependant;
-        buildPiece.socle = pieceData.socle;
-        buildPiece.rotFrame = pieceData.rotFrame;
+        buildPiece.attchableSide = piece.attchableSide;
+        buildPiece.dependant = piece.dependant;
+        buildPiece.socle = piece.socle;
+        buildPiece.rotFrame = piece.rotFrame;
         buildPiece.description = pieceData.description;
         
         // Set piece health

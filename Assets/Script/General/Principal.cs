@@ -12,13 +12,16 @@ public class Principal : MonoBehaviour
 
     //public MissionListe missions;
 
+    [Range(8, 30)]
+    public float zoomLevel = 15f;
+
     public ItemClass Items;
 
     [HideInInspector]
     public string currentSpot;
     public Grandeur Grandeur = new Grandeur();
     public GameObject selectObj;
-    public GameObject[] MapObj ;
+    public GameObject[] MapObj;
     
     [HideInInspector]
     public GameObject Vaisseau;
@@ -387,6 +390,11 @@ public class Principal : MonoBehaviour
             Vector3 direction = Touchstart - Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
             MapObj[0].transform.position = new Vector3(-direction.x + a.x, -direction.y + a.y,0);
         }
+
+
+#if UNITY_EDITOR
+            Camera.main.orthographicSize = Mathf.Clamp(zoomLevel, 8, 30);
+#endif
 
 
     }

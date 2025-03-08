@@ -36,15 +36,15 @@ using UnityEngine;
         if (dependant) { StartCoroutine(waitSpawn()); }
 
 
-        if (transform.parent.GetComponent<Ennemie>() == null)
-        {
-            if (PlayerPrefs.HasKey("Vaisseau"))
-            {
-                VaisseauClass jsonF = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau"));
-                if (GetComponent<Rigidbody2D>() != null) { GetComponent<Rigidbody2D>().velocity = jsonF.velocity; }
+        // if (transform.parent.GetComponent<Ennemie>() == null)
+        // {
+        //     if (PlayerPrefs.HasKey("Vaisseau"))
+        //     {
+        //         VaisseauClass jsonF = JsonUtility.FromJson<VaisseauClass>(PlayerPrefs.GetString("Vaisseau"));
+        //         if (GetComponent<Rigidbody2D>() != null) { GetComponent<Rigidbody2D>().velocity = jsonF.velocity; }
 
-            }
-        }
+        //     }
+        // }
 
     }
 
