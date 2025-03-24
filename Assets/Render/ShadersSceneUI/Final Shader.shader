@@ -42,10 +42,10 @@ Shader "Custom/Final Shader"
                 half4 uiColor = tex2D(_UITex, i.uv);
 
                 // Si le pixel de l'UI est noir, rendre transparent
-                if (length(uiColor.rgb - half3(0.0, 0.0, 0.0)) < 0.1)
-                {
-                    uiColor.a = 0.0;
-                }
+                // if (length(uiColor.rgb - half3(0.0, 0.0, 0.0)) < 0.1)
+                // {
+                //     uiColor.a = 0.0;
+                // }
 
                 // L'UI est rendue avec alpha, on fait une fusion
                 return lerp(sceneColor, uiColor, uiColor.a);

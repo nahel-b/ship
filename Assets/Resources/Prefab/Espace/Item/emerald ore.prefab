@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8305089854995450120}
   - component: {fileID: 8305089854995450123}
   - component: {fileID: -8906853579798204140}
+  - component: {fileID: 8717455056413780136}
   m_Layer: 0
   m_Name: emerald ore
   m_TagString: Untagged
@@ -27,12 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8305089854995450122}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.676443, y: 1.4593117, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8305089854995450121
 SpriteRenderer:
@@ -45,10 +47,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -94,6 +98,25 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -126,6 +149,7 @@ PolygonCollider2D:
       - {x: 0.30271325, y: -0.06951562}
       - {x: 0.21757364, y: -0.06415587}
       - {x: 0.3384323, y: 0.07460895}
+  m_UseDelaunayMesh: 0
 --- !u!50 &8305089854995450123
 Rigidbody2D:
   serializedVersion: 4
@@ -143,6 +167,12 @@ Rigidbody2D:
   m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -159,4 +189,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ea522fddbb743c9b2a485951931ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: emerald ore
+  itemName: emerald ore
+--- !u!114 &8717455056413780136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305089854995450122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cd5ca6667bd419c9e9186468796240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    titre: Emerald ore
+    lignes:
+    - image: {fileID: 21300000, guid: 790ea32c4ba984061be0d42c70009d83, type: 3}
+      text: Get
+      unlockLevel: 0
+      bouton: 1
+      description: 0
+      onTouch:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: -8906853579798204140}
+            m_TargetAssemblyTypeName: Item, Assembly-CSharp
+            m_MethodName: PutInventory
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  onTouchAction:
+    m_PersistentCalls:
+      m_Calls: []

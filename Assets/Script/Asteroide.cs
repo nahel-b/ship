@@ -58,14 +58,28 @@ public class Asteroide : MonoBehaviour
 
 
         mort = true;
+        float impulsion = 0.5f;
         
         int a = Mathf.RoundToInt(ObjectCount.RandomFloat());
         for (int i = 0; i < a; i++)
         {
             string itemString = itemsLoot.RandomString();
-            
-            GameObject item = Instantiate(GameObject.Find("Liste").GetComponent<Liste>().ObjetList.Find(itemString).obj, new Vector3(Random.Range(transform.position.x - 1, transform.position.x + 1), Random.Range(transform.position.y - 1, transform.position.y + 1), transform.position.z), Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
-            item.GetComponent<Rigidbody2D>().AddForce(new Vector3(Random.Range(-1f, 1f) * 10f, Random.Range(-1f, 1f) * 10f, 0));
+            Vector3 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 2f;
+            GameObject prefab = GameObject.Find("Liste").GetComponent<Liste>().ObjetList.Find(itemString).obj;
+            GameObject item = Instantiate(prefab) as GameObject;
+            item.transform.position = randomPos;
+            item.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+            item.GetComponent<Rigidbody2D>().AddForce(Random.insideUnitCircle * impulsion, ForceMode2D.Impulse);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            Vector2 rockPosition = (Vector2)transform.position + Random.insideUnitCircle * 2f;
+            GameObject rockPrefab = GameObject.Find("Liste").GetComponent<Liste>().ObjetList.Find("rock").obj;
+            if (rockPrefab != null)
+            {
+                GameObject rock = Instantiate(rockPrefab, rockPosition, Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
+                rock.GetComponent<Rigidbody2D>().AddForce(Random.insideUnitCircle * impulsion, ForceMode2D.Impulse);
+            }
         }
         GetComponent<PolygonCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;

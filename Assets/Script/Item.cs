@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public string name;
+    public string itemName;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +18,9 @@ public class Item : MonoBehaviour
     }
 
 
-    private void OnMouseUp()
+    public void PutInventory(GameObject target)
     {
-        if (GameObject.Find("Main Camera").GetComponent<Principal>().Items.PutInventory(name))
+        if (GameObject.Find("Main Camera").GetComponent<Principal>().Items.PutInventory(target.GetComponent<Item>().itemName))
         {
             // foreach (MissionClass m in GameObject.Find("Main Camera").GetComponent<Principal>().missions.missions)
             // {
@@ -30,7 +30,8 @@ public class Item : MonoBehaviour
             //     }
 
             // }
-            Destroy(gameObject);
+            if(target.transform.gameObject.activeInHierarchy)
+                Destroy(target.transform.gameObject, 0.1f);
         }
         
 

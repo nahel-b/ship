@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2830418114543959844}
   - component: {fileID: 2830418114543959847}
   - component: {fileID: 6779705680292490761}
+  - component: {fileID: 295188152444090306}
   m_Layer: 0
   m_Name: rock
   m_TagString: Untagged
@@ -27,12 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2830418114543959846}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.2763943, y: 1.9584172, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2830418114543959845
 SpriteRenderer:
@@ -45,10 +47,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -94,6 +98,25 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -118,6 +141,7 @@ PolygonCollider2D:
       - {x: 0.15108952, y: 0.084862724}
       - {x: 0.08342856, y: 0.1854933}
       - {x: -0.028670162, y: 0.18233936}
+  m_UseDelaunayMesh: 0
 --- !u!50 &2830418114543959847
 Rigidbody2D:
   serializedVersion: 4
@@ -135,6 +159,12 @@ Rigidbody2D:
   m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -151,4 +181,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ea522fddbb743c9b2a485951931ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: rock
+  itemName: rock
+--- !u!114 &295188152444090306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2830418114543959846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cd5ca6667bd419c9e9186468796240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    titre: Rock
+    lignes:
+    - image: {fileID: 21300000, guid: 19c018462e0514ac0889bfc223236c78, type: 3}
+      text: Get
+      unlockLevel: 0
+      bouton: 1
+      description: 0
+      onTouch:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: -8906853579798204140, guid: 9e8655d0ec1aa474e8bcd7241b283860,
+              type: 3}
+            m_TargetAssemblyTypeName: Item, Assembly-CSharp
+            m_MethodName: PutInventory
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  onTouchAction:
+    m_PersistentCalls:
+      m_Calls: []

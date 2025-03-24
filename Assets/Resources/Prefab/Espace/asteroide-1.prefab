@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8065606495217213084}
   - component: {fileID: 8065606495217213087}
   - component: {fileID: 8065606495217213086}
+  - component: {fileID: 7774167815472369166}
   m_Layer: 0
   m_Name: asteroide-1
   m_TagString: Untagged
@@ -207,3 +208,26 @@ PolygonCollider2D:
       - {x: 0.74861115, y: -0.62527484}
       - {x: 0.74321604, y: -0.5089397}
   m_UseDelaunayMesh: 0
+--- !u!114 &7774167815472369166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8065606495217213083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cd5ca6667bd419c9e9186468796240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    titre: "Astero\xEFde"
+    lignes:
+    - image: {fileID: 21300000, guid: 19c018462e0514ac0889bfc223236c78, type: 3}
+      text: 50% chance
+      unlockLevel: 0
+      bouton: 0
+      description: 0
+  onTouchAction:
+    m_PersistentCalls:
+      m_Calls: []

@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Bouton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
@@ -118,6 +119,19 @@ public class Bouton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData data)
     {
          isMouseDown = true;
+
+        // if (name == "Mission-Bouton" && isMouseDown)
+        // {
+        //     MissionRepository repo =  GameObject.Find("[MissionManager]").GetComponent<MissionManager>().repository;
+
+        //     foreach (MissionData missionData in repo.missions)
+        //     {
+        //         MissionBase mission = missionData.Deserialize();
+                
+        //     }
+
+        // }
+
         // if (name == "Mission-Bouton" && isMouseDown && GetComponent<Image>().sprite == BoutonMissionImg[0])
         // {
         //     MissionListe missionListe;

@@ -21,7 +21,7 @@ public class Principal : MonoBehaviour
     public string currentSpot;
     public Grandeur Grandeur = new Grandeur();
     public GameObject selectObj;
-    public GameObject[] MapObj;
+   // public GameObject[] MapObj;
     
     [HideInInspector]
     public GameObject Vaisseau;
@@ -55,6 +55,9 @@ public class Principal : MonoBehaviour
     private bool gravitationFieldBool = false;
 
     private bool reset = false;
+
+    [HideInInspector]
+    public float vaisseauVelocity = 0;
 
 
 
@@ -90,10 +93,218 @@ public class Principal : MonoBehaviour
 
 
 
-                if (Input.GetKeyDown(KeyCode.A)) { print("eeepp"); StartCoroutine(Stations[0].transform.GetComponent<Station>().enter()); }
-        if(GameObject.Find("mapUI") != null) { }
+        if (Input.GetKeyDown(KeyCode.A)) { print("eeepp"); StartCoroutine(Stations[0].transform.GetComponent<Station>().enter()); }
+
+        UpdateBarUI();
+
         HeathBar();
-        if (Grandeur.fuel > 0 && GameObject.Find("FireBarUI") != null)
+       
+
+
+        Collider2D[] objs = Physics2D.OverlapCircleAll(transform.position, 25);
+
+        bool stationDetectee = false;
+        bool ennemieDetectee = false;
+
+        foreach (Collider2D collObj in objs)
+        {
+            if (collObj.GetComponent<Piece>() != null)
+            {
+                if ( collObj.transform.parent.GetComponent<Ennemie>() != null && !collObj.transform.parent.GetComponent<Ennemie>().destroyAllPieces && collObj.transform.parent.GetComponent<Ennemie>().agressif && !EnnemieTarget && collObj.transform.parent.GetComponent<Ennemie>().zone[2] >= Vector3.Distance(Vaisseau.transform.GetChild(0).GetChild(0).transform.position,collObj.transform.position))
+                {
+                    EnnemieTarget = collObj.transform.parent;
+                    ennemieDetectee = true;
+                    foreach(Transform child in GameObject.Find("EnnemieBar").transform)
+                    {
+                        child.gameObject.SetActive(true);
+                    }
+                    GameObject.Find("EnnemieBar").transform.GetChild(2).GetComponent<Text>().text = EnnemieTarget.GetComponent<Ennemie>().nom;
+                }
+            }
+            else if (collObj.GetComponent<Station>() != null)
+            {
+                stationDetectee = true;
+
+                //entree champs de gravitation
+                if (!gravitationFieldBool)
+                {
+                    if (vaisseauVelocity > 12)
+                    {
+                        GameObject.Find("AudioManager").GetComponent<AudioManager>().Play("Entree", 0.4f);
+                    }
+                    StartCoroutine(Feedback(3, 0.1f));
+                    StartCoroutine(Shake(0.3f, vaisseauVelocity/50));
+                    notifie.Add("Enter in " + collObj.name + "'s gravitation field!");
+                    gravitationFieldBool = true;
+                    foreach (Transform child in Vaisseau.transform)
+                    {
+                        if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 1; }
+
+                    }
+                    if (Vaisseau.transform.GetChild(0).childCount > 0)
+                    {
+                        foreach (Transform child in Vaisseau.transform.GetChild(0))
+                        {
+                            if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 1; }
+
+                        }
+                    }
+
+
+                }
+
+
+                if (vaisseauVelocity > 20)
+                {
+                    foreach (Transform child in Vaisseau.transform)
+                    {
+                        if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().velocity = child.GetComponent<Rigidbody2D>().velocity -( child.GetComponent<Rigidbody2D>().velocity * Time.deltaTime); }
+
+                    }
+                    if (Vaisseau.transform.GetChild(0).childCount > 0)
+                    {
+                        foreach (Transform child in Vaisseau.transform.GetChild(0))
+                        {
+                            if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().velocity = child.GetComponent<Rigidbody2D>().velocity - (child.GetComponent<Rigidbody2D>().velocity  * Time.deltaTime); }
+
+                        }
+                    }
+
+                }
+            }
+            else if(collObj.GetComponent<Asteroide>())
+            {
+                // Calculate direction from ship to asteroid
+                Vector3 directionToAsteroid = collObj.transform.position - Vaisseau.transform.GetChild(0).GetChild(0).transform.position;
+                float distanceToAsteroid = directionToAsteroid.magnitude;
+
+                if (distanceToAsteroid < 15f)
+                {
+                    // Get asteroid component
+                    Asteroide asteroide = collObj.GetComponent<Asteroide>();
+                    
+                    // Calculate gravitational pull based on distance
+                    // The closer, the stronger the pull
+                    float gravityForce = 0.01f; // Mathf.Max(1f, distanceToAsteroid);
+                    
+                    // Apply a force to the ship towards the asteroid
+                    directionToAsteroid.Normalize();
+                    
+                    // Apply the force to each piece of the ship
+                    foreach (Transform child in Vaisseau.transform)
+                    {
+                        if (child.GetComponent<Rigidbody2D>() != null)
+                        {
+                            child.GetComponent<Rigidbody2D>().AddForce(directionToAsteroid * gravityForce, ForceMode2D.Force);
+                        }
+                    }
+                    
+                    foreach (Transform child in Vaisseau.transform.GetChild(0))
+                    {
+                        if (child.GetComponent<Rigidbody2D>() != null)
+                        {
+                            child.GetComponent<Rigidbody2D>().AddForce(directionToAsteroid * gravityForce, ForceMode2D.Force);
+                        }
+                    }
+                    
+                }
+            }
+        }
+        if (!EnnemieTarget && GameObject.Find("EnnemieBar")!=null)
+        {
+            foreach (Transform child in GameObject.Find("EnnemieBar").transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+
+        if(!ennemieDetectee)
+        {
+            EnnemieTarget = null;
+        }
+
+        //Sortie du champs de gravitation
+        if (!stationDetectee && gravitationFieldBool)
+        { gravitationFieldBool = false;
+
+            foreach (Transform child in Vaisseau.transform)
+            {
+                if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 0; }
+
+            }
+            if (Vaisseau.transform.GetChild(0).childCount > 0)
+            {
+                foreach (Transform child in Vaisseau.transform.GetChild(0))
+                {
+                    if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 0; }
+
+                }
+            }
+            notifie.Add("Exit of the gravitation field!");
+        }
+
+
+
+
+
+
+        if (notifie[0] == "false" && notifie.Count > 1) { StartCoroutine(Notifie()); }
+
+
+        if (shake[0] == 1)
+        {
+            transform.localPosition = new Vector3(shake[2], shake[3], shake[4]) + UnityEngine.Random.insideUnitSphere * shake[1];
+        }
+
+
+
+
+        transform.parent.position = new Vector3(Vaisseau.transform.GetChild(0).GetChild(0).transform.position.x, Vaisseau.transform.GetChild(0).GetChild(0).transform.position.y, -10);
+        
+
+    
+        // else if (MapObj[0].activeSelf && Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Ended) { Touchstart = Vector3.one * 666; }
+        // else if (MapObj[0].activeSelf && Input.touchCount == 2 && Input.GetTouch(1).phase == TouchPhase.Ended) { Touchstart = Vector3.one * 666; }
+
+        // else if (MapObj[0].activeSelf && Input.touchCount == 2)
+        // {
+        //     Touch touch0 = Input.GetTouch(0);
+        //     Touch touch1 = Input.GetTouch(1);
+
+        //     Vector2 touch0prevPos = touch0.position - touch0.deltaPosition;
+        //     Vector2 touch1prevPos = touch1.position - touch1.deltaPosition;
+
+        //     float prevMagnitude = (touch0prevPos - touch1prevPos).magnitude;
+        //     float curentMagnitude = (touch0.position - touch1.position).magnitude;
+
+        //     MapObj[0].transform.localScale = Vector3.one * Mathf.Clamp(MapObj[0].transform.localScale.x + 0.005f * (curentMagnitude - prevMagnitude), 0.25f, 8);
+        // }
+        // else if(MapObj[0].activeSelf && Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began )
+        // {
+        //     Touchstart = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+        //     a = MapObj[0].transform.position;
+        //     print("a");
+        // }
+
+        // else if(MapObj[0].activeSelf && Input.touchCount == 1 && Touchstart != Vector3.one * 666)
+        // {
+        //     Vector3 direction = Touchstart - Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+        //     MapObj[0].transform.position = new Vector3(-direction.x + a.x, -direction.y + a.y,0);
+        // }
+
+
+#if UNITY_EDITOR
+            Camera.main.orthographicSize = Mathf.Clamp(zoomLevel, 8, 30);
+#endif
+
+
+    }
+
+
+
+    void UpdateBarUI()
+    {
+         if (Grandeur.fuel > 0 && GameObject.Find("FireBarUI") != null)
         {
             GameObject.Find("FireBarUI").GetComponent<RectTransform>().localPosition = new Vector3(-1 * ((Grandeur.fuel * (73f + 55.1f) / Grandeur.fuelMax) - 55.1f), 0.8885155f, 0);
         }
@@ -119,6 +330,8 @@ public class Principal : MonoBehaviour
         b = b / c;
         b = Mathf.Round(b * 100) / 100;
 
+        vaisseauVelocity = b;
+
         if (Mathf.Round(b) == b && GameObject.Find("Vitesse") !=null && GameObject.Find("Vitesse") != null)
         {
             GameObject.Find("Vitesse").GetComponent<Text>().text = (Mathf.Round(b * 10) / 10) + ".0 u/min";
@@ -129,310 +342,42 @@ public class Principal : MonoBehaviour
             GameObject.Find("Vitesse").GetComponent<Text>().text = (Mathf.Round(b * 10) / 10) + " u/min";
             GameObject.Find("Vitesse-2").GetComponent<Text>().text = (Mathf.Round(b * 10) / 10) + " u/min";
         }
-
-
-        Collider2D[] objs = Physics2D.OverlapCircleAll(transform.position, 25);
-
-        bool agrvt = false;
-
-
-        foreach (Collider2D collObj in objs)
-        {
-            if (collObj.GetComponent<Piece>() != null)
-            {
-                if ( collObj.transform.parent.GetComponent<Ennemie>() != null && !collObj.transform.parent.GetComponent<Ennemie>().destroyAllPieces && collObj.transform.parent.GetComponent<Ennemie>().agressif && !EnnemieTarget && collObj.transform.parent.GetComponent<Ennemie>().zone[2] >= Vector3.Distance(Vaisseau.transform.GetChild(0).GetChild(0).transform.position,collObj.transform.position))
-                {
-                    EnnemieTarget = collObj.transform.parent;
-                    foreach(Transform child in GameObject.Find("EnnemieBar").transform)
-                    {
-                        child.gameObject.SetActive(true);
-                    }
-                    GameObject.Find("EnnemieBar").transform.GetChild(2).GetComponent<Text>().text = EnnemieTarget.GetComponent<Ennemie>().nom;
-                }
-            }
-            else if (collObj.GetComponent<Station>() != null)
-            {
-                agrvt = true;
-                if (!gravitationFieldBool)
-                {
-                    if (b > 12)
-                    {
-                        GameObject.Find("AudioManager").GetComponent<AudioManager>().Play("Entree", 0.4f);
-                    }
-                    StartCoroutine(Feedback(3, 0.1f));
-                    StartCoroutine(Shake(0.3f, b/50));
-                    notifie.Add("Enter in " + collObj.name + "'s gravitation field!");
-                    gravitationFieldBool = true;
-                    foreach (Transform child in Vaisseau.transform)
-                    {
-                        if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 1; }
-
-                    }
-                    if (Vaisseau.transform.GetChild(0).childCount > 0)
-                    {
-                        foreach (Transform child in Vaisseau.transform.GetChild(0))
-                        {
-                            if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 1; }
-
-                        }
-                    }
-
-
-                }
-
-
-                if (b > 20)
-                {
-                    foreach (Transform child in Vaisseau.transform)
-                    {
-                        if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().velocity = child.GetComponent<Rigidbody2D>().velocity -( child.GetComponent<Rigidbody2D>().velocity * Time.deltaTime); }
-
-                    }
-                    if (Vaisseau.transform.GetChild(0).childCount > 0)
-                    {
-                        foreach (Transform child in Vaisseau.transform.GetChild(0))
-                        {
-                            if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().velocity = child.GetComponent<Rigidbody2D>().velocity - (child.GetComponent<Rigidbody2D>().velocity  * Time.deltaTime); }
-
-                        }
-                    }
-
-                }
-
-
-
-            }
-        }
-        if (!EnnemieTarget && GameObject.Find("EnnemieBar")!=null)
-        {
-            foreach (Transform child in GameObject.Find("EnnemieBar").transform)
-            {
-                child.gameObject.SetActive(false);
-            }
-        }
-        if (!agrvt && gravitationFieldBool)
-        { gravitationFieldBool = false;
-            print("aaaaaaaaa");
-            foreach (Transform child in Vaisseau.transform)
-            {
-                if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 0; }
-
-            }
-            if (Vaisseau.transform.GetChild(0).childCount > 0)
-            {
-                foreach (Transform child in Vaisseau.transform.GetChild(0))
-                {
-                    if (child.GetComponent<Rigidbody2D>() != null) { child.GetComponent<Rigidbody2D>().drag = 0; }
-
-                }
-            }
-        }
-
-
-
-
-
-
-                if (notifie[0] == "false" && notifie.Count > 1) { StartCoroutine(Notifie()); }
-
-
-        if (shake[0] == 1)
-        {
-            transform.localPosition = new Vector3(shake[2], shake[3], shake[4]) + UnityEngine.Random.insideUnitSphere * shake[1];
-        }
-
-
-
-
-        transform.parent.position = new Vector3(Vaisseau.transform.GetChild(0).GetChild(0).transform.position.x, Vaisseau.transform.GetChild(0).GetChild(0).transform.position.y, -10);
-        
-
-    
-
-        if ((Input.touchCount > 0)&& Input.GetTouch(0).phase == TouchPhase.Began && !MapObj[0].activeSelf)
-        {
-            touchtime = Time.time;
-        }
-        if (!MapObj[0].activeSelf && (Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended) && Input.GetTouch(0).position.y > Screen.height / 4 && touchtime > Time.time-0.2f && GameObject.Find("MissionPanel")== null&& GameObject.Find("InventoryPanel") == null && FinPanel == false)
-        {
-
-
-            RaycastHit2D[] hit = Physics2D.CircleCastAll(Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position), 1, Vector2.zero);
-            foreach (RaycastHit2D obj in hit)
-            {
-                if (obj.transform.name.Contains("Station"))
-                {
-                    if (b > 3) { notifie.Add("You are going too fast to dock"); }
-                    else if ((obj.transform.position - Camera.main.transform.position).magnitude > 22) { notifie.Add("You are too far to dock"); }
-                    else
-                    {
-                        StartCoroutine(obj.transform.GetComponent<Station>().enter());
-                        foreach (Transform child in Vaisseau.transform.GetChild(0).transform)
-                        {
-                            if (child.GetComponent<Piece>()!=null)
-                            {
-                                child.transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (FinPanel) { FinPanel = false; }
-        if (!MapObj[0].activeSelf && Input.touchCount > 1 && Input.GetTouch(0).position.y > Screen.height / 4 && GameObject.Find("ButtonFeu").GetComponent<Bouton>().isMouseDown || !MapObj[0].activeSelf && Input.touchCount == 1 && Input.GetTouch(0).position.y > Screen.height / 4)
-        {
-
-            var touch = Input.GetTouch(0);
-            if (touch.position.x < Screen.width / 2)
-            {
-
-                foreach (Transform child in Vaisseau.transform.GetChild(0).transform)
-                {
-                    if (child.name.Contains("eacteur"))
-                    {
-                        //child.transform.GetComponent<Rigidbody2D>().AddTorque(100 * Time.deltaTime);
-                        child.transform.GetComponent<Rigidbody2D>().angularVelocity = 20000 * Time.deltaTime;
-                    }
-                }
-
-            }
-            else if (touch.position.x > Screen.width / 2 && touch.position.y > Screen.height / 4)
-            {
-                foreach (Transform child in Vaisseau.transform.GetChild(0).transform)
-                {
-                    if (child.name.Contains("eacteur"))
-                    {
-                        child.transform.GetComponent<Rigidbody2D>().angularVelocity = -20000 * Time.deltaTime;
-                    }
-                }
-            }
-        }
-        else if (!MapObj[0].activeSelf && Input.touchCount > 1 && Input.GetTouch(1).position.y > Screen.height / 4 && GameObject.Find("ButtonFeu").GetComponent<Bouton>().isMouseDown)
-        {
-            var touch = Input.GetTouch(1);
-            if (touch.position.x < Screen.width / 2)
-            {
-
-                foreach (Transform child in Vaisseau.transform.GetChild(0).transform)
-                {
-                    if (child.name.Contains("eacteur"))
-                    {
-                        //child.transform.GetComponent<Rigidbody2D>().AddTorque(100 * Time.deltaTime);
-                        child.transform.GetComponent<Rigidbody2D>().angularVelocity = 20000 * Time.deltaTime;
-                    }
-                }
-
-            }
-            else if (touch.position.x > Screen.width / 2 && touch.position.y > Screen.height / 4)
-            {
-                foreach (Transform child in Vaisseau.transform.GetChild(0).transform)
-                {
-                    if (child.name.Contains("eacteur"))
-                    {
-                        child.transform.GetComponent<Rigidbody2D>().angularVelocity = -20000 * Time.deltaTime;
-                    }
-                }
-            }
-        }
-        else if(!MapObj[0].activeSelf)
-        {
-            foreach (Transform child in Vaisseau.transform.GetChild(0).transform)
-            {
-                if (child.name.Contains("eacteur"))
-                {
-                    child.transform.GetComponent<Rigidbody2D>().angularVelocity = 0;
-                }
-            }
-
-
-            if (Input.touchCount == 2)
-            {
-                Touch touch0 = Input.GetTouch(0);
-                Touch touch1 = Input.GetTouch(1);
-
-                Vector2 touch0prevPos = touch0.position - touch0.deltaPosition;
-                Vector2 touch1prevPos = touch1.position - touch1.deltaPosition;
-
-                float prevMagnitude = (touch0prevPos - touch1prevPos).magnitude;
-                float curentMagnitude = (touch0.position - touch1.position).magnitude;
-
-                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.05f * (curentMagnitude - prevMagnitude), 8, 30);
-
-
-            }
-
-        }
-        else if (MapObj[0].activeSelf && Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Ended) { Touchstart = Vector3.one * 666; }
-        else if (MapObj[0].activeSelf && Input.touchCount == 2 && Input.GetTouch(1).phase == TouchPhase.Ended) { Touchstart = Vector3.one * 666; }
-
-        else if (MapObj[0].activeSelf && Input.touchCount == 2)
-        {
-            Touch touch0 = Input.GetTouch(0);
-            Touch touch1 = Input.GetTouch(1);
-
-            Vector2 touch0prevPos = touch0.position - touch0.deltaPosition;
-            Vector2 touch1prevPos = touch1.position - touch1.deltaPosition;
-
-            float prevMagnitude = (touch0prevPos - touch1prevPos).magnitude;
-            float curentMagnitude = (touch0.position - touch1.position).magnitude;
-
-            MapObj[0].transform.localScale = Vector3.one * Mathf.Clamp(MapObj[0].transform.localScale.x + 0.005f * (curentMagnitude - prevMagnitude), 0.25f, 8);
-        }
-        else if(MapObj[0].activeSelf && Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began )
-        {
-            Touchstart = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            a = MapObj[0].transform.position;
-            print("a");
-        }
-
-        else if(MapObj[0].activeSelf && Input.touchCount == 1 && Touchstart != Vector3.one * 666)
-        {
-            Vector3 direction = Touchstart - Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            MapObj[0].transform.position = new Vector3(-direction.x + a.x, -direction.y + a.y,0);
-        }
-
-
-#if UNITY_EDITOR
-            Camera.main.orthographicSize = Mathf.Clamp(zoomLevel, 8, 30);
-#endif
-
-
     }
 
-    public void OpenMap()
-    {
+    // public void OpenMap()
+    // {
 
-        if (!MapObj[0].activeSelf)
-        {
+    //     if (!MapObj[0].activeSelf)
+    //     {
 
-            MapObj[0].SetActive(true);
-            GameObject a = Instantiate(MapObj[2]);
-            a.transform.parent = MapObj[0].transform;
-            a.transform.localPosition = new Vector3(Camera.main.transform.position.x * 40 / 4000, Camera.main.transform.position.y * 10 / 4000, -5);
+    //         MapObj[0].SetActive(true);
+    //         GameObject a = Instantiate(MapObj[2]);
+    //         a.transform.parent = MapObj[0].transform;
+    //         a.transform.localPosition = new Vector3(Camera.main.transform.position.x * 40 / 4000, Camera.main.transform.position.y * 10 / 4000, -5);
             
-            //a.transform.eulerAngles = new Vector3(0, 0, GameObject.Find("Main Camera").GetComponent<Principal>().Vaisseau.transform.GetChild(0).GetChild(0).transform.eulerAngles.z);
+    //         //a.transform.eulerAngles = new Vector3(0, 0, GameObject.Find("Main Camera").GetComponent<Principal>().Vaisseau.transform.GetChild(0).GetChild(0).transform.eulerAngles.z);
 
-            foreach (GameObject st in GameObject.FindGameObjectsWithTag("station"))
-            {
+    //         foreach (GameObject st in GameObject.FindGameObjectsWithTag("station"))
+    //         {
 
-                a = Instantiate(MapObj[1]);
-                a.transform.SetParent(MapObj[0].transform);
-                a.transform.localPosition = new Vector3(st.transform.position.x * 40 / 4000, st.transform.position.y * 10 / 4000, -1);
-                a.transform.eulerAngles = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
+    //             a = Instantiate(MapObj[1]);
+    //             a.transform.SetParent(MapObj[0].transform);
+    //             a.transform.localPosition = new Vector3(st.transform.position.x * 40 / 4000, st.transform.position.y * 10 / 4000, -1);
+    //             a.transform.eulerAngles = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
 
 
-            }
-        }
-        else
-        {
-            foreach(Transform child in MapObj[0].transform)
-            {
-                Destroy(child.gameObject);
-            }
-            MapObj[0].SetActive(false);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         foreach(Transform child in MapObj[0].transform)
+    //         {
+    //             Destroy(child.gameObject);
+    //         }
+    //         MapObj[0].SetActive(false);
 
-        }
-    }
+    //     }
+    // }
 
 
 

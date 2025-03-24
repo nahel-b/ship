@@ -2,7 +2,7 @@
     "missions": [
         {
             "type": 0,
-            "serializedMission": "{\"id\":\"test\",\"title\":\"test\",\"chapter\":\"\",\"description\":\"\",\"type\":0,\"reward\":{\"xp\":0.0,\"Argent\":0,\"pieces\":[],\"Deck\":[],\"index\":0},\"onStartEvent\":\"\",\"onProgressEvent\":\"\",\"onCompleteEvent\":\"\",\"nextMissionId\":\"\",\"targetName\":\"\",\"targetCount\":1,\"currentKills\":0}"
+            "serializedMission": "{\"id\":\"deb_pirate_1\",\"title\":\"début pirates\",\"chapter\":\"Begining I\",\"description\":\"Trouve le vaisseau rcx-t6 et tue le !\",\"type\":0,\"reward\":{\"xp\":100.0,\"Argent\":10,\"pieces\":[],\"Deck\":[],\"index\":0},\"onStartEvent\":\"\",\"onProgressEvent\":\"\",\"onCompleteEvent\":\"\",\"nextMissionId\":\"deb_pirate_2\",\"targetName\":\"rcx-t6\",\"targetCount\":1,\"currentKills\":0}"
         }
     ],
     "activeMissions": [],

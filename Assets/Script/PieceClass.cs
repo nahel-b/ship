@@ -200,7 +200,7 @@ public class ItemClass
         {
             if (!rangee)
             {
-                if (name == nameObj && stacks[i] < GameObject.Find("Liste").GetComponent<Liste>().ObjetList.Find(nameObj).MaxStack) { rangee = true; stacks[i]++; }
+                if (name == nameObj && stacks[i] < GameObject.Find("Liste").GetComponent<Liste>().ObjetList.Find(nameObj).MaxStack) {  stacks[i]++; return true; }
             }
                 i++;
         }

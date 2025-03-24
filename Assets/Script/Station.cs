@@ -113,6 +113,24 @@ public class Station : MonoBehaviour
     //    }
     //}
 
+    public void TryEnter()
+    {
+        Principal principal = Camera.main.GetComponent<Principal>();
+        if (principal.vaisseauVelocity > 3) { principal.notifie.Add("You are going too fast to dock"); }
+        else if ((transform.position - Camera.main.transform.position).magnitude > 22) { principal.notifie.Add("You are too far to dock"); }
+        else
+        {
+            StartCoroutine(transform.GetComponent<Station>().enter());
+            foreach (Transform child in principal.Vaisseau.transform.GetChild(0).transform)
+            {
+                if (child.GetComponent<Piece>()!=null)
+                {
+                    child.transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                }
+            }
+        }
+    }
+
     public IEnumerator enter()
     {
 

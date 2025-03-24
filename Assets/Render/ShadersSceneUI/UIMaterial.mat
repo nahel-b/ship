@@ -29,11 +29,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Distortion: 0.71
-    - _ScanlineFrequency: 0.24
-    - _ScanlineIntensity: 0.083
-    - _VerticalDistortion: 0.27
+    - _Distortion: 0.23
+    - _ScanlineFrequency: 0.61
+    - _ScanlineIntensity: 0.11
+    - _VerticalDistortion: 0.23
     - _VignetteStrength: 0
-    - _distortionCompensation: 0.836
+    - _distortionCompensation: 0.94
     m_Colors: []
   m_BuildTextureStacks: []

@@ -408,6 +408,7 @@ public class SaveSystem : MonoBehaviour
         File.Delete(SAVE_FOLDER + saveSlot + "_items.json");
         File.Delete(SAVE_FOLDER + saveSlot + "_colors.json");
         File.Delete(SAVE_FOLDER + saveSlot + "_enemies.json");
+        File.Delete(SAVE_FOLDER + saveSlot + "_missions.json");
     }
 
     public static void SaveAllScene(Principal principal, string saveSlot = "default")
@@ -419,7 +420,7 @@ public class SaveSystem : MonoBehaviour
         //SaveObj(principal.Items, saveSlot);
 
 
-        GameObject.Find("MissionManager").GetComponent<MissionManager>().Save();
+        GameObject.Find("[MissionManager]").GetComponent<MissionManager>().Save();
 
         
         // Sauvegarder les propriétés du jeu
@@ -456,7 +457,7 @@ public class SaveSystem : MonoBehaviour
 
         
         // Charger les missions
-        GameObject.Find("MissionManager").GetComponent<MissionManager>().Load();
+        GameObject.Find("[MissionManager]").GetComponent<MissionManager>().Load();
         
         // Charger les propriétés du jeu
         GameObject.Find("Main Camera").GetComponent<Principal>().Grandeur = LoadGrandeur();

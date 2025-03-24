@@ -28,7 +28,7 @@ public class MissionManager : MonoBehaviour
 
     public void Save()
     {
-        MissionSaveSystem.SaveRepository(repository, "default");
+        MissionSaveSystem.SaveRepository(repository);
     }
 
     void Awake()
@@ -43,7 +43,7 @@ public class MissionManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        LoadMissions();
+       // Load();
     }
     
     // Register event handlers for mission events
@@ -204,32 +204,32 @@ public class MissionManager : MonoBehaviour
     }
     
     // Load mission data from PlayerPrefs
-    public void LoadMissions()
-    {
-        if (PlayerPrefs.HasKey("SavedMissions"))
-        {
-            string json = PlayerPrefs.GetString("SavedMissions");
-            repository = JsonUtility.FromJson<MissionRepository>(json);
-            Debug.Log("Missions loaded from PlayerPrefs");
+    // public void LoadMissions()
+    // {
+    //     if (PlayerPrefs.HasKey("SavedMissions"))
+    //     {
+    //         string json = PlayerPrefs.GetString("SavedMissions");
+    //         repository = JsonUtility.FromJson<MissionRepository>(json);
+    //         Debug.Log("Missions loaded from PlayerPrefs");
             
-            // Recreate runtime active missions
-            runtimeActiveMissions.Clear();
-            foreach (var missionData in repository.activeMissions)
-            {
-                MissionBase mission = missionData.Deserialize();
-                if (mission != null)
-                {
-                    mission.Initialize();
-                    runtimeActiveMissions.Add(mission);
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("No saved missions found");
-            repository = new MissionRepository();
-        }
-    }
+    //         // Recreate runtime active missions
+    //         runtimeActiveMissions.Clear();
+    //         foreach (var missionData in repository.activeMissions)
+    //         {
+    //             MissionBase mission = missionData.Deserialize();
+    //             if (mission != null)
+    //             {
+    //                 mission.Initialize();
+    //                 runtimeActiveMissions.Add(mission);
+    //             }
+    //         }
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("No saved missions found");
+    //         repository = new MissionRepository();
+    //     }
+    // }
     
     // Helper class for deserializing mission type
     [Serializable]

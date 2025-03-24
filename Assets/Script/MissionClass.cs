@@ -44,6 +44,8 @@ public abstract class MissionBase
     public string nextMissionId;
     
     // Abstract methods
+
+    public abstract string getProgressText();
     public abstract void Initialize();
     public abstract void UpdateProgress();
 }
@@ -56,6 +58,11 @@ public class AttackMission : MissionBase
     public string targetName;
     public int targetCount = 1;
     public int currentKills = 0;
+
+    public override string getProgressText()
+    {
+        return $"{currentKills}/{targetCount}";
+    }
     
     public override void Initialize()
     {
@@ -79,6 +86,11 @@ public class DeliveryMission : MissionBase
     // Track the two-step progress (pickup and delivery)
     public bool itemPickedUp = false;
     public bool itemDelivered = false;
+
+    public override string getProgressText()
+    {
+        return itemDelivered ? "Delivered" : itemPickedUp ? "Item picked up" : "Pending";
+    }
     
     public override void Initialize()
     {
@@ -124,6 +136,11 @@ public class MiningMission : MissionBase
         type = MissionType.Mining;
         _targetProgress = requiredAmount;
     }
+
+    public override string getProgressText()
+    {
+        return $"{currentAmount}/{requiredAmount}";
+    }
     
     public override void UpdateProgress()
     {
@@ -150,6 +167,11 @@ public class TalkMission : MissionBase
     {
         type = MissionType.Talk;
         _targetProgress = 1f;
+    }
+
+    public override string getProgressText()
+    {
+        return conversationComplete ? "Conversation complete" : "Pending";
     }
     
     public override void UpdateProgress()
